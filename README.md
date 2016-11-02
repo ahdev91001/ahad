@@ -1,9 +1,15 @@
-# README
+# Altadena Heritage Architectural Database Rails Website
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+[*Altadena Heritage*](http://altadenaheritage.org/)
 
-Things you may want to cover:
+Existing database:
+
+[Altadena Heritage Property Database](http://altadenaheritagepdb.org/)
+
+This Rails website being developed by 
+[Derek Carlson](http://www.consciouscomputerconsulting.com/) and Dick Rubin.
+
+TODO: Things to potentially cover...
 
 * Ruby version
 
