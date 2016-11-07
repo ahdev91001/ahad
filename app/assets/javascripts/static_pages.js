@@ -8,7 +8,18 @@ var g_fBGImgAspectRatio = 0.0;
 var g_iBrowserWinInnerWidth = 0;
 var g_iBrowserWinInnerHeight = 0;
 
-$(document).on('ready page:load', function () {
+// 'ready' is fired first time, even with turbolinks
+$(document).on('ready', function (e) {
+  console.log("Got to: ready");
+  console.log("At: " + e.timeStamp);
+});
+
+// suspect below needs to be turbolinks:load, for when we are at
+// a non-home page, and we click back to the homepage and need the
+// bg image initialized
+$(document).on('turbolinks:load', function (e) {
+  console.log("Got to turbolinks:load");
+  console.log("At: " + e.timeStamp);
   
   // With Turbolinks, the page title is always the same as the
   // body is the only thing that gets continually swapped out.
@@ -37,13 +48,17 @@ $(document).on('ready page:load', function () {
   //
   if (page == "root") {
     if (DEBUG) console.log("Initializing home page vars...");
-    
-		g_fBGImgAspectRatio = 
-			document.getElementById('bgimg').width / 
-			document.getElementById('bgimg').height;
 
-		resizebg(); // set the background image to the right size
-		
+		// Below: within this load() event, it turns out, at least when
+		// run from Cloud9 on Chome, or Heroku on Chrome, this code runs
+		// before bgimg gets loaded.  ?!?
+		// As per: https://github.com/turbolinks/turbolinks-classic/issues/295
+		// turns out the load() event does not always wait for all assets
+		// to load, contrary to the documentation I've read.  Worked fine
+		// on FireFox and Edge, but not Chrome.  So, the solution was to
+		// force the code to run after bgimg was loaded via the following line.
+    document.getElementById("bgimg").addEventListener('load', loadBGImgHandler);
+
 		$(window).resize(resizebg); // set callback for whenever browser size changes
 		
 		$('#inputid').select2({placeholder: 'Enter an Altadena address here...', allowClear: true});
@@ -51,7 +66,16 @@ $(document).on('ready page:load', function () {
   } // page == root
 });
 
-
+// Need to do this here instead of the document.load (turbolinks:load)
+// routine because on Chrome bgimg is not loaded when turbolinks:load
+// is called, thus .width and .height are 0.  Thus, below is fired
+// on the bgimg load() event.
+function loadBGImgHandler() {
+		g_fBGImgAspectRatio = 
+			document.getElementById('bgimg').width / 
+			document.getElementById('bgimg').height;
+		resizebg();	
+}
 
 function resizebg() {
 	// Use the || stuff for IE8 and earlier
@@ -93,7 +117,5 @@ function resizebg() {
 	}
 
 	$('.select2-container--default').width($('#textboxcontainer').width());
-		
-	//centerLoadingWaitContainer(); // in case it happens to be up for a while
 }	
 
