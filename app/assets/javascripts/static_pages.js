@@ -59,6 +59,10 @@ $(document).on('turbolinks:load', function (e) {
 		// force the code to run after bgimg was loaded via the following line.
     document.getElementById("bgimg").addEventListener('load', loadBGImgHandler);
 
+		// However, if image is already cached, the load event never gets called
+		// So need to also set it up here to cover that case (Explorer)
+		loadBGImgHandler();
+
 		$(window).resize(resizebg); // set callback for whenever browser size changes
 		
 		$('#inputid').select2({placeholder: 'Enter an Altadena address here...', allowClear: true});
