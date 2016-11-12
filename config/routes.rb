@@ -4,4 +4,6 @@ Rails.application.routes.draw do
 
   get 'static_pages/help'
 
+  get 'properties/:id' => 'properties#show'
+  
 end

@@ -208,3 +208,91 @@ select:invalid { color: gray; }
 		margin-right: auto;
 	}
 }
+
+/* Below for the house/home results page */
+
+#searchresults {
+	display		: block;
+	position	: relative;
+	padding-top	: 80px;
+	font-family	: 'Open Sans Condensed';
+}
+
+#addrtitlecontainer {
+		position		: relative; 
+		display			: block; /* will control via Javascript animation */
+		width		  	: 58%;
+		margin-left		: auto;
+		margin-right	: auto;
+		background-color: rgba(255,255,255, .7);
+		border-radius	: 10px 10px 10px 10px;
+		transform  		: scale(1, 1);
+		opacity			  : 1;
+}
+
+#addrtitle {
+	width		    : 100%;
+	text-align	: center;
+	font-size	  : 38px;
+	text-shadow	: 4px 4px 4px #aaa;
+}
+
+#googlemap {	
+  width: 40%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+  opacity: 1;
+
+  box-shadow: 5px 5px 5px #888888;  
+  border: 1px solid grey;
+}
+
+#houseimgcontainer {	
+  width: 40%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+  opacity: 1;
+  /* background-color: yellow; */
+}
+
+#houseimg {	
+	width: 100%;
+	box-shadow: 5px 5px 5px #888888;  
+	border: 1px solid grey;
+}
+
+#housestory {
+	width: 40%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 30px;
+	font-size: 24px;
+	opacity: 1;
+}
+
+@media screen and (max-width: 780px) {
+	#addrtitlecontainer {
+		width: 88%;
+	}
+	
+	#addrtitle {
+		font-size: 28px;
+	}
+	
+	#googlemap {	
+		width: 90%;
+	}
+
+	#houseimgcontainer {	
+		width: 90%;
+	}
+
+	#housestory {
+		width: 90%;
+		font-size: 22px;
+	}
+}
+
+

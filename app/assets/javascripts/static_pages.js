@@ -64,7 +64,7 @@ $(document).on('turbolinks:load', function (e) {
 		// on IE 11.321, so need to also set it up here to cover that case
 		//   loadBGImgHandler();
 		// --- but intermittently doesn't work on Chrome Win 10
-		// so trying the line below instead
+		//     so trying the line below instead
 	  $(window).load(loadBGImgHandler);
 		$(window).resize(resizebg); // set callback for whenever browser size changes
 		
@@ -72,6 +72,11 @@ $(document).on('turbolinks:load', function (e) {
 
   } // page == root
 });
+
+function static_pages_root_search_clicked() {
+	window.location.href = "http://rails-tutorial-dddderek.c9users.io:8080/properties/" + 
+		$("#inputid").val();
+}
 
 // Need to do this here instead of the document.load (turbolinks:load)
 // routine because on Chrome bgimg is not loaded when turbolinks:load
