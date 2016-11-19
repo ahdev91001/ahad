@@ -74,7 +74,7 @@ $(document).on('turbolinks:load', function (e) {
 });
 
 function static_pages_root_search_clicked() {
-	window.location.href = "http://rails-tutorial-dddderek.c9users.io:8080/properties/" + 
+	window.location.href = "properties/" + 
 		$("#inputid").val();
 }
 
