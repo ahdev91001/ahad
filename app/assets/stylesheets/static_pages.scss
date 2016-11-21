@@ -72,7 +72,7 @@ html, body {
 	text-align: center;
 	font-size: 30pt;
 	
-	font-family: 'Open Sans Condensed', sans-serif;
+	font-family: 'Assistant', sans-serif;
 	color: white;
 	background-color: rgba(55,55,55,.5);
 	border-radius: 15px;
@@ -132,7 +132,7 @@ html, body {
 	max-width: 130px;
 	height: 28px;
 	font-size: 20px;
-	font-family: 'Open Sans Condensed', sans-serif;
+	font-family: 'Assistant', sans-serif;
 	
 	border-radius: 5px 5px 5px 5px;
 	border-width: 0px;
@@ -181,13 +181,21 @@ html, body {
 
 select:invalid { color: gray; }
 
-.select2-container--default .select2-selection--single{
-	width		: 100%;
+.select2-dropdown.select2-dropdown--below {
+	font-family : 'Assistant', sans-serif !important;
+	font-size	  : 20px !important; /* 1.2em; */
+}
 
+.select2-search--dropdown .select2-search__field {
+	font-family : 'Assistant', sans-serif !important;
+	font-size	  : 20px !important; /* 1.2em; */
+}
+
+.select2-container--default .select2-selection--single {
+	width		    : 100%;
 	text-align	: left;
-	font-family : 'Open Sans Condensed', sans-serif;
-	font-size	: 20px; /* 1.2em; */
-	font-weight	: bold;
+	font-family : 'Assistant', sans-serif !important;
+	font-size	  : 20px; /* 1.2em; */
 }
 
 @media screen and (max-width: 580px) {
@@ -215,7 +223,7 @@ select:invalid { color: gray; }
 	display		: block;
 	position	: relative;
 	padding-top	: 80px;
-	font-family	: 'Open Sans Condensed';
+	font-family	: 'Assistant';
 }
 
 #addrtitlecontainer {
@@ -237,8 +245,9 @@ select:invalid { color: gray; }
 	text-shadow	: 4px 4px 4px #aaa;
 }
 
-#googlemap {	
+#map {	/* #googlemap */
   width: 40%;
+  height: 300px;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 20px;
@@ -281,7 +290,7 @@ select:invalid { color: gray; }
 		font-size: 28px;
 	}
 	
-	#googlemap {	
+	#map { /* #googlemap */	
 		width: 90%;
 	}
 

@@ -1,4 +1,7 @@
 /* global $ */
+/* global google*/
+/* global map*/
+
 'use strict';
 
 // Global variables for root page to keep background image
@@ -13,6 +16,11 @@ $(document).on('ready', function (e) {
   console.log("Got to: ready");
   console.log("At: " + e.timeStamp);
 });
+
+$(window).on('load', function (e) {
+	loadGoogleMapScript();
+});
+
 
 // suspect below needs to be turbolinks:load, for when we are at
 // a non-home page, and we click back to the homepage and need the
@@ -68,9 +76,61 @@ $(document).on('turbolinks:load', function (e) {
 	  $(window).load(loadBGImgHandler);
 		$(window).resize(resizebg); // set callback for whenever browser size changes
 		
-		$('#inputid').select2({placeholder: 'Enter an Altadena address here...', allowClear: true});
+		//$('#inputid').select2({placeholder: 'Enter an Altadena address here...', allowClear: true});
 
-  } // page == root
+
+		// Select2 Notes:
+		//
+		// Select2 expects to receive AJAX data in the following format:
+		//
+    //@tmphash = {
+    //  "results": [
+    //      {
+    //          "id": "CA",
+    //          "text": "California"
+    //      },
+    //      {
+    //          "id": "CO",
+    //          "text": "Colarado"
+    //      }
+    // ]
+    //};
+    //
+    // But what we get back from the properties controller looks like...
+    //
+    // [{"id":10001,"address1":"251 Acacia St"},
+    //  {"id":10002,"address1":"259 Acacia St"}, ...
+    // ]
+    //
+    // So "data" is an array of hashes, and we need to turn that into a hash
+    // with 1 key "results", and that key needs to point to an array of hashes,
+    // except we need to change the "address1" key to the name "text" that
+    // Select2 expects.  This transformation is what processResults does.
+    //
+		$('#inputid').select2({
+			  placeholder: 'Enter an Altadena address here...', 
+			  allowClear: true,
+			  ajax: {
+			    url: "properties.json",
+//					url: "<%= properties_path %>.json",
+			    dataType: 'json',
+			    delay: 250,
+		      processResults: function (data) {
+      			return { 
+      				results: data.map(function (x) { return { id: x.id, text: x.address1} } ) 
+      			}
+    			}
+			  }
+		});
+		
+
+  } else if (window.location.href.match(/properties\/\d+/)) {
+	  if (DEBUG) console.log("We're on a property display page...");
+
+		// googleMapInitialize(); // can't call from here, because google object
+		// appears to not be available... hmmm....
+
+  } // page == \d+
 });
 
 function static_pages_root_search_clicked() {
@@ -131,3 +191,60 @@ function resizebg() {
 	$('.select2-container--default').width($('#textboxcontainer').width());
 }	
 
+
+function googleMapInitialize() {
+	
+	var locations = [
+			["348 Acacia St.",    34.183456, -118.158134, 1]
+		];
+
+	if (window.map != null) {
+		window.map = null; // free up prior memory reference
+	}
+	
+	window.map = new google.maps.Map(document.getElementById('map'), {
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+	});
+
+	var infowindow = new google.maps.InfoWindow();
+
+	var bounds = new google.maps.LatLngBounds();
+
+	var i, marker;
+	
+	for (i = 0; i < locations.length; i++) {
+		marker = new google.maps.Marker({
+			position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+			map: map
+		});
+
+		infowindow.setContent(locations[i][0]);
+		infowindow.open(map, marker);
+
+		bounds.extend(marker.position);
+
+		google.maps.event.addListener(marker, 'click', (function (marker, i) {
+			return function () {
+				infowindow.setContent(locations[i][0]);
+				infowindow.open(map, marker);
+			}
+		})(marker, i));
+	}
+
+	map.fitBounds(bounds);
+	
+	var listener = google.maps.event.addListener(map, "idle", function () {
+		map.setZoom(15);
+		google.maps.event.removeListener(listener);
+	});
+}
+
+// Idea... assign name to element, so can release it
+// and then reassign it... and use a global var to
+// store the address.  Then call this each time the property changes.
+function loadGoogleMapScript() {
+	var script = document.createElement('script');
+	script.type = 'text/javascript';
+	script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&' + 'callback=googleMapInitialize';
+	document.body.appendChild(script);
+}
