@@ -112,7 +112,7 @@ $(document).on('turbolinks:load', function (e) {
 			  allowClear: true,
 			  ajax: {
 			    url: "properties.json",
-//					url: "<%= properties_path %>.json",
+					// url: "<%= properties_path %>.json", // erb not working it seems
 			    dataType: 'json',
 			    delay: 250,
 		      processResults: function (data) {
@@ -134,8 +134,10 @@ $(document).on('turbolinks:load', function (e) {
 });
 
 function static_pages_root_search_clicked() {
-	window.location.href = "properties/" + 
-		$("#inputid").val();
+	if ( $("#inputid").val() > 0 ) {
+		window.location.href = "properties/" + 
+			$("#inputid").val();
+	}
 }
 
 // Need to do this here instead of the document.load (turbolinks:load)
@@ -189,6 +191,16 @@ function resizebg() {
 	}
 
 	$('.select2-container--default').width($('#textboxcontainer').width());
+	
+	// Make white semi-transparent header bar just a bit larger (ahtitle)
+	// than the Altadena Heritage banner image (ahtitleimg).
+	// The % tricks works pretty nice, but when it gets small the % doesn't
+	// create enough padding at the bottom, so we "shim" it by adding
+	// an extra 10 pixels when it gets really small.
+	var ahtitleimg = document.getElementById('ahtitleimg'); 
+	var shim = ((ahtitleimg.height < 45) ? 10 : 0);
+	$("#ahtitle").css("height", 
+		ahtitleimg.height + (shim + .35 * ahtitleimg.height ));
 }	
 
 

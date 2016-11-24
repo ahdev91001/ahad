@@ -4,8 +4,7 @@ class PropertiesController < ApplicationController
   def index
     @properties = Property.select(:id, :address1).where("address1 LIKE '%#{params[:term]}%'")
     if @properties.length == 0
-      @properties = [{:id => 0, :address1 => "Not found in our database yet.  Click below to add it." },
-                     {:id => 1, :address1 => "#{params[:term]}"}]
+      @properties = [{:id => 0, :address1 => "Not found in our database yet." }]
     end
     respond_with(@properties)
   end
