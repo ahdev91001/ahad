@@ -1,0 +1,63 @@
+// Place all the styles related to multiple controllers here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+/* Below are for the animated Search >> buttons on both the
+ * home page and the property show page
+ */
+.buttonid {
+	min-width: 130px;
+	max-width: 130px;
+	height: 28px;
+	font-size: 20px;
+	font-family: 'Assistant', sans-serif;
+	
+	border-radius: 5px 5px 5px 5px;
+	border-width: 0px;
+
+	background-color: hsl(360, 95%, 38%);
+	color: white;
+}
+
+/* Override for Search Again button on property show page */
+.buttonidwide {
+	min-width: 200px;
+	max-width: 200px;	
+	border-radius: 10px 10px 0px 0px;
+}
+
+.buttontext {
+	cursor: pointer;
+}
+
+.buttonid:hover {
+    background-color: #ff0000; 
+	color: white;
+}
+
+/* below 4 sections used for animating Search >> button */
+
+.buttonid span {
+	cursor: pointer;
+	display: inline-block;
+	position: relative;
+	transition: 0.5s;
+}
+
+.buttonid span:after {
+	content: '»';
+	position: absolute;
+	opacity: 0;
+	top: 0;
+	right: -20px;
+	transition: 0.5s;
+}
+
+.buttonid:hover span {
+	padding-right: 25px;
+}
+
+.buttonid:hover span:after {
+	opacity: 1;
+	right  : 0;
+}

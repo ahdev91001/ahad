@@ -155,7 +155,7 @@ html, body {
 	width: 125px; /* keep in sync with width in #textboxcontainer */
 }
 
-#buttonid {
+.buttonid {
 	min-width: 130px;
 	max-width: 130px;
 	height: 28px;
@@ -169,25 +169,32 @@ html, body {
 	color: white;
 }
 
-#buttontext {
+/* Override for Search Again button on property show page */
+.buttonidwide {
+	min-width: 200px;
+	max-width: 200px;	
+	border-radius: 10px 10px 0px 0px;
+}
+
+.buttontext {
 	cursor: pointer;
 }
 
-#buttonid:hover {
+.buttonid:hover {
     background-color: #ff0000; 
 	color: white;
 }
 
 /* below 4 sections used for animating Search >> button */
 
-#buttonid span {
+.buttonid span {
 	cursor: pointer;
 	display: inline-block;
 	position: relative;
 	transition: 0.5s;
 }
 
-#buttonid span:after {
+.buttonid span:after {
 	content: '»';
 	position: absolute;
 	opacity: 0;
@@ -196,13 +203,13 @@ html, body {
 	transition: 0.5s;
 }
 
-#buttonid:hover span {
+.buttonid:hover span {
 	padding-right: 25px;
 }
 
-#buttonid:hover span:after {
+.buttonid:hover span:after {
 	opacity: 1;
-	right: 0;
+	right  : 0;
 }
 
 /* End: Address input bar with search button */
@@ -210,19 +217,19 @@ html, body {
 select:invalid { color: gray; }
 
 .select2-dropdown.select2-dropdown--below {
-	font-family : 'Assistant', sans-serif !important;
+	font-family   : 'Assistant', sans-serif !important;
 	font-size	  : 20px !important; /* 1.2em; */
 }
 
 .select2-search--dropdown .select2-search__field {
-	font-family : 'Assistant', sans-serif !important;
+	font-family   : 'Assistant', sans-serif !important;
 	font-size	  : 20px !important; /* 1.2em; */
 }
 
 .select2-container--default .select2-selection--single {
-	width		    : 100%;
-	text-align	: left;
-	font-family : 'Assistant', sans-serif !important;
+	width		  : 100%;
+	text-align	  : left;
+	font-family   : 'Assistant', sans-serif !important;
 	font-size	  : 20px; /* 1.2em; */
 }
 
@@ -253,92 +260,3 @@ select:invalid { color: gray; }
 		margin-right: auto;
 	}
 }
-
-/* Below for the house/home results page */
-
-#searchresults {
-	display		: block;
-	position	: relative;
-	padding-top	: 80px;
-	font-family	: 'Assistant';
-}
-
-#addrtitlecontainer {
-		position		: relative; 
-		display			: block; /* will control via Javascript animation */
-		width		  	: 58%;
-		margin-left		: auto;
-		margin-right	: auto;
-		background-color: rgba(255,255,255, .7);
-		border-radius	: 10px 10px 10px 10px;
-		transform  		: scale(1, 1);
-		opacity			  : 1;
-}
-
-#addrtitle {
-	width		    : 100%;
-	text-align	: center;
-	font-size	  : 38px;
-	text-shadow	: 4px 4px 4px #aaa;
-}
-
-#map {	/* #googlemap */
-  width: 40%;
-  height: 300px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 20px;
-  opacity: 1;
-
-  box-shadow: 5px 5px 5px #888888;  
-  border: 1px solid grey;
-}
-
-#houseimgcontainer {	
-  width: 40%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 20px;
-  opacity: 1;
-  /* background-color: yellow; */
-}
-
-#houseimg {	
-	width: 100%;
-	box-shadow: 5px 5px 5px #888888;  
-	border: 1px solid grey;
-}
-
-#housestory {
-	width: 40%;
-	margin-left: auto;
-	margin-right: auto;
-	margin-bottom: 30px;
-	font-size: 24px;
-	opacity: 1;
-}
-
-@media screen and (max-width: 780px) {
-	#addrtitlecontainer {
-		width: 88%;
-	}
-	
-	#addrtitle {
-		font-size: 28px;
-	}
-	
-	#map { /* #googlemap */	
-		width: 90%;
-	}
-
-	#houseimgcontainer {	
-		width: 90%;
-	}
-
-	#housestory {
-		width: 90%;
-		font-size: 22px;
-	}
-}
-
-

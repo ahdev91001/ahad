@@ -76,9 +76,6 @@ $(document).on('turbolinks:load', function (e) {
 	  $(window).load(loadBGImgHandler);
 		$(window).resize(resizebg); // set callback for whenever browser size changes
 		
-		//$('#inputid').select2({placeholder: 'Enter an Altadena address here...', allowClear: true});
-
-
 		// Select2 Notes:
 		//
 		// Select2 expects to receive AJAX data in the following format:
@@ -123,12 +120,31 @@ $(document).on('turbolinks:load', function (e) {
 			  }
 		});
 		
-
+	// 
+	// /properties/\d+ page loaded
+	//
   } else if (window.location.href.match(/properties\/\d+/)) {
 	  if (DEBUG) console.log("We're on a property display page...");
 
 		// googleMapInitialize(); // can't call from here, because google object
 		// appears to not be available... hmmm....
+		$("#houseimgcontainer").css("opacity", 0);
+		$("#houseimgcontainer").animate({opacity: [1, "linear"]}, 1500);
+		
+		$("#housestory").css("opacity", 0);
+		$("#housestory").animate({opacity: [1, "linear"]}, 800);
+
+		$("#addrtitlecontainer").addClass("PreAnimate");
+
+		setTimeout( function() {
+			$("#addrtitlecontainer").removeClass("PreAnimate");
+			$("#addrtitlecontainer").addClass("AnimateIn");			
+		}, 100);
+
+		$("#searchagain").css("bottom", -200);
+		setTimeout( function() {
+			$("#searchagain").animate({bottom: [0, "linear"]}, 800);
+		}, 1100);
 
   } // page == \d+
 });
@@ -139,6 +155,11 @@ function static_pages_root_search_clicked() {
 			$("#inputid").val();
 	}
 }
+
+function properties_search_again_clicked() {
+		window.location.href = "/"
+}
+
 
 // Need to do this here instead of the document.load (turbolinks:load)
 // routine because on Chrome bgimg is not loaded when turbolinks:load

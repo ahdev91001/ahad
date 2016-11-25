@@ -1,0 +1,108 @@
+// Place all the styles related to the StaticPages controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#searchagain {
+	position     : fixed ;
+	bottom       : 0;
+	left         : 50%;
+	width        : 200px;
+	margin-left  : -100px;
+}
+
+#searchresults {
+	display		  : block;
+	position	  : relative;
+	padding-top	: 80px;
+	font-family	: 'Assistant';
+}
+
+#addrtitlecontainer {
+	position		    : relative; 
+	display			    : block; 
+	width		  	    : 58%;
+	margin-left		  : auto;
+	margin-right	  : auto;
+	background-color: rgba(255,255,255, .7);
+	border-radius	  : 10px 10px 10px 10px;
+	transform  		  : scale(1, 1); /* will control via Javascript animation */
+	opacity			    : 1;           /* will control via Javascript animation */
+}
+
+#addrtitlecontainer.PreAnimate{
+	transform 	: scale(3, 3);
+	opacity			: 0;
+}
+
+#addrtitlecontainer.AnimateIn{
+	transition        : 1.0s ease-out;
+	-webkit-transition: 1.0s ease-out;
+
+	transform  	      : scale(1, 1);
+	opacity			      : 1.0;
+}
+
+#addrtitle {
+	width		    : 100%;
+	text-align	: center;
+	font-size	  : 38px;
+	text-shadow	: 4px 4px 4px #aaa;
+}
+
+#map {	/* #googlemap */
+  width: 40%;
+  height: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+  opacity: 1;
+
+  box-shadow: 5px 5px 5px #888888;  
+  border: 1px solid grey;
+}
+
+#houseimgcontainer {	
+  width        : 40%;
+  margin-left  : auto;
+  margin-right : auto;
+  margin-bottom: 20px;
+  opacity      : 1; /* Note: opacity animated in event turbolinks:load */
+}
+
+#houseimg {	
+	width     : 100%;
+	box-shadow: 5px 5px 5px #888888;  
+	border    : 1px solid grey;
+}
+
+#housestory {
+	width        : 40%;
+	margin-left  : auto;
+	margin-right : auto;
+	margin-bottom: 30px;
+	font-size    : 24px;
+	opacity      : 1;
+}
+
+@media screen and (max-width: 780px) {
+	#addrtitlecontainer {
+		width: 88%;
+	}
+	
+	#addrtitle {
+		font-size: 28px;
+	}
+	
+	#map { /* #googlemap */	
+		width: 90%;
+	}
+
+	#houseimgcontainer {	
+		width: 90%;
+	}
+
+	#housestory {
+		width    : 90%;
+		font-size: 22px;
+	}
+}
