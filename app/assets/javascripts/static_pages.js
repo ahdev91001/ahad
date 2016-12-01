@@ -192,6 +192,18 @@ function resizebg() {
 	 * and center it horizontally
 	 */
 	 
+	// **** KLUDGE WARNING ****
+	//
+	// 11/27/16, from Dick:  ...(except background photo not displayed 
+	// until after I pressed "Search Again"). 
+	// Chrome on Samsung S7, Android 6.0.1.
+	// I suspect somehow the g_fBGImgAspectRatio is not getting property
+	// set... so hardcoding it below to see if that's the situation (12/1/16)
+	//
+	// 1900 / 945 = 2.01058 for Altadena_littlehouse_1900_wide.jpg
+	if ( (g_fBGImgAspectRatio === null) || (g_fBGImgAspectRatio === undefined) || 
+	     (g_fBGImgAspectRatio < 0.1) ) g_fBGImgAspectRatio = 2.01058;
+	
 	if (DEBUG) {
 		console.log("DOM Aspect Ratio: " + fDOMAspectRatio);
 		console.log("BG IMG Aspect Ratio: " + g_fBGImgAspectRatio);
