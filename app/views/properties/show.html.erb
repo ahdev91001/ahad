@@ -1,11 +1,12 @@
 <% content_for :title, @property.address1 %>
 
-<% if ( @photo != nil ) then 
+<!-- TODO: check for nil for @property, address1, etc. -->
+
+<% if (@photo != nil && @photo.filename != nil && @photo.filename.length > 0) then 
 		photourl = "http://altadenaheritagepdb.org/photo/" + @photo.filename
 	else
 		photourl = "None"
 	end %>
-
 
 <!-- Search results at bottom with pic of house, details, and map -->
 <div id="searchresults">
@@ -15,7 +16,7 @@
 	</div>
 	
 	<div id="houseimgcontainer">
-		<% if ( photourl == "None" ) then %>
+		<% if ( photourl == "None" ) %>
 			We don't have a picture of this house yet.
 			<!-- link to some placeholder or cutesy house image -->			
 		<% else %>
@@ -25,39 +26,182 @@
 	
 	<div id="housestory">
 	
-		Year built: <%= @property.yearbuilt %>
-		<%= if ( @property.yearbuiltflag == "A" ) then "(verified)" end %>
+		<span class="propertyheaders">Year Built: </span>
+		<%= if (@property.yearbuilt != nil)
+		      if (@property.yearbuiltflag != nil &&
+		          @property.yearbuiltflag.upcase == "A") 
+		          @property.yearbuilt + " (actual)"
+		      else
+		        @property.yearbuilt + " (estimated)"	
+		      end
+		    else  
+		    	"Unknown"
+		    end %>
 		<br />
-	
-		<%= if ( @property.builder != nil ) then 
-					"Builder: " +  @property.builder 
-				else
-					"Builder: Unknown"
-				end %><br />
-	
-		<%= if ( @property.stories != nil ) then 
-				"Stories: " +  @property.stories
-			else
-				"Stories: Unknown"
-			end %><br />
-				
-		<%= if ( @property.originalowner != nil ) then 
-				"Original Owner: " +  @property.originalowner
-			else
-				"Original Owner: Unknown"
-			end %><br />
-	
-		<%= if ( @apn != nil && @apn.parcel != nil ) then 
-				"APN: " +  @apn.parcel
-			else
-				"APN: Unknown"
-			end %><br />
-			
-		<!-- Significance code: Eligible for California Historical Resources Inventory<br /> -->
+
+	  <!-- hide this field entirely unless it's filled in -->
+		<% s = "<span class='propertyheaders'>Year Built (Assessor): </span>".html_safe %>
+		<%= if (@property.yearbuiltassessor != nil) then 
+			    s +	@property.yearbuiltassessor + "<br />".html_safe
+			  end %>
+
+	  <!-- hide this field entirely unless it's filled in -->
+		<% s = "<span class='propertyheaders'>Year Built (Other): </span>".html_safe %>
+		<%= if (@property.yearbuiltother != nil) then 
+			    s +	@property.yearbuiltother + "<br />".html_safe
+			  end %>
 		
-		<!--
-		Sources: B&C 5/8/25, p. 67 (NofC)<br />
-		-->
+		<div class="propertyheaders">Architect: </div>
+		<%= if ( @property.architect != nil )  
+					if (@property.architectconfirmed != nil &&
+							@property.architectconfirmed.upcase == "Y")
+					  @property.architect + " (confirmed)"
+					else
+						@property.architect + " (unconfirmed)"
+					end
+				else
+					"Unknown"
+				end %>
+		<br />
+
+		<div class="propertyheaders">Builder: </div>
+		<%= if ( @property.builder != nil )  
+					if (@property.builderconfirmed != nil &&
+					    @property.builderconfirmed.upcase == "Y") 
+						@property.builder + " (confirmed)"
+					else
+						@property.builder + " (unconfirmed)"
+					end
+				else
+					"Unknown"
+				end %>
+		<br />
+		
+		<span class="propertyheaders">Stories: </span>
+		<%= if ( @property.stories != nil )  
+				  @property.stories
+			  else
+				  "Unknown"
+			  end %>
+		<br />
+				
+		<span class="propertyheaders">APN: </span>
+		<%= if ( @apn != nil && @apn.parcel != nil )  
+			  	@apn.parcel
+			  else
+				  "Unknown"
+			  end %>
+		<br />
+
+		<% s = "<span class='propertyheaders'>Current Lot Size: </span>".html_safe %>
+		<%= if (@property.currentlotsize != nil )  
+			    s +	@property.currentlotsize
+			  else
+				  s + "Unknown"
+			  end %>
+	  <br />
+
+		<% s = "<div class='propertyheaders'>Historic Name: </div>".html_safe %>
+		<%= if (@property.historicname != nil )  
+			    s +	@property.historicname
+			  else
+				  s + "Unknown"
+			  end %>
+		<br />
+
+		<% s = "<div class='propertyheaders'>Legal Description: </div>".html_safe %>
+		<%= if (@property.legaldescription != nil )  
+			    s +	@property.legaldescription
+			  else
+				  s + "Unknown"
+			  end %>
+		<br />
+
+		<% s = "<div class='propertyheaders'>Style: </div>".html_safe %>
+		<%= if (@property.style != nil )  
+			    s +	@property.style
+			  else
+				  s + "Unknown"
+			  end %>
+		<br />
+
+		<div class="propertyheaders">Original Owner: </div>
+		<%= if ( @property.originalowner != nil )  
+				  @property.originalowner 
+			  else
+				  "Unknown"
+			  end %>
+		<br />
+
+		<% s = "<div class='propertyheaders'>Original Owner Spouse: </div>".html_safe %>
+		<%= if ( @property.originalownerspouse != nil )  
+				  s + @property.originalownerspouse + "<br />".html_safe
+			  end %>
+
+		<% s = "<div class='propertyheaders'>Original Owner Occupation: </div>".html_safe %>
+		<%= if ( @property.originalowneroccupation != nil )  
+				  s + @property.originalowneroccupation + "<br />".html_safe
+			  end %>
+
+		<% s = "<span class='propertyheaders'>Original Cost: </span>".html_safe %>
+		<%= if (@property.originalcost != nil )  
+			    s + number_to_currency(@property.originalcost, :precision => 0)
+			  else
+				  s + "Unknown"
+			  end %>
+		<br />
+
+		<% s = "<div class='propertyheaders'>Original Lot Size: </div>".html_safe %>
+		<%= if (@property.originallotsize != nil ) then 
+			    s +	@property.originallotsize
+			  else
+				  s + "Unknown"
+			  end %>
+		<br />
+
+	  <!-- hide this field entirely unless it's filled in -->
+		<% s = "<span class='propertyheaders'>Moved on to Property: </span>".html_safe %>
+		<%= if (@property.movedontoproperty != nil ) then
+					s + @property.movedontoproperty + "<br />".html_safe
+			  end %>
+
+	  <!-- hide this field entirely unless it's filled in -->
+		<% s = "<div class='propertyheaders'>Place of Business: </div>".html_safe %>
+		<%= if (@property.placeofbusiness != nil) then 
+					s +	@property.placeofbusiness + "<br />".html_safe
+			  end %>
+
+	  <!-- hide this field entirely unless it's filled in -->
+		<% s = "<span class='propertyheaders'>Street Direction: </span>".html_safe %>
+		<%= if (@property.streetdirection != nil) then 
+			    s +	@property.streetdirection + "<br />".html_safe
+			  end %>
+
+	  <!-- hide this field entirely unless it's filled in -->
+		<% s = "<div class='propertyheaders'>Address Notes: </div>".html_safe %>
+		<%= if (@property.addressnote != nil) then 
+			    s +	@property.addressnote + "<br />".html_safe
+			  end %>
+
+	  <!-- hide this field entirely unless it's filled in -->
+		<% s = "<div class='propertyheaders'>Quadrant: </div>".html_safe %>
+		<%= if (@property.quadrant != nil) then 
+			    s +	@property.quadrant + "<br />".html_safe
+			  end %>
+
+	  <!-- hide this field entirely unless it's filled in -->
+		<% s = "<span class='propertyheaders'>Type: </span>".html_safe %>
+		<%= if (@property.type != nil) then 
+			    s +	@property.type.capitalize + "<br />".html_safe
+			  end %>
+
+		<div id="notesandsources">
+		<%= if (@property.notes_shpo_and_sources != nil) then 
+			    markdown(@property.notes_shpo_and_sources)
+			  end %>
+		</div>
+		
+		<!-- Significance code: Eligible for California Historical Resources Inventory<br /> -->
 		
 	</div> <!-- housestory -->
 	

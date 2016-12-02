@@ -49,6 +49,16 @@
 	text-shadow	: 4px 4px 4px #aaa;
 }
 
+.propertyheaders {
+	color          : gray;
+	font-weight    : bold;
+	font-size      : 30px;
+}
+
+#notesandsources {
+	font-size: 16px;
+}
+
 #map {	/* #googlemap */
   width: 40%;
   height: 300px;
