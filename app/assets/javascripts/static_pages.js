@@ -202,8 +202,9 @@ function resizeWindowPropertyView() {
 	  document.getElementById("ahtitle").clientHeight + 12);
 	// turn 12 into a constant at top of property view js page
 
-	$("#addressattopfadesin").width($("#addrtitletext").width());
-	console.warn("Text width: " + document.getElementById("addrtitletext").width);
+	$("#addressattopfadesin").width($("#addrtitletext").width() + 10);
+	// make width of containing div wide enough for text width in
+	// inside <span>
 }
 
 // Need to do this here instead of the document.load (turbolinks:load)
