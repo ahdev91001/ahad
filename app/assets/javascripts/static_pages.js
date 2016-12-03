@@ -17,9 +17,10 @@ $(document).on('ready', function (e) {
   console.log("At: " + e.timeStamp);
 });
 
-$(window).on('load', function (e) {
-	loadGoogleMapScript();
-});
+// Google Map
+//$(window).on('load', function (e) {
+//	loadGoogleMapScript();
+//});
 
 
 // suspect below needs to be turbolinks:load, for when we are at
@@ -50,6 +51,10 @@ $(document).on('turbolinks:load', function (e) {
   }
   
   if (DEBUG) console.log("Turbolinks page:load: " + page);
+  
+  // Turn off property address fade in/out based on scrolling
+  // for when we're on non-property view pages
+  $(window).off('scroll');
   
   //
   // Home page .ready()
@@ -125,7 +130,13 @@ $(document).on('turbolinks:load', function (e) {
 	//
   } else if (window.location.href.match(/properties\/\d+/)) {
 	  if (DEBUG) console.log("We're on a property display page...");
-
+	
+		// Even with turbolinks, seems that the relevant events for
+		// each page need to be initialized on the page load
+		$(window).resize(resizeWindowPropertyView); 
+		resizeWindowPropertyView(); // position #addressattopfadesin center,
+		                            // just below #ahtitle bar
+		
 		// googleMapInitialize(); // can't call from here, because google object
 		// appears to not be available... hmmm....
 		$("#houseimgcontainer").css("opacity", 0);
@@ -146,6 +157,21 @@ $(document).on('turbolinks:load', function (e) {
 			$("#searchagain").animate({bottom: [0, "linear"]}, 800);
 		}, 1100);
 
+		$(window).on('scroll', function () {
+		    var scrollTop     = $(window).scrollTop(),
+		        elementOffset = $('#addrtitle').offset().top,
+		        distance      = (elementOffset - scrollTop - 50),
+		        opacity       = 0.0;
+				
+				if (distance < -100) {
+		    	opacity = 1.0;
+		    } else if (distance > 0) {
+		    	opacity = 0.0;
+		    } else {
+		    	opacity = (-distance / 100);
+		    }
+		    $('#addressattopfadesin').css("opacity", opacity);
+		});
   } // page == \d+
 });
 
@@ -160,6 +186,25 @@ function properties_search_again_clicked() {
 		window.location.href = "/"
 }
 
+/////////////////////////////////////////////////////////////////////////////
+//
+// Page : Property:View
+// Event: Resize browser window
+//
+// Keep the fade-in/fade-out address div at the top of the page in the center
+// and just below the header bar (which shrinks when the browser gets narrow
+// or on a phone)
+/////////////////////////////////////////////////////////////////////////////
+function resizeWindowPropertyView() {
+	var addressFadeInOutAtTop	= document.getElementById("addressattopfadesin");
+	
+	$("#addressattopfadesin").css("top",
+	  document.getElementById("ahtitle").clientHeight + 12);
+	// turn 12 into a constant at top of property view js page
+
+	$("#addressattopfadesin").width($("#addrtitletext").width());
+	console.warn("Text width: " + document.getElementById("addrtitletext").width);
+}
 
 // Need to do this here instead of the document.load (turbolinks:load)
 // routine because on Chrome bgimg is not loaded when turbolinks:load
@@ -224,16 +269,6 @@ function resizebg() {
 	}
 
 	$('.select2-container--default').width($('#textboxcontainer').width());
-	
-	// Make white semi-transparent header bar just a bit larger (ahtitle)
-	// than the Altadena Heritage banner image (ahtitleimg).
-	// The % tricks works pretty nice, but when it gets small the % doesn't
-	// create enough padding at the bottom, so we "shim" it by adding
-	// an extra 10 pixels when it gets really small.
-	var ahtitleimg = document.getElementById('ahtitleimg'); 
-	var shim = ((ahtitleimg.height < 45) ? 10 : 0);
-	$("#ahtitle").css("height", 
-		ahtitleimg.height + (shim + .35 * ahtitleimg.height ));
 }	
 
 

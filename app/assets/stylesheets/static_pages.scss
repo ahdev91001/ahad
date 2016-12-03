@@ -191,7 +191,9 @@ select:invalid { color: gray; }
 	}
 }
 
-@media screen and (max-width: 780px) {
+// 570 matches the fixed height with the 90% scale height to the 
+// pixel on FireFox... did this through manual trial and error
+@media screen and (max-width: 570px) {
 	#ahtitleimg {
 		width: 90%;
 	}

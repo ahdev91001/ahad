@@ -12,7 +12,7 @@
 <div id="searchresults">
 	
 	<div id="addrtitlecontainer">
-		<h3 id="addrtitle"><%= @property.address1 %></h3>
+		<h3 id="addrtitle"><span id="addrtitletext"><%= @property.address1 %></span></h3>
 	</div>
 	
 	<div id="houseimgcontainer">
@@ -23,6 +23,8 @@
 		  <img id="houseimg" src="<%= photourl %>">
 		<% end %>	
 	</div>
+	
+	<div id="addressattopfadesin"><%= @property.address1 %></div>
 	
 	<div id="housestory">
 	
