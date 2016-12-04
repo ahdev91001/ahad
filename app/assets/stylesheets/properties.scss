@@ -1,14 +1,11 @@
-// Place all the styles related to the StaticPages controller here.
+// Place all the styles related to the Properties controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-#searchagain {
-	position     : fixed ;
-	bottom       : 0;
-	left         : 50%;
-	width        : 200px;
-	margin-left  : -100px;
-}
+/*------------------------------------*\
+  #PROPERTY#SHOW
+  View a single property page.
+\*------------------------------------*/
 
 #searchresults {
 	display		  : block;
@@ -18,12 +15,15 @@
 }
 
 #addrtitlecontainer {
-	position		    : relative; 
-	display			    : block; 
-	width		  	    : 58%;
-	margin-left		  : auto;
-	margin-right	  : auto;
+  position: relative; 
+  display: block; 
+	
+	width:        58%;
+	margin-left:  auto;
+	margin-right: auto;
+	
 	background-color: rgba(255,255,255, .7);
+	
 	border-radius	  : 10px 10px 10px 10px;
 	transform  		  : scale(1, 1); /* will control via Javascript animation */
 	opacity			    : 1;           /* will control via Javascript animation */
@@ -80,6 +80,15 @@
 #notesandsources {
 	font-size: 16px;
 }
+
+#searchagain {
+	position     : fixed ;
+	bottom       : 0;
+	left         : 50%;
+	width        : 200px;
+	margin-left  : -100px;
+}
+
 
 #map {	/* #googlemap */
   width: 40%;
