@@ -1,0 +1,202 @@
+/////////////////////////////////////////////////////////////////////////////
+// properties.scss
+// 
+// Place all the styles related to the Properties controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+//
+/////////////////////////////////////////////////////////////////////////////
+
+/*-------------------------------------------------------------------------*\
+  #property#show
+  
+  View a single property page.
+\*-------------------------------------------------------------------------*/
+
+//
+// Address at top that zooms and fades in upon page load
+//
+
+/* [1] These are contolled via JavaScript by adding/removing the
+ * psatzc-pre-animate and psatzc-animate-in classes.
+ */
+#prop-show-addr-title-zoom-container {
+  position: relative; 
+  display: block; 
+	width: 58%;
+	margin-left:  auto;
+	margin-right: auto;
+	padding-top: 80px;
+	background-color: rgba(255,255,255, .7);
+	border-radius: 10px 10px 10px 10px;
+	transform: scale(1, 1); /* [1] */
+	opacity: 1;             /* [1] */
+}
+
+	#prop-show-addr-title-zoom-container.psatzc-pre-animate {
+		transform: scale(3, 3);
+		opacity: 0;
+	}
+	
+	#prop-show-addr-title-zoom-container.psatzc-animate-in {
+		transition        : 1.0s ease-out;
+		-webkit-transition: 1.0s ease-out;
+		transform : scale(1, 1);
+		opacity: 1.0;
+	}
+	
+	#prop-show-addr-title-zoom {
+		width: 100%;
+		text-align: center;
+		font-size: 38px;
+		text-shadow: 4px 4px 4px #aaa;
+	}
+
+	// TODO: Why 780px?  Make a variable at the top?
+	// Read up on standard screen widths, phone, pad, and standardize
+	// all width code.
+	@media screen and (max-width: 780px) {
+		#prop-show-addr-title-zoom-container {
+			width: 88%;
+		}
+		
+		// Shrink title size on small screens
+		#prop-show-addr-title-zoom {
+			font-size: 28px;
+		}
+	}
+
+//
+// Address at top that fades in when the initial address scrolls
+// off the top of the page, and that fades out when the initial
+// address scrolls back onto the page.
+//
+	
+/* width set depending on text inside in property.js | 
+ * resizeWindowPropertyView() 
+ */
+#prop-show-addr-title-fader {
+	position: fixed;
+	font-size: 34px;
+	font-weight: bold;
+	opacity: 0;
+	text-align: center;
+	margin-left:  auto;
+	margin-right: auto;
+	top:   100px;
+	left:  0px;
+	right: 0px;
+	background-color: white;
+	text-shadow: 4px 4px 4px #aaa;
+	border-radius: 15px;
+	padding-left:  10px;
+	padding-right: 10px;
+	border-color: rgba(0, 0, 0,.6);
+	border-width: 2px;
+	border-style: solid;
+}
+
+	@media screen and (max-width: 780px) {
+		#prop-show-addr-title-fader {
+			font-size: 28px;
+		}
+	}
+	
+//
+// Photo of Property
+//
+
+#prop-show-photo-main-container {	
+  width: 40%;
+  margin-left:  auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+  opacity: 1; /* Note: opacity animated in event turbolinks:load */
+}
+
+	#prop-show-photo-main-no-photo {
+		text-align: center;
+	}
+	
+	#prop-show-photo-main {	
+		width: 100%;
+		box-shadow: 5px 5px 5px #888888;  
+		border: 1px solid grey;
+	}
+
+	@media screen and (max-width: 780px) {
+		#prop-show-photo-main-container {	
+			width: 90%;
+		}
+	}
+
+//
+// All the property related text below the main photo
+//
+
+#prop-show-db-details {
+	width: 40%;
+	margin-left:  auto;
+	margin-right: auto;
+	margin-bottom: 30px;
+	font-size: 24px;
+	opacity: 1;
+}
+
+	@media screen and (max-width: 780px) {
+		#prop-show-db-details {
+			width: 90%;
+			font-size: 22px;
+		}
+	}
+
+	.prop-show-details-titles {
+		color: gray;
+		font-weight: bold;
+		font-size: 30px;
+	}
+
+	@media screen and (max-width: 780px) {
+ 		.prop-show-details-titles {
+			font-size: 22px;
+		}
+	}
+
+	#prop-show-note-sources {
+		font-size: 16px;
+	}
+
+//
+// Little "Search Again >>" button that sneaks in at the
+// bottom of the screen.
+//
+
+#prop-show-search-again-container {
+	position     : fixed ;
+	bottom       : 0;
+	left         : 50%;
+	width        : 200px;
+	margin-left  : -100px;
+}
+
+//
+// Google map at bottom
+//
+
+#map {	/* #googlemap */
+  width: 40%;
+  height: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+  opacity: 1;
+
+  box-shadow: 5px 5px 5px #888888;  
+  border: 1px solid grey;
+}
+
+	@media screen and (max-width: 780px) {
+		#map { /* #googlemap */	
+			width: 90%;
+		}
+	}

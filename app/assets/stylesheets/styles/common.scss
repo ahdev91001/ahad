@@ -1,0 +1,92 @@
+/////////////////////////////////////////////////////////////////////////////
+// common.scss
+//
+// Place all the styles related to multiple controllers here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+//
+/////////////////////////////////////////////////////////////////////////////
+@import "../base/globals";
+
+html, 
+body {
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	font-family: $g-font-family-default;
+}
+
+/****************************************************************************
+* Animated >> Buttons 
+*
+* Below are for the animated '[text] >>'' buttons on both the
+* home page and the property show page
+*****************************************************************************/
+.btn {
+	width:  130px;
+	height: 28px;
+	
+	font-size: 20px;
+	font-family: $g-font-family-default; // Needed, does not inherit from body
+	
+	border-radius: 5px 5px 5px 5px;
+	border-width: 0px;
+
+	background-color: hsl(360, 95%, 38%);
+	color: white;
+}
+
+	/* The span element inside the button that contains the text */
+	.btn__text {
+		cursor: pointer;
+	}
+
+	.btn--green {
+	 	background-color: hsl(126, 52%, 72%);
+	}
+
+	/* Override for "Search Again" button on bottom of property show page */
+	.btn--wide-square-bottom {
+		width: 200px;
+		border-radius: 10px 10px 0px 0px;
+	}
+
+	.btn:hover {
+	  background-color: #ff0000; 
+		color: white;
+	}
+	
+	.btn--green:hover {
+	  background-color: #00ff00; 
+		color: white;
+	}
+
+	/* below 4 sections used for animating Search >> button 
+	 * when hovering over it. */
+	
+	.btn span {
+		cursor: pointer;
+		display: inline-block;
+		position: relative;
+		transition: 0.5s;
+	}
+	
+	.btn span:after {
+		content: '»';
+		position: absolute;
+		opacity: 0;
+		top:   0;
+		right: -20px;
+		transition: 0.5s;
+	}
+	
+	.btn:hover span {
+		padding-right: 25px;
+	}
+	
+	.btn:hover span:after {
+		opacity: 1;
+		right  : 0;
+	}

@@ -10,8 +10,16 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require_tree .
- *= require_self
- *= require select2.min
+ * Below, require_tree turned OFF (notice = is missing), so we can manually
+ * require each scss file in main.scss in a specific order. This idea
+ * came from: http://www.mattboldt.com/organizing-css-and-sass-rails/
+ * 
+ * NOTE: Now, if you add a new css or scss file to the directory tree,
+ *       you need to MANUALLY add it in an @import command in main.scss.
+ *
+ *  require_tree .       
+ *= require_self         
+ *= require select2.min  
+ *= require main
  */
 
