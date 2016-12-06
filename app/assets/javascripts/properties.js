@@ -114,26 +114,26 @@ function onLoadEventPropertyShowHelper() {
   
   // FADE in the content - whoosh!
   
-  $("#prop-show-photo-main-container").css("opacity", 0);
-  $("#prop-show-photo-main-container").animate({opacity: [1, "linear"]}, 
+  $("#ps-photo-main-container").css("opacity", 0);
+  $("#ps-photo-main-container").animate({opacity: [1, "linear"]}, 
 	  OLPSH__HOUSE_IMG_FADE_IN_MSEC);
 		
-  $("#prop-show-db-details").css("opacity", 0);
-  $("#prop-show-db-details").animate({opacity: [1, "linear"]},
+  $("#ps-db-details").css("opacity", 0);
+  $("#ps-db-details").animate({opacity: [1, "linear"]},
 	  OLPSH__HOUSE_DETAILS_FADE_IN_MSEC);
   
   // FLY in that title! Bam!
   
   // Set title to a fixed position (large, and transparent) first  
-  $("#prop-show-addr-title-zoom-container").
+  $("#ps-addr-title-zoom-container").
     addClass("psatzc-pre-animate");
 
   // Then, 100ms later, switch classes to fire the animation.
   // Can't just put one immediately after the other, or doesn't work.
   setTimeout( function() {
-    $("#prop-show-addr-title-zoom-container").
+    $("#ps-addr-title-zoom-container").
       removeClass("psatzc-pre-animate");
-    $("#prop-show-addr-title-zoom-container").
+    $("#ps-addr-title-zoom-container").
       addClass("psatzc-animate-in");			
   }, 100); // 100ms was arbitrary, and seems to work
 
@@ -142,9 +142,9 @@ function onLoadEventPropertyShowHelper() {
   // Have little "Search Again >>" button sneak up from the bottom
   // after just a small pause.  UX cute factor.  Hide below
   // screen at -200
-  $("#prop-show-search-again-container").css("bottom", -200);
+  $("#ps-search-again-container").css("bottom", -200);
   setTimeout( function() {
-    $("#prop-show-search-again-container").animate({bottom: [-1, "linear"]}, 
+    $("#ps-search-again-container").animate({bottom: [-1, "linear"]}, 
       OLPSH__SEARCH_AGAIN_REVEAL_MSEC);
   }, OLPSH__SEARCH_AGAIN_BEFORE_REVEAL_MSEC);
   
@@ -154,7 +154,7 @@ function onLoadEventPropertyShowHelper() {
   // scrolls off the top of the screen, and visa-versa.
   $(window).on('scroll', function () {
     var scrollTop     = $(window).scrollTop(),
-		    elementOffset = $('#prop-show-addr-title-zoom').offset().top,
+		    elementOffset = $('#ps-addr-title-zoom').offset().top,
 		    distance      = (elementOffset - scrollTop - 
 		                     OLPSH__ADDRESS_FADE_IN_START_PX),
 		    opacity       = 0.0;
@@ -166,7 +166,7 @@ function onLoadEventPropertyShowHelper() {
     } else {
     	opacity = (-distance / OLPSH__ADDRESS_FADE_IN_DISTANCE_PX);
     }
-    $('#prop-show-addr-title-fader').css("opacity", opacity);
+    $('#ps-addr-title-fader').css("opacity", opacity);
   }); // end window scroll event
 
 } // end onLoadEventPropertyShowHelper()
@@ -192,14 +192,14 @@ function onLoadEventPropertyShowHelper() {
 //
 /////////////////////////////////////////////////////////////////////////////
 function resizeWindowEventPropertyShow() {
-	var addressFadeInOutAtTop	= document.getElementById("prop-show-addr-title-fader");
+	var addressFadeInOutAtTop	= document.getElementById("ps-addr-title-fader");
 	
-	$("#prop-show-addr-title-fader").css("top",
+	$("#ps-addr-title-fader").css("top",
 	  document.getElementById("app-layout-header-bar").clientHeight + 
 	  RWEPS__ADDRESS_TOP_GAP);
 
-	$("#prop-show-addr-title-fader").
-	  width($("#prop-show-addr-title-zoom__text").width() + 
+	$("#ps-addr-title-fader").
+	  width($("#ps-addr-title-zoom__text").width() + 
 	  RWEPS__ADDRESS_TEXT_PADDING);
 	// make width of containing div wide enough for text width in
 	// inside <span>, otherwise pops onto 2 lines intermittently

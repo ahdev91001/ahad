@@ -1,22 +1,23 @@
 <% content_for :title, "AHAD" %>
 
 <!-- Full screen background image on search page -->
-<div id="bgimgcontainer">
-    <%= image_tag("Altadena_littlehouse_1900_wide.jpg", :id => "bgimg") %>
+<div id="sp-home-bg-img-container">
+    <%= image_tag("altadena-littlehouse-1900-wide.jpg", :id => "sp-home-bg-img") %>
 </div>
 
-<!-- Architectural Database box with select input and search button -->
-<div id="ahadsubtitlebox">
-	<div id="ahadsubtitle">Architectural Database
-		<div id="inputcontainer">
-			<div id="textboxcontainer">
-				<select id="inputid">
-					<option></option>
-				</select>
+<!-- Architectural Database box with select2 input and search button -->
+<div id="sp-home-ad-box-container">
+	<div id="sp-home-ad-box">Architectural Database
+		<div>
+			<div id="sp-home-addr-container">
+				<select id="sp-home-addr-select2"></select>
 			</div>
 
-			<div id="buttoncontainer"><button class="btn" type="button" onclick="rootHomeSearchClicked()">
-				<span class="btn__text">Search </span></button>
+			<div id="sp-home-srch-btn-container">
+				<button class="btn-arrow-anim" 
+			    type="button" onclick="rootHomeSearchClicked()">
+				  <span class="btn-arrow-anim__text">Search </span>
+				</button>
 			</div>
 		</div>
 	</div>

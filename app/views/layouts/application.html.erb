@@ -3,7 +3,8 @@
   <head>
     <title><%= yield(:title) %></title>
     <%= csrf_meta_tags %>
-
+    <meta charset="utf-8">
+    
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 
@@ -19,11 +20,12 @@
       'https://fonts.googleapis.com/css?family=Assistant',
        media: 'all', 'data-turbolinks-track' => true %>
 
-    <%= favicon_link_tag 'AHL.ico' %>
+    <%= favicon_link_tag 'ah-logo.ico' %>
   
     <!--  
     <meta name="viewport"
-      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+      content="width=device-width, user-scalable=no, initial-scale=1.0, 
+        maximum-scale=1.0, minimum-scale=1.0">
      -->
     
     <!-- Below allows scaling, which totally screws up Select2
@@ -38,7 +40,7 @@
   <body>
     <!-- Fixed translucent title bar at top -->
     <div id="app-layout-header-bar">
-        <%= image_tag("AHAD_Header_Logo_From_Website_Alpha_2.png", 
+        <%= image_tag("ahad-header-logo-from-website-alpha-2.png", 
             :id => "app-layout-ah-header-logo-img",
             :alt => "AHAD Header Logo") %>
     </div>

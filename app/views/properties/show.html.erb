@@ -10,227 +10,232 @@
 	end %>
 
 <!-- Big address title that zooms in at top upon page load -->
-<div id="prop-show-addr-title-zoom-container">
-  <h3 id="prop-show-addr-title-zoom">
-    <span id="prop-show-addr-title-zoom__text">
+<div id="ps-addr-title-zoom-container">
+  <h3 id="ps-addr-title-zoom">
+    <span id="ps-addr-title-zoom__text">
     <%= @property.address1 %></span>
   </h3>
 </div>
 
-<div id="prop-show-photo-main-container">
+<div id="ps-photo-main-container">
 	<% if ( photourl == "None" ) %>
-    <div id="prop-show-photo-main-no-photo">
+    <div id="ps-photo-main-no-photo">
       <%= image_tag("house-stick-figure-med.png",  
           :alt => "Cartoon Photo of Property") %>
-      <br />
+      <br>
   		We don't have a picture of this house yet.  
   		<a href="http://altadenaheritage.org/contact-us/" target="_blank">
   		Let us know</a> if you have one!
 		</div>	
 	<% else %>
-    <%= image_tag(photourl, :id => "prop-show-photo-main", 
+    <%= image_tag(photourl, :id => "ps-photo-main", 
         :alt => "Photo of Property") %>
 	<% end %>	
 </div>
 
-<div id="prop-show-addr-title-fader"><%= @property.address1 %></div>
+<div id="ps-addr-title-fader"><%= @property.address1 %></div>
 
-<div id="prop-show-db-details">
-
-	<span class="prop-show-details-titles">Year Built: </span>
-	<%= if (@property.yearbuilt != nil)
-	      if (@property.yearbuiltflag != nil &&
-	          @property.yearbuiltflag.upcase == "A") 
-	          @property.yearbuilt + " (actual)"
-	      else
-	        @property.yearbuilt + " (estimated)"	
-	      end
-	    else  
-	    	"Unknown"
-	    end %>
-	<br />
+<div id="ps-db-details">
+  <div class='hanging-indent'>
+  	<span class="ps-details-titles">Year Built: </span>
+  	<%= if (@property.yearbuilt != nil)
+  	      if (@property.yearbuiltflag != nil &&
+  	          @property.yearbuiltflag.upcase == "A") 
+  	          @property.yearbuilt + " (actual)"
+  	      else
+  	        @property.yearbuilt + " (estimated)"	
+  	      end
+  	    else  
+  	    	"Unknown"
+  	    end %>
+	</div>
 
   <!-- hide this field entirely unless it's filled in -->
-	<% s = "<span class='prop-show-details-titles'>
+	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
 	  Year Built (Assessor): </span>".html_safe %>
 	<%= if (@property.yearbuiltassessor != nil) then 
-		    s +	@property.yearbuiltassessor + "<br />".html_safe
+		    s +	@property.yearbuiltassessor + "</div>".html_safe
 		  end %>
 
   <!-- hide this field entirely unless it's filled in -->
-	<% s = "<span class='prop-show-details-titles'>
+	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
 	  Year Built (Other): </span>".html_safe %>
 	<%= if (@property.yearbuiltother != nil) then 
-		    s +	@property.yearbuiltother + "<br />".html_safe
+		    s +	@property.yearbuiltother + "</div>".html_safe
 		  end %>
-	
-	<div class="prop-show-details-titles">Architect: </div>
-	<%= if ( @property.architect != nil )  
-				if (@property.architectconfirmed != nil &&
-						@property.architectconfirmed.upcase == "Y")
-				  @property.architect + " (confirmed)"
-				else
-					@property.architect + " (unconfirmed)"
-				end
-			else
-				"Unknown"
-			end %>
-	<br />
+  
+  <div class='hanging-indent'>	
+  	<span class="ps-details-titles">Architect: </span>
+  	<%= if ( @property.architect != nil )  
+  				if (@property.architectconfirmed != nil &&
+  						@property.architectconfirmed.upcase == "Y")
+  				  @property.architect + " (confirmed)"
+  				else
+  					@property.architect + " (unconfirmed)"
+  				end
+  			else
+  				"Unknown"
+  			end %>
+	</div>
 
-	<div class="prop-show-details-titles">Builder: </div>
-	<%= if ( @property.builder != nil )  
-				if (@property.builderconfirmed != nil &&
-				    @property.builderconfirmed.upcase == "Y") 
-					@property.builder + " (confirmed)"
-				else
-					@property.builder + " (unconfirmed)"
-				end
-			else
-				"Unknown"
-			end %>
-	<br />
+	<div class='hanging-indent'>	
+  	<span class="ps-details-titles">Builder: </span>
+  	<%= if ( @property.builder != nil )  
+  				if (@property.builderconfirmed != nil &&
+  				    @property.builderconfirmed.upcase == "Y") 
+  					@property.builder + " (confirmed)"
+  				else
+  					@property.builder + " (unconfirmed)"
+  				end
+  			else
+  				"Unknown"
+  			end %>
+	</div>
 	
-	<span class="prop-show-details-titles">Stories: </span>
-	<%= if ( @property.stories != nil )  
-			  @property.stories
-		  else
-			  "Unknown"
-		  end %>
-	<br />
-			
-	<span class="prop-show-details-titles">APN: </span>
-	<%= if ( @apn != nil && @apn.parcel != nil )  
-		  	@apn.parcel
-		  else
-			  "Unknown"
-		  end %>
-	<br />
+	<div class='hanging-indent'>	
+  	<span class="ps-details-titles">Stories: </span>
+  	<%= if ( @property.stories != nil )  
+  			  @property.stories
+  		  else
+  			  "Unknown"
+  		  end %>
+	</div>
+		
+	<div class='hanging-indent'>	
+  	<span class="ps-details-titles">APN: </span>
+  	<%= if ( @apn != nil && @apn.parcel != nil )  
+  		  	@apn.parcel
+  		  else
+  			  "Unknown"
+  		  end %>
+	</div>
 
-	<% s = "<span class='prop-show-details-titles'>
+	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
 	  Current Lot Size: </span>".html_safe %>
 	<%= if (@property.currentlotsize != nil )  
 		    s +	@property.currentlotsize
 		  else
 			  s + "Unknown"
 		  end %>
-  <br />
+  </div>
 
-	<% s = "<div class='prop-show-details-titles'>
-	  Historic Name: </div>".html_safe %>
+	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
+	  Historic Name: </span>".html_safe %>
 	<%= if (@property.historicname != nil )  
 		    s +	@property.historicname
 		  else
 			  s + "Unknown"
 		  end %>
-	<br />
+	</div>
 
-	<% s = "<div class='prop-show-details-titles'>
-	  Legal Description: </div>".html_safe %>
+	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
+	  Legal Description: </span>".html_safe %>
 	<%= if (@property.legaldescription != nil )  
 		    s +	@property.legaldescription
 		  else
 			  s + "Unknown"
 		  end %>
-	<br />
+	</div>
 
-	<% s = "<div class='prop-show-details-titles'>
-	  Style: </div>".html_safe %>
+	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
+	  Style: </span>".html_safe %>
 	<%= if (@property.style != nil )  
 		    s +	@property.style
 		  else
 			  s + "Unknown"
 		  end %>
-	<br />
+	</div>
 
-	<div class="prop-show-details-titles">Original Owner: </div>
-	<%= if ( @property.originalowner != nil )  
-			  @property.originalowner 
-		  else
-			  "Unknown"
-		  end %>
-	<br />
+  <div class='hanging-indent'>
+  	<span class="ps-details-titles">Original Owner: </span>
+  	<%= if ( @property.originalowner != nil )  
+  			  @property.originalowner 
+  		  else
+  			  "Unknown"
+  		  end %>
+  </div>
 
-	<% s = "<div class='prop-show-details-titles'>
-	  Original Owner Spouse: </div>".html_safe %>
+	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
+	  Original Owner Spouse: </span>".html_safe %>
 	<%= if ( @property.originalownerspouse != nil )  
-			  s + @property.originalownerspouse + "<br />".html_safe
+			  s + @property.originalownerspouse + "</div>".html_safe
 		  end %>
 
-	<% s = "<div class='prop-show-details-titles'>
-	  Original Owner Occupation: </div>".html_safe %>
+	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
+	  Original Owner Occupation: </span>".html_safe %>
 	<%= if ( @property.originalowneroccupation != nil )  
-			  s + @property.originalowneroccupation + "<br />".html_safe
+			  s + @property.originalowneroccupation + "</div>".html_safe
 		  end %>
 
-	<% s = "<span class='prop-show-details-titles'>
+	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
 	  Original Cost: </span>".html_safe %>
 	<%= if (@property.originalcost != nil )  
 		    s + number_to_currency(@property.originalcost, :precision => 0)
 		  else
 			  s + "Unknown"
 		  end %>
-	<br />
+	</div>
 
-	<% s = "<div class='prop-show-details-titles'>
-	  Original Lot Size: </div>".html_safe %>
+	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
+	  Original Lot Size: </span>".html_safe %>
 	<%= if (@property.originallotsize != nil ) then 
 		    s +	@property.originallotsize
 		  else
 			  s + "Unknown"
 		  end %>
-	<br />
+	</div>
 
   <!-- hide this field entirely unless it's filled in -->
-	<% s = "<span class='prop-show-details-titles'>
+	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
 	  Moved on to Property: </span>".html_safe %>
 	<%= if (@property.movedontoproperty != nil ) then
-				s + @property.movedontoproperty + "<br />".html_safe
+				s + @property.movedontoproperty + "</div>".html_safe
 		  end %>
 
   <!-- hide this field entirely unless it's filled in -->
-	<% s = "<div class='prop-show-details-titles'>
-	  Place of Business: </div>".html_safe %>
+	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
+	  Place of Business: </span>".html_safe %>
 	<%= if (@property.placeofbusiness != nil) then 
-				s +	@property.placeofbusiness + "<br />".html_safe
+				s +	@property.placeofbusiness + "</div>".html_safe
 		  end %>
 
   <!-- hide this field entirely unless it's filled in -->
-	<% s = "<span class='prop-show-details-titles'>
+	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
 	  Street Direction: </span>".html_safe %>
 	<%= if (@property.streetdirection != nil) then 
-		    s +	@property.streetdirection + "<br />".html_safe
+		    s +	@property.streetdirection + "</div>".html_safe
 		  end %>
 
   <!-- hide this field entirely unless it's filled in -->
-	<% s = "<div class='prop-show-details-titles'>
-	  Address Notes: </div>".html_safe %>
+	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
+	  Address Notes: </span>".html_safe %>
 	<%= if (@property.addressnote != nil) then 
-		    s +	@property.addressnote + "<br />".html_safe
+		    s +	@property.addressnote + "</div>".html_safe
 		  end %>
 
   <!-- hide this field entirely unless it's filled in -->
-	<% s = "<div class='prop-show-details-titles'>
-	  Quadrant: </div>".html_safe %>
+	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
+	  Quadrant: </span>".html_safe %>
 	<%= if (@property.quadrant != nil) then 
-		    s +	@property.quadrant + "<br />".html_safe
+		    s +	@property.quadrant + "</div>".html_safe
 		  end %>
 
   <!-- hide this field entirely unless it's filled in -->
-	<% s = "<span class='prop-show-details-titles'>
+	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
 	  Type: </span>".html_safe %>
 	<%= if (@property.type != nil) then 
-		    s +	@property.type.capitalize + "<br />".html_safe
+		    s +	@property.type.capitalize + "</div>".html_safe
 		  end %>
 
-	<div id="prop-show-note-sources">
+	<div id="ps-note-sources">
 	<%= if (@property.notes_shpo_and_sources != nil) then 
 		    markdown(@property.notes_shpo_and_sources)
 		  end %>
 	</div>
 	
-	<!-- Significance code: Eligible for California Historical Resources Inventory<br /> -->
+	<!-- Significance code: Eligible for California Historical Resources Inventory<br> -->
 	
-</div> <!-- prop-show-db-details -->
+</div> <!-- ps-db-details -->
 
 <!--
 <div id="googlemap">
@@ -241,9 +246,9 @@
 <div id="map"></div>
 -->
 
-<div id="prop-show-search-again-container">
-	<button class="btn  btn--wide-square-bottom" 
+<div id="ps-search-again-container">
+	<button class="btn-arrow-anim  btn-arrow-anim--wide-square-bottom" 
 		type="button" onclick="propertyShowSearchAgainClicked()">
-		<span class=".btn__text">Search Again </span>
+		<span class=".btn-arrow-anim__text">Search Again </span>
 	</button>
 </div>

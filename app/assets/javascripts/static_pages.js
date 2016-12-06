@@ -126,7 +126,7 @@ function onLoadEventRootHomeHelper() {
 	// on FireFox and Edge, but not Chrome.  So, the solution was to
 	// force the code to run after bgimg was loaded via the following line:
 	// --- this section was first stab
-	//   document.getElementById("bgimg").addEventListener('load', loadBGImgHandler);
+	//   document.getElementById("sp-home-bg-img").addEventListener('load', loadBGImgHandler);
 	// However, if image is already cached, the load event never gets called
 	// on IE 11.321, so need to also set it up here to cover that case
 	//   loadBGImgHandler();
@@ -136,7 +136,7 @@ function onLoadEventRootHomeHelper() {
 	$(window).resize(resizeBGImgRootHome); // set callback for whenever browser size changes
 	
 	// See [1] in header comments		
-	$('#inputid').select2({
+	$('#sp-home-addr-select2').select2({
 	  placeholder: RH__SELECT2_DEFAULT_TEXT, 
 	  allowClear: true,
 	  ajax: {
@@ -163,8 +163,8 @@ function onLoadEventRootHomeHelper() {
 /////////////////////////////////////////////////////////////////////////////
 function loadBGImgHandler() {
 	g_RootHome_BGImgAspectRatio = 
-		document.getElementById('bgimg').width / 
-		document.getElementById('bgimg').height;
+		document.getElementById("sp-home-bg-img").width / 
+		document.getElementById("sp-home-bg-img").height;
 	resizeBGImgRootHome();	
 }
 
@@ -206,7 +206,7 @@ function resizeBGImgRootHome() {
 		
 	var fDOMAspectRatio = g_RootHome_BrowserWinInnerWidth/ g_RootHome_BrowserWinInnerHeight;
 	
-	var img = document.getElementById('bgimg'); 
+	var img = document.getElementById("sp-home-bg-img"); 
 
 	// **** TODO: KLUDGE WARNING ****
 	//
@@ -229,17 +229,17 @@ function resizeBGImgRootHome() {
 		if (DEBUG) console.log("Setting BG IMG height to DOM height...");
 		img.height = g_RootHome_BrowserWinInnerHeight;
 		img.width = g_RootHome_BGImgAspectRatio * img.height;
-		$("#bgimg").css("left", - (img.clientWidth/2.0 - g_RootHome_BrowserWinInnerWidth/2.0));
+		$("#sp-home-bg-img").css("left", - (img.clientWidth/2.0 - g_RootHome_BrowserWinInnerWidth/2.0));
 	} else { 
 		// Else DOM is wide and not tall - so set the bg image to the 
 		// DOM width, and then scale the vertical appropriately
 		if (DEBUG) console.log("Setting BG IMG width to DOM width...");
-		$("#bgimg").css("left", 0);
+		$("#sp-home-bg-img").css("left", 0);
 		img.width = g_RootHome_BrowserWinInnerWidth;
 		img.height = img.width / g_RootHome_BGImgAspectRatio;
 	}
 
-	$('.select2-container--default').width($('#textboxcontainer').width());
+	$('.select2-container--default').width($('#sp-home-addr-container').width());
 }	
 
 //
@@ -247,10 +247,10 @@ function resizeBGImgRootHome() {
 //
 
 function rootHomeSearchClicked() {
-	$(".buttontext").html("Looking...");
-	if ( $("#inputid").val() > 0 ) {
+	$(".btn-arrow-anim__text").html("Looking...");
+	if ( $("#sp-home-addr-select2").val() > 0 ) {
 		// TODO DDC: probably use erb and a named route below
 		window.location.href = "properties/" + 
-			$("#inputid").val();
+			$("#sp-home-addr-select2").val();
 	}
 }

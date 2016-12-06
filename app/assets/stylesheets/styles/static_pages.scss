@@ -8,131 +8,153 @@
 // This defines how the homepage looks as well.
 //
 /////////////////////////////////////////////////////////////////////////////
-@import "../base/globals";
+//@import "../base/globals";
 
+// Globals used only in this file
+$g-sp-home-screen-width-min-desktop: 780px;
+// At this size, make the address input area span the entire screen
+// to make room for the longer addresses.
+
+$g-sp-home-screen-width-phone: 400px;
+// At this size or smaller, we make the "Architectural Database" font
+// smaller, and we move the box up to just under the header, so that
+// select2 has room to display the search results below the combobox,
+// because on-screen keyboards really obscure the dropdown list.
+
+/*
+ * Background image on home page
+ */
 
 /* below needed to prevent scrollbars when the bg image is scaled larger
  * than the DOM window in one or both directions */
-#bgimgcontainer {
-	position: relative;
-	width: 100%;
+#sp-home-bg-img-container {
 	height: 100%;
 	overflow: hidden;
+	position: relative;
+	width: 100%;
 }
 
-/* position needed so that a negative .left value can be used to 
- * center image when it's wider than the DOM */
-#bgimg {
-	position: relative; 
-}
+	/* position needed so that a negative .left value can be used to 
+	 * center image when it's wider than the DOM */
+	#sp-home-bg-img {
+		position: relative; 
+	}
 
 /* Start: Address input bar with search button */
 
-#ahadsubtitlebox {
+#sp-home-ad-box-container {
+	background-color: white;
+	color: white;
+	margin-left:  20%;
+	margin-right: 20%;
 	position: absolute;
 	top: 40%;
-	margin-left: 20%;
-	margin-right: 20%;
 	width: calc(60% - 28px); 
 	/* -10 px for borders, -18 px for scrollbar width
 	 * When served directly from file, and not via rails,
 	 * this was not needed.  ?!?
 	 */
-	color: white;
-	background-color: white;
 }
 
-#ahadsubtitle {
-	position: absolute;
-	width: 100%;
-	top: 0px;
-	text-align: center;
-	font-size: 30pt;
-	
-	color: white;
-	background-color: rgba(55,55,55,.5);
-	border-radius: 15px;
-	padding: 10px;
-	border-color: rgba(255,255,255,.9);
-	border-width: 5px;
-	border-style: solid;
-	padding-bottom: 25px;
-}
+	#sp-home-ad-box {
+		background-color: rgba(55,55,55,.5);
+		border-radius: 15px;
+		border-color: rgba(255,255,255,.9);
+		border-width: 5px;
+		border-style: solid;
+		color: white;
+		font-size: 30pt;
+		padding: 10px;
+		padding-bottom: 25px;
+		position: absolute;
+		text-align: center;
+		top: 0px;
+		width: 100%;
+	}
 
-@media screen and (max-width: 780px) {
-	#app-layout-header-bar {
-		//height: 100px; // Not needed.  Sized via code in resizebg()
-	}
-	
-	#ahadsubtitlebox {
-		margin-left: 0;
-		margin-right: 0;
-		width: calc(100% - 30px); 
-		/* 10 px for borders, 18 px for scrollbar 
-		 * When served directly from file, and not via rails,
-		 * this was not needed.  ?!?
-		 * Needed the additional -2 (28+2=30) because border
-		 * was still making it a few pixels wider than screen
-		 * width.  Quirky.
-		 */
-	}
-}
-
-/* Below is to make the "Architectural Database" title
- * look good on the 400px display of my Samsung Galaxy Light
- */
-@media screen and (max-width: 400px) {
-	#ahadsubtitle {
-		font-size: 28px;
-	}
-	
-	/* Move it up on cell phones, so Select2 hopefully has
-	 * a chance to display the dropdown below the input
-	 * box... there's a tendency for the cell phone on-screen
-	 * keyboard to cause select2 to put the dropdown above
-	 * the input box, and this obscures it and you can't
-	 * see what you're typing.  Oh, the joys of mobile!
+	/* Make container for address search box full screen at this point,
+	 * otherwise the select2 is too narrow to show entire addresses.
 	 */
-	#ahadsubtitlebox {
-		top: 15%;
+	@media screen and (max-width: $g-sp-home-screen-width-min-desktop) {
+		#sp-home-ad-box-container {
+			margin-left:  0;
+			margin-right: 0;
+			width: calc(100% - 30px); 
+			/* 10 px for borders, 18 px for scrollbar 
+			 * When served directly from file, and not via rails,
+			 * this was not needed.  ?!?
+			 * Needed the additional -2 (28+2=30) because border
+			 * was still making it a few pixels wider than screen
+			 * width.  Quirky Lurkey the CSS is Falling.
+			 */
+		}
 	}
-}
 
-#inputcontainer {
-	position: relative;
-	padding-top: 10px;
-	font-size: initial;
-	width: 100%;
-	margin-left: auto;
-	margin-right: auto;
-}
+	/* Below is to make the "Architectural Database" title
+	 * look good on the 400px display of my Samsung Galaxy Light
+	 */
+	@media screen and (max-width: $g-sp-home-screen-width-phone) {
+		#sp-home-ad-box {
+			font-size: 28px; /* Keep "Architectural Database" on one row */
+		}
+		
+		/* Move it up on cell phones, so Select2 hopefully has
+		 * a chance to display the dropdown below the input
+		 * box... there's a tendency for the cell phone on-screen
+		 * keyboard to cause select2 to put the dropdown above
+		 * the input box, and this obscures it and you can't
+		 * see what you're typing.  Oh, the joys of mobile!
+		 */
+		#sp-home-ad-box-container {
+			top: 15%;
+		}
+	}
+
+	#sp-home-addr-container {
+		float: left; /* to allow search button to right */
+		padding-top: 10px;
+		width: calc(100% - 130px); /* to make room for search button */
+	}
+  /* see media query for #sp-home-addr-container just a few lines below */
+  
+		#sp-home-addr-select2 {
+			border-radius: 5px 0px 0px 5px;
+			border-width: 0px;
+			color: rgb(80, 80, 80);
+			font-size: 24px; 
+		}
+
+	#sp-home-srch-btn-container {
+		display: inline-block;
+		padding-top: 10px;
+		width: 125px; /* keep in sync with width in #sp-home-addr-container */
+	}
+
+	// 570 matches the fixed height with the 90% scale height to the 
+	// pixel on FireFox... did this through manual trial and error
+	@media screen and (max-width: 570px) {
+		/* When screen gets small, make select2 100% wide, with
+		 * search box centered below it.
+		 */
+		#sp-home-addr-container {
+			width: 100%;
+		}
 	
-#textboxcontainer {
-	display: inline-block;
-	width: calc(100% - 130px); /* to make room for search button */
+		#sp-home-srch-btn-container {
+			display		: block;
+			margin-left	: auto;
+			margin-right: auto;
+		}
+	}
 
-	margin-right: auto;
-	margin-left: auto;
-
-	float:left;
-}
-
-#inputid {
-	width: 100%;
-
-	font-size: 24px; 
-	border-radius: 5px 0px 0px 5px;
-	border-width: 0px;
-	color: rgb(80, 80, 80);
-}
-
-#buttoncontainer {
-	display: inline-block;
-	width: 125px; /* keep in sync with width in #textboxcontainer */
-}
+/* 
+ * End: Address input bar with search button 
+ */
 
 
-/* End: Address input bar with search button */
+/* 
+ * Start: select2 address dropdown styling
+ */
 
 select:invalid { color: gray; }
 
@@ -161,25 +183,12 @@ select:invalid { color: gray; }
 /* Below is to make the "Please enter an Altadena address..." 
  * fit on the 400px display of my Samsung Galaxy Light
  */
-@media screen and (max-width: 400px) {
+@media screen and (max-width: $g-sp-home-screen-width-phone) {
 	.select2-container--default .select2-selection--single {
 		font-size	  : 18px; /* 1.2em; */
 	}
 }
 
-// 570 matches the fixed height with the 90% scale height to the 
-// pixel on FireFox... did this through manual trial and error
-@media screen and (max-width: 570px) {
-	/* When screen gets small, make select2 100% wide, with
-	 * search box centered below it.
-	 */
-	#textboxcontainer {
-		width: 100%;
-	}
-
-	#buttoncontainer {
-		display		: block;
-		margin-left	: auto;
-		margin-right: auto;
-	}
-}
+/* 
+ * End: select2 address dropdown styling
+ */
