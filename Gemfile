@@ -11,6 +11,7 @@ gem 'jquery-rails', '4.1.1'
 gem 'turbolinks',   '5.0.1'
 gem 'jbuilder',     '2.4.1'
 gem 'redcarpet',    '~> 3.0.0'
+gem 'normalize-scss', '~> 4.0', '>= 4.0.3'
 
 group :development, :test do
 #  gem 'sqlite3', '1.3.11'

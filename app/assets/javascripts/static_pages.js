@@ -247,9 +247,9 @@ function resizeBGImgRootHome() {
 //
 
 function rootHomeSearchClicked() {
-	$(".btn-arrow-anim__text").html("Looking...");
 	if ( $("#sp-home-addr-select2").val() > 0 ) {
 		// TODO DDC: probably use erb and a named route below
+		$(".btn-arrow-anim__text").html("Looking...");
 		window.location.href = "properties/" + 
 			$("#sp-home-addr-select2").val();
 	}
