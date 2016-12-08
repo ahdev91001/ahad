@@ -8,8 +8,8 @@
 //
 // onLoadEventRootHomeHelper():
 //
-//   Code for (turbolinks) on-load event for root/home page (static_pages#home)
-//   Called from main.js#turbolinks:load().
+//   Code for (turbolinks) on-load event for root/home page 
+//   (static_pages#home). Called from main.js#turbolinks:load().
 //
 // loadBGImgHandler(): Sets the global aspect ratio of the root/home bg image.
 //
@@ -114,6 +114,7 @@ var RH__SELECT2_DEFAULT_TEXT = "Enter an Altadena address here...";
 //
 //
 /////////////////////////////////////////////////////////////////////////////
+/** Description of onLoadEventRootHomeHelper */
 function onLoadEventRootHomeHelper() {
 	if (DEBUG) console.log("Initializing home page vars...");
 	
@@ -126,30 +127,33 @@ function onLoadEventRootHomeHelper() {
 	// on FireFox and Edge, but not Chrome.  So, the solution was to
 	// force the code to run after bgimg was loaded via the following line:
 	// --- this section was first stab
-	//   document.getElementById("sp-home-bg-img").addEventListener('load', loadBGImgHandler);
+	//   document.getElementById("sp-home-bg-img").
+	//     addEventListener('load', loadBGImgHandler);
 	// However, if image is already cached, the load event never gets called
 	// on IE 11.321, so need to also set it up here to cover that case
 	//   loadBGImgHandler();
 	// --- but intermittently doesn't work on Chrome Win 10
 	//     so trying the line below instead
 	$(window).load(loadBGImgHandler);
-	$(window).resize(resizeBGImgRootHome); // set callback for whenever browser size changes
+	$(window).resize(resizeBGImgRootHome); 
+	// set callback for whenever browser size changes
 	
 	// See [1] in header comments		
 	$('#sp-home-addr-select2').select2({
 	  placeholder: RH__SELECT2_DEFAULT_TEXT, 
 	  allowClear: true,
 	  ajax: {
-	    url: "properties.json",
+			url: "properties.json",
 			// url: "<%= properties_path %>.json", // erb not working it seems
-	    dataType: 'json',
-	    delay: 250,
-	    processResults: function (data) {
+			dataType: 'json',
+			delay: 250,
+			processResults: function (data) {
 				return { 
-					results: data.map(function (x) { return { id: x.id, text: x.address1} } ) 
+						results: data.map(function (x) 
+							{ return { id: x.id, text: x.address1 } } ) 
 				}
 			}
-	  }
+		}
 	});
 }
 
@@ -190,8 +194,8 @@ function loadBGImgHandler() {
 // TODO 12/3/16 DDC: Find a way to remove the ever-present vertical scrollbar
 //   and the little bit of white at the bottom of the page.
 //   
-// TODO 12/3/16 DDC: In case (B), crop the height so it doesn't cause a vertical
-//   scrolling situation.
+// TODO 12/3/16 DDC: In case (B), crop the height so it doesn't cause a 
+//   vertical scrolling situation.
 //
 /////////////////////////////////////////////////////////////////////////////
 function resizeBGImgRootHome() {
@@ -204,7 +208,8 @@ function resizeBGImgRootHome() {
 		|| document.documentElement.clientHeight
 		|| document.body.clientHeight;
 		
-	var fDOMAspectRatio = g_RootHome_BrowserWinInnerWidth/ g_RootHome_BrowserWinInnerHeight;
+	var fDOMAspectRatio = g_RootHome_BrowserWinInnerWidth / 
+		g_RootHome_BrowserWinInnerHeight;
 	
 	var img = document.getElementById("sp-home-bg-img"); 
 
@@ -217,8 +222,10 @@ function resizeBGImgRootHome() {
 	// set... so hardcoding it below to see if that's the situation (12/1/16)
 	//
 	// 1900 / 945 = 2.01058 for Altadena_littlehouse_1900_wide.jpg
-	if ( (g_RootHome_BGImgAspectRatio === null) || (g_RootHome_BGImgAspectRatio === undefined) || 
-	     (g_RootHome_BGImgAspectRatio < 0.1) ) g_RootHome_BGImgAspectRatio = 2.01058;
+	if ( (g_RootHome_BGImgAspectRatio === null) || 
+	     (g_RootHome_BGImgAspectRatio === undefined) || 
+	     (g_RootHome_BGImgAspectRatio < 0.1) ) 
+		g_RootHome_BGImgAspectRatio = 2.01058;
 	
 	if (DEBUG) {
 		console.log("DOM Aspect Ratio: " + fDOMAspectRatio);
@@ -229,7 +236,8 @@ function resizeBGImgRootHome() {
 		if (DEBUG) console.log("Setting BG IMG height to DOM height...");
 		img.height = g_RootHome_BrowserWinInnerHeight;
 		img.width = g_RootHome_BGImgAspectRatio * img.height;
-		$("#sp-home-bg-img").css("left", - (img.clientWidth/2.0 - g_RootHome_BrowserWinInnerWidth/2.0));
+		$("#sp-home-bg-img").css("left", - 
+			(img.clientWidth/2.0 - g_RootHome_BrowserWinInnerWidth/2.0));
 	} else { 
 		// Else DOM is wide and not tall - so set the bg image to the 
 		// DOM width, and then scale the vertical appropriately
