@@ -24,7 +24,6 @@
 //
 // TODO:
 //
-//   Fix all the css names.
 //
 /////////////////////////////////////////////////////////////////////////////
 'use strict';
@@ -44,33 +43,57 @@
 //
 // OLPSH: onLoadPropertyShowHelper related
 //
+/** @constant */
 var OLPSH__HOUSE_IMG_FADE_IN_MSEC      = 1500;
+/** @constant */
 var OLPSH__HOUSE_DETAILS_FADE_IN_MSEC  = 800;
+
+/**
+ * The *fixed* title address will start fading in when the
+ * *scrolling* title address is this far below the top of the
+ * screen in px.
+ * @constant
+ */
 var OLPSH__ADDRESS_FADE_IN_START_PX    = 50;
-// The *fixed* title address will start fading in when the
-// *scrolling* title address is this far below the top of the
-// screen.
 
+/**
+ * The *fixed* title address will become 100% opaque when
+ * the *scrolling* title address is scrolled this far off the top
+ * of the screen in px.
+ * @constant
+ */
 var OLPSH__ADDRESS_FADE_IN_DISTANCE_PX = 200; 
-// The *fixed* title address will become 100% opaque when
-// the *scrolling* title address is scrolled this far off the top
-// of the screen.
 
+/**
+ * Litte 'Search Again' box at the bottom stays hidden for
+ * BEFORE_REVEAL msec and then slides up in REVEAL msec.
+ * @constant
+ */
 var OLPSH__SEARCH_AGAIN_BEFORE_REVEAL_MSEC = 1100; 
+
+/**
+ * Little 'Search Again' box at the bottom stays hidden for
+ * BEFORE_REVEAL msec and then slides up in REVEAL msec.
+ * @constant
+ */
 var OLPSH__SEARCH_AGAIN_REVEAL_MSEC        = 800; 
-// Litte 'Search Again' box at the bottom stays hidden for
-// BEFORE_REVEAL msec and then slides up in REVEAL msec.
 
 //
 // RWEPS: resizeWindowEventPropertyShow related
 //
-var RWEPS__ADDRESS_TOP_GAP      = 12;
-// How far in px below header banner to position the fade-in
-// address div.
 
+/**
+ * How far in px below header banner to position the fade-in address div.
+ * @constant
+ */
+var RWEPS__ADDRESS_TOP_GAP      = 12;
+
+/**
+ * Padding in px to right & left of address text within the fade-in
+ * address div.
+ * @constant
+ */
 var RWEPS__ADDRESS_TEXT_PADDING = 10;
-// Padding in px to right & left of address text within the fade-in
-// address div.
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -83,24 +106,21 @@ var RWEPS__ADDRESS_TEXT_PADDING = 10;
 //
 //
 
-/////////////////////////////////////////////////////////////////////////////
-// #onLoadEventPropertyShowHelper()
-//
-// Code for (turbolinks) on-load event for property#show page (view a single
-// property).  Called from main.js#turbolinks:load().
-//
-// Inputs : None
-// Outputs: None
-// Returns: Nothing
-// Events : Sets window.resize() and window.scroll()
-//
-// Notes  :
-//
-// Set up initial animations upon loading, and set up scroll event
-// to handle the fading in/out of the address at the top that shows
-// up when the title address scrolls off the top.
-//
-/////////////////////////////////////////////////////////////////////////////
+/** *************************************************************************
+ * @summary Code for (turbolinks) on-load event for property#show page.
+ * 
+ * @desc Set up initial animations upon loading, and set up scroll event
+ * to handle the fading in/out of the address at the top that shows
+ * up when the title address scrolls off the top.
+ * 
+ * Sets window.resize() and window.scroll() events.
+ * 
+ * Called from main.js#{@link turbolinks:load}.
+ * 
+ * @author Derek Carlson
+ * @since 12/7/2016
+ * 
+ *****************************************************************************/
 function onLoadEventPropertyShowHelper() {
 
   if (DEBUG) console.log("We're on a property display page...");
@@ -113,7 +133,6 @@ function onLoadEventPropertyShowHelper() {
   resizeWindowEventPropertyShow();
   
   // FADE in the content - whoosh!
-  
   $("#ps-photo-main-container").css("opacity", 0);
   $("#ps-photo-main-container").animate({opacity: [1, "linear"]}, 
 	  OLPSH__HOUSE_IMG_FADE_IN_MSEC);
@@ -135,7 +154,7 @@ function onLoadEventPropertyShowHelper() {
       removeClass("psatzc-pre-animate");
     $("#ps-addr-title-zoom-container").
       addClass("psatzc-animate-in");			
-  }, 100); // 100ms was arbitrary, and seems to work
+  }, 100); // 100ms was arbitrary, and seems to work (DDC)
 
   // SNEAK in that search button at the bottom!  Zoop!
   
@@ -147,135 +166,147 @@ function onLoadEventPropertyShowHelper() {
     $("#ps-search-again-container").animate({bottom: [-1, "linear"]}, 
       OLPSH__SEARCH_AGAIN_REVEAL_MSEC);
   }, OLPSH__SEARCH_AGAIN_BEFORE_REVEAL_MSEC);
-  
 
   // Below sets up scroll event so that the fixed address at the
   // top of the screen fades in as soon as the address titlebar
   // scrolls off the top of the screen, and visa-versa.
   $(window).on('scroll', function () {
     var scrollTop     = $(window).scrollTop(),
-		    elementOffset = $('#ps-addr-title-zoom').offset().top,
-		    distance      = (elementOffset - scrollTop - 
-		                     OLPSH__ADDRESS_FADE_IN_START_PX),
-		    opacity       = 0.0;
+        elementOffset = $('#ps-addr-title-zoom').offset().top,
+        distance      = (elementOffset - scrollTop - 
+                        OLPSH__ADDRESS_FADE_IN_START_PX),
+        opacity       = 0.0;
 				
     if (distance < -OLPSH__ADDRESS_FADE_IN_DISTANCE_PX) {
-    	opacity = 1.0;
+      opacity = 1.0;
     } else if (distance > 0) {
-    	opacity = 0.0;
+      opacity = 0.0;
     } else {
-    	opacity = (-distance / OLPSH__ADDRESS_FADE_IN_DISTANCE_PX);
+      opacity = (-distance / OLPSH__ADDRESS_FADE_IN_DISTANCE_PX);
     }
     $('#ps-addr-title-fader').css("opacity", opacity);
   }); // end window scroll event
-
 } // end onLoadEventPropertyShowHelper()
 
 
-/////////////////////////////////////////////////////////////////////////////
-// #resizeWindowEventPropertyShow()
-//
-// The window resize() code for property#show page.
-//
-// Inputs : None
-// Outputs: None
-// Returns: Nothing
-// 
-// Notes  :
-//
-// Keep the fade-in/fade-out address div at the top of the page
-// just below the header bar (which shrinks when the browser gets narrow
-//  or on a phone)
-//
-// Dynamically make the address container width just big enough for the
-// contained text.
-//
-/////////////////////////////////////////////////////////////////////////////
+/** *************************************************************************
+ * @summary window.resize event for properties#show page.
+ * 
+ * @desc Keep the fade-in/fade-out address div at the top of the page
+ * just below the header bar (which shrinks vertically when the browser
+ * gets narrow or on a phone).
+ * 
+ * Dynamically make the fade-in/fade-out address container width just
+ * big enough for the contained text.
+ *
+ * @author Derek Carlson
+ * @since 12/7/2016
+ * 
+ *****************************************************************************/
 function resizeWindowEventPropertyShow() {
-	var addressFadeInOutAtTop	= document.getElementById("ps-addr-title-fader");
+  var addressFadeInOutAtTop = document.getElementById("ps-addr-title-fader");
 	
-	$("#ps-addr-title-fader").css("top",
-	  document.getElementById("app-layout-header-bar").clientHeight + 
-	  RWEPS__ADDRESS_TOP_GAP);
+  $("#ps-addr-title-fader").css("top",
+    document.getElementById("app-layout-header-bar").clientHeight + 
+    RWEPS__ADDRESS_TOP_GAP);
 
-	$("#ps-addr-title-fader").
-	  width($("#ps-addr-title-zoom__text").width() + 
-	  RWEPS__ADDRESS_TEXT_PADDING);
-	// make width of containing div wide enough for text width in
-	// inside <span>, otherwise pops onto 2 lines intermittently
-	// with no padding.
+  $("#ps-addr-title-fader").
+    width($("#ps-addr-title-zoom__text").width() + 
+    RWEPS__ADDRESS_TEXT_PADDING);
+  // make width of containing div wide enough for text width in
+  // inside <span>, otherwise pops onto 2 lines intermittently
+  // with no padding.
 }
 
 
-/////////////////////////////////////////////////////////////////////////////
-// #googleMapInitialize() -- IP DDC 12/3/16
-//
-/////////////////////////////////////////////////////////////////////////////
+/** *************************************************************************
+ * @summary Initialize google map to a specific address.
+ *
+ * @todo Get this working. (IP 12/3/16 DDC)
+ * 
+ * @author Derek Carlson
+ * @since 12/7/2016
+ * 
+ *****************************************************************************/
 function googleMapInitialize() {
 	
-	var locations = [
-			["348 Acacia St.",    34.183456, -118.158134, 1]
-		];
+  var locations = [
+    ["348 Acacia St.",    34.183456, -118.158134, 1]
+  ];
 
-	if (window.map != null) {
-		window.map = null; // free up prior memory reference
-	}
+  if (window.map != null) {
+    window.map = null; // free up prior memory reference
+  }
 	
-	window.map = new google.maps.Map(document.getElementById('map'), {
-		mapTypeId: google.maps.MapTypeId.ROADMAP
-	});
+  window.map = new google.maps.Map(document.getElementById('map'), {
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  });
 
-	var infowindow = new google.maps.InfoWindow();
+  var infowindow = new google.maps.InfoWindow();
 
-	var bounds = new google.maps.LatLngBounds();
+  var bounds = new google.maps.LatLngBounds();
 
-	var i, marker;
+  var i, marker;
 	
-	for (i = 0; i < locations.length; i++) {
-		marker = new google.maps.Marker({
-			position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-			map: map
-		});
+  for (i = 0; i < locations.length; i++) {
+    marker = new google.maps.Marker({
+      position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+      map: map
+    });
 
-		infowindow.setContent(locations[i][0]);
-		infowindow.open(map, marker);
+    infowindow.setContent(locations[i][0]);
+    infowindow.open(map, marker);
 
-		bounds.extend(marker.position);
+    bounds.extend(marker.position);
 
-		google.maps.event.addListener(marker, 'click', (function (marker, i) {
-			return function () {
-				infowindow.setContent(locations[i][0]);
-				infowindow.open(map, marker);
-			}
-		})(marker, i));
-	}
+    google.maps.event.addListener(marker, 'click', (function (marker, i) {
+      return function () {
+        infowindow.setContent(locations[i][0]);
+        infowindow.open(map, marker);
+      }
+    })(marker, i));
+  }
 
-	map.fitBounds(bounds);
+  map.fitBounds(bounds);
 	
-	var listener = google.maps.event.addListener(map, "idle", function () {
-		map.setZoom(15);
-		google.maps.event.removeListener(listener);
-	});
+  var listener = google.maps.event.addListener(map, "idle", function () {
+    map.setZoom(15);
+    google.maps.event.removeListener(listener);
+  });
 }
 
-/////////////////////////////////////////////////////////////////////////////
-// #loadGoogleMapScript() -- IP DDC 12/3/16
-//
-// Idea... assign name to element, so can release it
-// and then reassign it... and use a global var to
-// store the address.  Then call this each time the property changes.
-/////////////////////////////////////////////////////////////////////////////
+
+/** *************************************************************************
+ *
+ * @todo Get this working. (IP 12/3/16 DDC)
+ * 
+ * @author Derek Carlson
+ * @since 12/7/2016
+ * 
+ *****************************************************************************/
+/* Idea... assign name to element, so can release it
+ * and then reassign it... and use a global var to
+ * store the address.  Then call this each time the property changes.
+ */
 function loadGoogleMapScript() {
-	var script = document.createElement('script');
-	script.type = 'text/javascript';
-	script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&' + 'callback=googleMapInitialize';
-	document.body.appendChild(script);
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&' + 'callback=googleMapInitialize';
+  document.body.appendChild(script);
 }
 
 //
 // property#show functions tied to HTML
 //
 
+
+/** *************************************************************************
+ * @summary Executes when Search Again button clicked.  Note: Tied to HTML.
+ *
+ * @author Derek Carlson
+ * @since 12/7/2016
+ * 
+ *****************************************************************************/
 function propertyShowSearchAgainClicked() {
 		window.location.href = "/"
 }
@@ -288,4 +319,3 @@ function propertyShowSearchAgainClicked() {
 // property#index
 //
 //
-

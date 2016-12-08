@@ -19,3 +19,7 @@
 
 # Ignore Byebug command history file.
 .byebug_history
+
+# Ignore jsdocs that are dynamically created anyway
+/jsdoc/jsdocout/*
+

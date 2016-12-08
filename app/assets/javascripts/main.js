@@ -31,9 +31,13 @@
 /* global onLoadEventRootHomeHelper */
 
 // From properties.js
-/* global	onLoadEventPropertyShowHelper */
+/* global onLoadEventPropertyShowHelper */
 
-// Global debug variable for logging
+
+/**
+ * Global debug variable for logging.
+ * @constant
+ */
 var DEBUG = true;  // "const" doesn't work in IE 8, 9, 10
 
 
@@ -42,51 +46,69 @@ var DEBUG = true;  // "const" doesn't work in IE 8, 9, 10
 /////////////////////////////////////////////////////////////////////////////
 
 
-/////////////////////////////////////////////////////////////////////////////
-// Event: #document.ready()
-//
-// 'ready' is fired first time, even with turbolinks
-/////////////////////////////////////////////////////////////////////////////
+/** *************************************************************************
+ * @function document.ready
+ * 
+ * @desc 'ready' is fired first time site is first loaded, 
+ * even with turbolinks.
+ * 
+ * @author Derek Carlson
+ * @since 12/7/2016
+ * 
+ *****************************************************************************/
 $(document).on('ready', function (e) {
   if (DEBUG) console.log("Event: ready() at: " + e.timeStamp);
 });
 
-/////////////////////////////////////////////////////////////////////////////
-// Event: #window.load()
-//
-// Used to load Google Map init script.
-/////////////////////////////////////////////////////////////////////////////
+
+/** *************************************************************************
+ * @function window.load
+ * 
+ * @desc Used to load Google Map init script.
+ * 
+ * @author Derek Carlson
+ * @since 12/7/2016
+ * 
+ *****************************************************************************/
 $(window).on('load', function (e) {
 //	loadGoogleMapScript();
 });
 
-/////////////////////////////////////////////////////////////////////////////
-// Event: #turbolinks:load()
-//
-// Suspect below needs to be turbolinks:load, for when we are at
-// a non-home page, and we click back to the homepage and need the
-// bg image re-initialized.
-//
-// With Turbolinks, the page header is always the same and the
-// body is the only thing that gets swapped out when in-site
-// links are clicked.
-//
-// Thus, we only want certain code to run on certain pages,
-// but each page load is going to come through this event,
-// so we need to delegate to page-specific code here.
-//
-// I'm sure there's a cleaner, more proper way to deal with 
-// this, but haven't found it yet. Or, could just disable
-// Turbolinks.  But will give it a shot until the code
-// to deal with it gets too unruly.
-//
-/////////////////////////////////////////////////////////////////////////////
+
+/** *************************************************************************
+ * @function turbolinks:load
+ * 
+ * @desc Delegate page load code to various functions depending on which
+ * page (or type of page) is being loaded.
+ * 
+ * @author Derek Carlson
+ * @since 12/7/2016
+ * 
+ *****************************************************************************/
+/*
+ * Suspect below needs to be turbolinks:load, for when we are at
+ * a non-home page, and we click back to the homepage and need the
+ * bg image re-initialized.
+ *
+ * With Turbolinks, the page header is always the same and the
+ * body is the only thing that gets swapped out when in-site
+ * links are clicked.
+ *
+ * Thus, we only want certain code to run on certain pages,
+ * but each page load is going to come through this event,
+ * so we need to delegate to page-specific code here.
+ *
+ * I'm sure there's a cleaner, more proper way to deal with 
+ * this, but haven't found it yet. Or, could just disable
+ * Turbolinks.  But will give it a shot until the code
+ * to deal with it gets too unruly.
+ */
 $(document).on('turbolinks:load', function (e) {
 
-	if (DEBUG) {
-  	console.log("Got to turbolinks:load at " + e.timeStamp);
-  	console.log("URL: " + window.location.href);
-	}
+  if (DEBUG) {
+    console.log("Got to turbolinks:load at " + e.timeStamp);
+    console.log("URL: " + window.location.href);
+  }
   
   var page = "";
 
@@ -110,6 +132,6 @@ $(document).on('turbolinks:load', function (e) {
     onLoadEventRootHomeHelper();
   } else if (window.location.href.match(/properties\/\d+/)) {
     // property#show page -- e.g. /properties/12413
-		onLoadEventPropertyShowHelper(); // properties.js
+    onLoadEventPropertyShowHelper(); // properties.js
   } 
 });
