@@ -33,155 +33,152 @@ $g-screen-width-min-desktop: 880px;
  * psatzc-pre-animate and psatzc-animate-in classes.
  */
 #ps-addr-title-zoom-container {
-	background-color: rgba(255,255,255, .7);
-	border-radius: 10px 10px 10px 10px;
+  background-color: rgba(255,255,255, .7);
+  border-radius: 10px 10px 10px 10px;
   display: block; 
-	margin-left:  auto;
-	margin-right: auto;
-	opacity: 1;             /* [1] */
-	padding-top: 80px;
+  margin-left:  auto;
+  margin-right: auto;
+  opacity: 1;             /* [1] */
+  padding-top: 80px;
   position: relative; 
-	transform: scale(1, 1); /* [1] */
-	width: 58%;
+  transform: scale(1, 1); /* [1] */
+  width: 58%;
 }
 
-	#ps-addr-title-zoom-container.psatzc-pre-animate {
-		opacity: 0;
-		transform: scale(3, 3);
-	}
-	
-	#ps-addr-title-zoom-container.psatzc-animate-in {
-		opacity: 1.0;
-		transition        : 1.0s ease-out;
-		-webkit-transition: 1.0s ease-out;
-		transform : scale(1, 1);
-	}
-	
-	#ps-addr-title-zoom {
-		font-size: 38px;
-		text-align: center;
-		text-shadow: 4px 4px 4px #aaa;
-		width: 100%;
-	}
+  #ps-addr-title-zoom-container.psatzc-pre-animate {
+    opacity: 0;
+    transform: scale(3, 3);
+  }
+  
+  #ps-addr-title-zoom-container.psatzc-animate-in {
+    opacity: 1.0;
+    transform : scale(1, 1);
+    transition        : 1.0s ease-out;
+    -webkit-transition: 1.0s ease-out;
+  }
+  
+  #ps-addr-title-zoom {
+    font-size: 38px;
+    text-align: center;
+    text-shadow: 4px 4px 4px #aaa;
+    width: 100%;
+  }
 
-	// TODO: Why 780px?  Make a variable at the top?
-	// Read up on standard screen widths, phone, pad, and standardize
-	// all width code.
-	@media screen and (max-width: $g-screen-width-min-desktop) {
-		#ps-addr-title-zoom-container {
-			width: 88%;
-		}
-		
-		// Shrink title size on small screens
-		#ps-addr-title-zoom {
-			font-size: 28px;
-		}
-	}
+  @media screen and (max-width: $g-screen-width-min-desktop) {
+    #ps-addr-title-zoom-container {
+      width: 88%;
+    }
+    
+    // Shrink title size on small screens
+    #ps-addr-title-zoom {
+      font-size: 28px;
+    }
+  }
 
 //
 // Address at top that fades in when the initial address scrolls
 // off the top of the page, and that fades out when the initial
 // address scrolls back onto the page.
 //
-	
+  
 /* width set depending on text inside in property.js | 
  * resizeWindowPropertyView() 
  */
 #ps-addr-title-fader {
-	background-color: white;
-	border-color: rgba(0, 0, 0,.6);
-	border-radius: 15px;
-	border-width: 2px;
-	border-style: solid;
-	font-size: 34px;
-	font-weight: bold;
-	left: 0px;
-	margin-left:  auto;
-	margin-right: auto;
-	opacity: 0;
-	padding-left:  10px;
-	padding-right: 10px;
-	position: fixed;
-	right: 0px;
-	text-align: center;
-	text-shadow: 4px 4px 4px #aaa;
-	top: 100px;
+  background-color: white;
+  border-color: rgba(0, 0, 0,.6);
+  border-radius: 15px;
+  border-style: solid;
+  border-width: 2px;
+  font-size: 34px;
+  font-weight: bold;
+  left: 0px;
+  margin-left:  auto;
+  margin-right: auto;
+  opacity: 0;
+  padding-left:  10px;
+  padding-right: 10px;
+  position: fixed;
+  right: 0px;
+  text-align: center;
+  text-shadow: 4px 4px 4px #aaa;
+  top: 100px;
 }
 
-	@media screen and (max-width: $g-screen-width-min-desktop) {
-		#ps-addr-title-fader {
-			font-size: 28px;
-		}
-	}
-	
+  @media screen and (max-width: $g-screen-width-min-desktop) {
+    #ps-addr-title-fader {
+      font-size: 28px;
+    }
+  }
+  
 //
 // Photo of Property
 //
 
-#ps-photo-main-container {	
-  width: $g-ps-width-pct-for-wide-screens;
+#ps-photo-main-container {  
   margin-bottom: 20px;
   margin-left:  auto;
   margin-right: auto;
   opacity: 1; /* Note: opacity animated in event turbolinks:load */
+  width: $g-ps-width-pct-for-wide-screens;
 }
 
-	#ps-photo-main-no-photo {
-		text-align: center;
-	}
-	
-	#ps-photo-main {	
-		border: 1px solid grey;
-		box-shadow: 5px 5px 5px #888888;  
-		width: 100%;
-	}
+  #ps-photo-main-no-photo {
+    text-align: center;
+  }
+  
+  #ps-photo-main {  
+    border: 1px solid grey;
+    box-shadow: 5px 5px 5px #888888;  
+    width: 100%;
+  }
 
-	@media screen and (max-width: $g-screen-width-min-desktop) {
-		#ps-photo-main-container {	
-			width: $g-ps-width-pct-for-small-screens;
-		}
-	}
+  @media screen and (max-width: $g-screen-width-min-desktop) {
+    #ps-photo-main-container {  
+      width: $g-ps-width-pct-for-small-screens;
+    }
+  }
 
 //
 // All the property related text below the main photo
 //
 
 #ps-db-details {
-	font-size: 24px;
-	margin-left:  auto;
-	margin-right: auto;
-	margin-bottom: 30px;
-	opacity: 1;
-	width: $g-ps-width-pct-for-wide-screens;
+  font-size: 24px;
+  margin-bottom: 30px;
+  margin-left:  auto;
+  margin-right: auto;
+  opacity: 1;
+  width: $g-ps-width-pct-for-wide-screens;
 }
 
-	.hanging-indent {
-	  padding-left: $g-hanging-indent-px;
-	  text-indent: -$g-hanging-indent-px;
-	}
+  .hanging-indent {
+    padding-left: $g-hanging-indent-px;
+    text-indent: -$g-hanging-indent-px;
+  }
 
-	@media screen and (max-width: $g-screen-width-min-desktop) {
-		#ps-db-details {
-			font-size: 22px;
-			width: $g-ps-width-pct-for-small-screens;
-		}
-	}
+  @media screen and (max-width: $g-screen-width-min-desktop) {
+    #ps-db-details {
+      font-size: 22px;
+      width: $g-ps-width-pct-for-small-screens;
+    }
+  }
 
-	.ps-details-titles {
-		color: gray;
-		font-weight: bold;
-		font-size: 30px;
-	}
+  .ps-details-titles {
+    color: gray;
+    font-size: 30px;
+    font-weight: bold;
+  }
 
-	@media screen and (max-width: $g-screen-width-min-desktop) {
- 		.ps-details-titles {
-			font-size: 22px;
-		}
-	}
+  @media screen and (max-width: $g-screen-width-min-desktop) {
+     .ps-details-titles {
+      font-size: 22px;
+    }
+  }
 
-	#ps-note-sources {
-		font-size: 16px;
-	}
+  #ps-note-sources {
+    font-size: 16px;
+  }
 
 //
 // Little "Search Again >>" button that sneaks in at the
@@ -189,20 +186,20 @@ $g-screen-width-min-desktop: 880px;
 //
 
 #ps-search-again-container {
-	bottom: 0;
-	left: 50%;
-	margin-left: -100px;
-	position: fixed ;
-	width: 200px;
+  bottom: 0;
+  left: 50%;
+  margin-left: -100px;
+  position: fixed ;
+  width: 200px;
 }
 
 //
 // Google map at bottom
 //
 
-#map {	/* #googlemap */
-  box-shadow: 5px 5px 5px #888888;  
+#map {  /* #googlemap */
   border: 1px solid grey;
+  box-shadow: 5px 5px 5px #888888;  
   height: 300px;
   margin-bottom: 20px;
   margin-left: auto;
@@ -211,8 +208,8 @@ $g-screen-width-min-desktop: 880px;
   width: $g-ps-width-pct-for-wide-screens;
 }
 
-	@media screen and (max-width: $g-screen-width-min-desktop) {
-		#map { /* #googlemap */	
-			width: $g-ps-width-pct-for-small-screens;
-		}
-	}
+  @media screen and (max-width: $g-screen-width-min-desktop) {
+    #map { /* #googlemap */  
+      width: $g-ps-width-pct-for-small-screens;
+    }
+  }

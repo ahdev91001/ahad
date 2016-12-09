@@ -13,35 +13,35 @@
  * [1] Remove padding-top:10px to match layout when served from file directly 
  */
 #app-layout-header-bar {
-	position: fixed;
-	padding-top: 10px; /* [1] */
-	top : 0px;
-	left: 0px;
-	width: 100%; 
-	/* height: 80px; // Not needed.  Sized via code in resizeBGImgRootHome() */
-	color: red;
-	background-color: rgba(255, 255, 255, 0.75);
-	box-shadow: 5px 5px 5px #888888;
-	z-index: 1000;
+  background-color: rgba(255, 255, 255, 0.75);
+  box-shadow: 5px 5px 5px #888888;
+  color: red;
+  /* height: 80px; // Not needed.  Sized via code in resizeBGImgRootHome() */
+  left: 0px;
+  padding-top: 10px; /* [1] */
+  position: fixed;
+  top : 0px;
+  width: 100%; 
+  z-index: 1000;
 }
 
-	/* [LOGO] Altadena Heritage */
-	#app-layout-ah-header-logo-img {
-		display: block;
-		background: transparent;
-		width: 500px; /* 480px to match size when served from file directly */
-		margin-left: auto;
-		margin-right: auto;
-		padding: 10px 10px 10px 10px;
-		/* 20px 10px 10px 10px to match size when served from file directly */
-	}
-	
-		// TODO: Explain why 570 (manual kludge).
-		// At 570px, the height of the image is the same as the 90%
-		// height when it starts to shrink with narrower width.
-		@media screen and (max-width: 570px) {
-			#app-layout-ah-header-logo-img {
-				width: 90%;
-			}
-		}
+  /* [LOGO] Altadena Heritage */
+  #app-layout-ah-header-logo-img {
+    background: transparent;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px 10px 10px 10px;
+    /* 20px 10px 10px 10px to match size when served from file directly */
+    width: 500px; /* 480px to match size when served from file directly */
+  }
+  
+    // TODO: Explain why 570 (manual kludge).
+    // At 570px, the height of the image is the same as the 90%
+    // height when it starts to shrink with narrower width.
+    @media screen and (max-width: 570px) {
+      #app-layout-ah-header-logo-img {
+        width: 90%;
+      }
+    }
 

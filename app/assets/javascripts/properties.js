@@ -27,7 +27,10 @@
 //
 /////////////////////////////////////////////////////////////////////////////
 'use strict';
-
+/**
+ * @module properties
+ */
+ 
 /////////////////////////////////////////////////////////////////////////////
 // Globals
 /////////////////////////////////////////////////////////////////////////////
@@ -40,9 +43,9 @@
 // property#show globals
 //
 
-//
-// OLPSH: onLoadPropertyShowHelper related
-//
+/** @constant */
+var OLPSH___means_onLoadPropertyShowHelper = null; // just for jsdoc readability
+
 /** @constant */
 var OLPSH__HOUSE_IMG_FADE_IN_MSEC      = 1500;
 /** @constant */
@@ -78,9 +81,9 @@ var OLPSH__SEARCH_AGAIN_BEFORE_REVEAL_MSEC = 1100;
  */
 var OLPSH__SEARCH_AGAIN_REVEAL_MSEC        = 800; 
 
-//
-// RWEPS: resizeWindowEventPropertyShow related
-//
+
+/** @constant */
+var RWEPS___means_resizeWindowEventPropertyShow = null; // for jsdoc readability
 
 /**
  * How far in px below header banner to position the fade-in address div.
@@ -106,7 +109,10 @@ var RWEPS__ADDRESS_TEXT_PADDING = 10;
 //
 //
 
-/** *************************************************************************
+
+/////////////////////////////////////////////////////////////////////////////
+// #onLoadEventPropertyShowHelper
+/**
  * @summary Code for (turbolinks) on-load event for property#show page.
  * 
  * @desc Set up initial animations upon loading, and set up scroll event
@@ -120,7 +126,7 @@ var RWEPS__ADDRESS_TEXT_PADDING = 10;
  * @author Derek Carlson
  * @since 12/7/2016
  * 
- *****************************************************************************/
+ */
 function onLoadEventPropertyShowHelper() {
 
   if (DEBUG) console.log("We're on a property display page...");
@@ -189,7 +195,9 @@ function onLoadEventPropertyShowHelper() {
 } // end onLoadEventPropertyShowHelper()
 
 
-/** *************************************************************************
+/////////////////////////////////////////////////////////////////////////////
+// #resizeWindowEventPropertyShow
+/**
  * @summary window.resize event for properties#show page.
  * 
  * @desc Keep the fade-in/fade-out address div at the top of the page
@@ -202,7 +210,7 @@ function onLoadEventPropertyShowHelper() {
  * @author Derek Carlson
  * @since 12/7/2016
  * 
- *****************************************************************************/
+ */
 function resizeWindowEventPropertyShow() {
   var addressFadeInOutAtTop = document.getElementById("ps-addr-title-fader");
 	
@@ -219,15 +227,17 @@ function resizeWindowEventPropertyShow() {
 }
 
 
-/** *************************************************************************
- * @summary Initialize google map to a specific address.
- *
+/////////////////////////////////////////////////////////////////////////////
+// #googleMapInitialize
+/**
+ * Initialize google map to a specific address.
+ * 
  * @todo Get this working. (IP 12/3/16 DDC)
  * 
  * @author Derek Carlson
  * @since 12/7/2016
- * 
- *****************************************************************************/
+ *
+ */
 function googleMapInitialize() {
 	
   var locations = [
@@ -276,14 +286,17 @@ function googleMapInitialize() {
 }
 
 
-/** *************************************************************************
- *
+/////////////////////////////////////////////////////////////////////////////
+// #loadGoogleMapScript
+/**
+ * Load google map script and attach initialize callback.
+ * 
  * @todo Get this working. (IP 12/3/16 DDC)
  * 
  * @author Derek Carlson
  * @since 12/7/2016
  * 
- *****************************************************************************/
+ */
 /* Idea... assign name to element, so can release it
  * and then reassign it... and use a global var to
  * store the address.  Then call this each time the property changes.
@@ -291,7 +304,8 @@ function googleMapInitialize() {
 function loadGoogleMapScript() {
   var script = document.createElement('script');
   script.type = 'text/javascript';
-  script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&' + 'callback=googleMapInitialize';
+  script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&' +
+    'callback=googleMapInitialize';
   document.body.appendChild(script);
 }
 
@@ -300,15 +314,17 @@ function loadGoogleMapScript() {
 //
 
 
-/** *************************************************************************
+/////////////////////////////////////////////////////////////////////////////
+// #propertyShowSearchAgainClicked
+/** 
  * @summary Executes when Search Again button clicked.  Note: Tied to HTML.
  *
  * @author Derek Carlson
  * @since 12/7/2016
  * 
- *****************************************************************************/
+ */
 function propertyShowSearchAgainClicked() {
-		window.location.href = "/"
+  window.location.href = "/"
 }
 
 

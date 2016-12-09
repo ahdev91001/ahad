@@ -21,7 +21,10 @@
 //
 /////////////////////////////////////////////////////////////////////////////
 'use strict';
-
+/**
+ * @module main
+ */
+ 
 /////////////////////////////////////////////////////////////////////////////
 // Globals
 /////////////////////////////////////////////////////////////////////////////
@@ -35,8 +38,9 @@
 
 
 /**
- * Global debug variable for logging.
+ * Global debug variable for logging across all modules.
  * @constant
+ * @global
  */
 var DEBUG = true;  // "const" doesn't work in IE 8, 9, 10
 
@@ -46,7 +50,9 @@ var DEBUG = true;  // "const" doesn't work in IE 8, 9, 10
 /////////////////////////////////////////////////////////////////////////////
 
 
-/** *************************************************************************
+/////////////////////////////////////////////////////////////////////////////
+// #document.ready
+/** 
  * @function document.ready
  * 
  * @desc 'ready' is fired first time site is first loaded, 
@@ -55,27 +61,33 @@ var DEBUG = true;  // "const" doesn't work in IE 8, 9, 10
  * @author Derek Carlson
  * @since 12/7/2016
  * 
- *****************************************************************************/
+ */
 $(document).on('ready', function (e) {
   if (DEBUG) console.log("Event: ready() at: " + e.timeStamp);
 });
 
 
-/** *************************************************************************
+/////////////////////////////////////////////////////////////////////////////
+// #window.load
+/**
  * @function window.load
  * 
  * @desc Used to load Google Map init script.
  * 
+ * @todo Uncomment the call, or remove this function entirely. DDC 12/8/16
+ * 
  * @author Derek Carlson
  * @since 12/7/2016
  * 
- *****************************************************************************/
+ */
 $(window).on('load', function (e) {
 //	loadGoogleMapScript();
 });
 
 
-/** *************************************************************************
+/////////////////////////////////////////////////////////////////////////////
+// #turbolinks:load
+/** 
  * @function turbolinks:load
  * 
  * @desc Delegate page load code to various functions depending on which
@@ -84,7 +96,7 @@ $(window).on('load', function (e) {
  * @author Derek Carlson
  * @since 12/7/2016
  * 
- *****************************************************************************/
+ */
 /*
  * Suspect below needs to be turbolinks:load, for when we are at
  * a non-home page, and we click back to the homepage and need the
