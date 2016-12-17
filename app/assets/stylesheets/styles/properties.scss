@@ -29,7 +29,7 @@ $g-screen-width-min-desktop: 880px;
 // Address at top that zooms and fades in upon page load
 //
 
-/* [1] These are contolled via JavaScript by adding/removing the
+/* [1] These are controlled via JavaScript by adding/removing the
  * psatzc-pre-animate and psatzc-animate-in classes.
  */
 #ps-addr-title-zoom-container {
@@ -53,7 +53,7 @@ $g-screen-width-min-desktop: 880px;
   #ps-addr-title-zoom-container.psatzc-animate-in {
     opacity: 1.0;
     transform : scale(1, 1);
-    transition        : 1.0s ease-out;
+            transition: 1.0s ease-out;
     -webkit-transition: 1.0s ease-out;
   }
   
