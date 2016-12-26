@@ -153,15 +153,33 @@ function onLoadEventRootHomeHelper() {
   $(window).resize(resizeBGImgRootHome); 
   // set callback for whenever browser size changes
 
-  // See [1] in header comments		
+  // See [1] in header comments
   $('#sp-home-addr-select2').select2({
-    placeholder: RH__SELECT2_DEFAULT_TEXT, 
+    placeholder: RH__SELECT2_DEFAULT_TEXT,
+    tags: true, // This & selectOnBlur & createSearchChoice
+                // are needed to allow entry of custom addresses
+                // that aren't in our database. See:
+                // http://stackoverflow.com/questions/25616520/
+                //   select2-dropdown-allow-new-values-by-user-when-user-types
+    selectOnBlur: true, 
+    createSearchChoice: function (term, data) {
+        if ($(data).filter(function () {
+            return this.text.localeCompare(term) === 0;
+        }).length === 0) {
+            return {
+                id: term,
+                text: term
+            };
+        }
+    },
     allowClear: true,
     ajax: {
       url: "properties.json",
       // url: "<%= properties_path %>.json", // erb not working it seems
       dataType: 'json',
       delay: 250,
+      // Below transforms the JSON properties list into a format
+      // that select2 expects.
       processResults: function (data) {
         return { 
           results: data.map(function (x) 
@@ -298,7 +316,7 @@ function resizeBGImgRootHome() {
  * 
  */
 function rootHomeSearchClicked() {
-  if ( $("#sp-home-addr-select2").val() > 0 ) {
+  if ( $("#sp-home-addr-select2").val() !== null ) {
     // TODO DDC: probably use erb and a named route below
     $(".btn-arrow-anim__text").html("Looking...");
     window.location.href = "properties/" + 

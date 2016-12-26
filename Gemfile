@@ -14,8 +14,11 @@ gem 'redcarpet',    '~> 3.0.0'
 gem 'normalize-scss', '~> 4.0', '>= 4.0.3'
 
 group :development, :test do
-#  gem 'sqlite3', '1.3.11'
   gem 'byebug',  '9.0.0', platform: :mri
+  gem 'rspec-rails', '~> 3.5'
+  gem 'capybara', '~> 2.5'
+  gem 'factory_girl_rails', '~> 4.5.0'
+  gem "spork-rails"
 end
 
 group :development do

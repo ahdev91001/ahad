@@ -55,7 +55,37 @@ $g-sp-home-screen-width-phone: 400px;
    * this was not needed.  ?!?
    */
 }
-
+  // Question: Is this a plug-and-play element that can be
+  // uprooted and moved elsewhere?  If so, separate the
+  // environment formatting out to a modifier class.
+  // Consider, how to add this whole address, search button
+  // thing elsewhere, with different positioning and 
+  // perhaps styling, but keeping the core unduplicated...
+  //
+  // From: https://en.bem.info/methodology/quick-start/  
+  //  1. If a section of code might be reused and it doesn't depend on other
+  //     page components being implemented, you should create a block.
+  //  2. If the section of code can't be used separately without the parent 
+  //     entity (the block), an element is usually created.
+  //
+  // Block 1: A responsive container with a select2 combobox and a search 
+  //        button.
+  // Modifier: What to name the styling that puts it in a certain place,
+  //           with transparent bg, etc., on the home page?
+  //           NB: <div class="search-form header__search-form"></div>
+  //           (This approach allows us to set the external geometry and
+  //            positioning in the header__search-form element, while the
+  //            search-form block itself remains universal. As a result, 
+  //            we can use the block in any other environment, because it
+  //            doesn't specify any padding. This is why we can call it 
+  //            independent.)
+  //
+  // Block 2: Container for holding the combobox and search button.
+  //  
+  // Q: Why are both block 1 and 2 needed and separate?
+  //
+  // Why yet another container needed for select2?  For search button?
+  //
   #sp-home-ad-box {
     background-color: rgba(55,55,55,.5);
     border-color: rgba(255,255,255,.9);
