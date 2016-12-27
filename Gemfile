@@ -15,10 +15,11 @@ gem 'normalize-scss', '~> 4.0', '>= 4.0.3'
 
 group :development, :test do
   gem 'byebug',  '9.0.0', platform: :mri
+  gem 'spring-commands-rspec'
   gem 'rspec-rails', '~> 3.5'
+  gem 'guard-rspec'
   gem 'capybara', '~> 2.5'
   gem 'factory_girl_rails', '~> 4.5.0'
-  gem "spork-rails"
 end
 
 group :development do

@@ -6,6 +6,10 @@ Rails.application.routes.draw do
 
   get 'static_pages/help'
 
+  get 'static_pages/testform'
+  
+  get '/search' => 'static_pages#search' 
+
   get 'properties/:id' => 'properties#show'
   
   get 'properties' => 'properties#index', as: 'properties'
