@@ -16,15 +16,26 @@ RSpec.feature "Actions available from home page", :type => :feature do
   
   end
   
-#  scenario "Search for a property that exists in the database" do
-    # pending("In process - DDC")
-#    visit "/"
-    # Below doesn't work... how to fill in text in select2,
-    # because the dropdown being loaded by ajax won't occur...
-    # in fact, javascript isn't run at all... so I suppose
-    # it will act like a plain old empty select...?
-    #fill_in "sp-home-addr-select2", :with => "Test"
-#  end
+  scenario "Search for a property that exists in the database" do
+
+    visit "/"
+
+    find('#sp-home-addr-select2').find("option[value='10064']").click    
+    click_button("sp-home-search-btn")
+    
+    expect(page).to have_text("653 Alameda St")
+  end
+
+  scenario "Search for a property that DOESN'T exist in the database" do
+
+    visit "/"
+
+    find('#sp-home-addr-select2').find("option[value='1000 E Mount Curve Ave']").click    
+    click_button("sp-home-search-btn")
+    
+    expect(page).to have_text("for: 1000 E Mount Curve Ave")
+  end
+
   
 #  scenario "Search for a property not found in the database" do
     

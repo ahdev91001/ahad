@@ -9,15 +9,20 @@
 <div id="sp-home-ad-box-container">
 	<div id="sp-home-ad-box">Architectural Database
 		<div>
-			<div id="sp-home-addr-container">
-				<select id="sp-home-addr-select2"></select>
-			</div>
-
-			<div id="sp-home-srch-btn-container">
-				<button class="btn-arrow-anim" 
-			    type="button" onclick="rootHomeSearchClicked()">
-				  <span class="btn-arrow-anim__text">Search </span>
-				</button>
+			<form action="/search" id="sp-home-form">
+				<div id="sp-home-addr-container">
+					<select id="sp-home-addr-select2" name="id">
+						<option value="10064">653 Alameda St</option>
+						<option value="1000 E Mount Curve Ave">1000 E Mount Curve Ave</option>
+					</select>
+				</div>
+	
+				<div id="sp-home-srch-btn-container">
+					<button id="sp-home-search-btn" class="btn-arrow-anim" name="search"
+				    type="submit" value="submit" DISABLEDonclick="rootHomeSearchClicked()">
+					  <span class="btn-arrow-anim__text">Search </span>
+					</button>
+				</form>
 			</div>
 		</div>
 	</div>
