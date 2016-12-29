@@ -12,11 +12,7 @@ class StaticPagesController < ApplicationController
     # If an ID (if selected one of the options from
     # the select2 dropdown), show it
     if (params[:id] =~ /^\d+$/)
-      @property = Property.find(params[:id])
-      @photo = Photo.find_by(propid: params[:id])
-      @apn = APN.find_by(propid: params[:id])
-  
-      render "properties/show"
+      redirect_to "/properties/" + params[:id]
     # Otherwise it's a custom hand-typed address, so
     # clean it up and search for it...
     #
@@ -31,9 +27,7 @@ class StaticPagesController < ApplicationController
     else
       @property = Property.find_by address1: params[:id]
       if @property != nil
-        @photo = Photo.find_by(propid: @property.id)
-        @apn = APN.find_by(propid: @property.id)
-        render "properties/show"        
+        redirect_to "/properties/" + @property.id
       else
         @address = params[:id]
         render "properties/search_not_found"        
