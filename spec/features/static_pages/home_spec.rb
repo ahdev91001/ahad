@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature "Actions available from home page", :type => :feature do
+RSpec.feature "Actions available from home page", :type => :feature, js: true do
   scenario "TEMP: Search for a property via the testform" do
 
     visit "/static_pages/testform"
@@ -10,32 +10,42 @@ RSpec.feature "Actions available from home page", :type => :feature do
     
     find('#selectdude').find(:xpath, 'option[1]').select_option
     find('#selectdude').find("option[value='123']").click    
+
+    expect(page).to have_css('div#testform-div-to-change')
+    expect(page).to have_selector('div#testform-div-to-change', 
+      text: "I have seen the light" )
+    expect(page).to have_selector('div#testform-div-to-change', 
+      text: /i have seen the light/i )
+    
+    sleep(2)
     click_button("Submit")
     
     expect(page).to have_text("653 Alameda St")
-  
-  end
-  
-  scenario "Search for a property that exists in the database" do
-
-    visit "/"
-
-    find('#sp-home-addr-select2').find("option[value='10064']").click    
-    click_button("sp-home-search-btn")
+    sleep(2)
     
-    expect(page).to have_text("653 Alameda St")
   end
+  
+  if false
+    scenario "Search for a property that exists in the database" do
 
-  scenario "Search for a property that DOESN'T exist in the database" do
+      visit "/"
 
-    visit "/"
+      find('#sp-home-addr-select2').find("option[value='10064']").click    
+      click_button("sp-home-search-btn")
 
-    find('#sp-home-addr-select2').find("option[value='1000 E Mount Curve Ave']").click    
-    click_button("sp-home-search-btn")
-    
-    expect(page).to have_text("for: 1000 E Mount Curve Ave")
-  end
+      expect(page).to have_text("653 Alameda St")
+    end
 
+    scenario "Search for a property that DOESN'T exist in the database" do
+
+      visit "/"
+
+      find('#sp-home-addr-select2').find("option[value='1000 E Mount Curve Ave']").click    
+      click_button("sp-home-search-btn")
+
+      expect(page).to have_text("for: 1000 E Mount Curve Ave")
+    end
+  end # if false
   
 #  scenario "Search for a property not found in the database" do
     

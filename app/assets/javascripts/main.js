@@ -142,6 +142,8 @@ $(document).on('turbolinks:load', function (e) {
   if (page == "root") {
     // Home page with search box -- root 'static_pages#home'
     onLoadEventRootHomeHelper();
+  } else if (page == "testform") {
+  	onLoadEventTestformHelper();
   } else if (window.location.href.match(/properties\/\d+/)) {
     // property#show page -- e.g. /properties/12413
     onLoadEventPropertyShowHelper(); // properties.js

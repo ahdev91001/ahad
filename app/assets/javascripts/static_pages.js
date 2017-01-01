@@ -321,3 +321,17 @@ function rootHomeSearchClicked() {
     document.getElementById("sp-home-form").submit();
   }
 }
+
+/////////////////////////////////////////////////////////////////////////////
+// #onLoadEventTestformHelper
+/** 
+ * @summary Used for various and sundry tests.
+ *
+ * @author Derek Carlson
+ * @since 12/31/2016
+ * 
+ */
+function onLoadEventTestformHelper() {
+	document.getElementById('testform-div-to-change').innerHTML = 
+		'I have seen the light, and I am grateful.';
+}
