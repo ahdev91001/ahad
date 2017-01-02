@@ -6,6 +6,9 @@ class StaticPagesController < ApplicationController
   end
   
   def testform
+    #binding.pry  # use exit-all to exit pry interpreter
+    #puts "Hello"
+    #puts "There"
   end
   
   def search

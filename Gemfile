@@ -21,6 +21,7 @@ group :development, :test do
   gem 'capybara', '~> 2.5'
   gem 'selenium-webdriver'
   gem 'factory_girl_rails', '~> 4.5.0'
+  gem 'database_cleaner', '1.3.0'
 end
 
 group :development do
@@ -28,6 +29,7 @@ group :development do
   gem 'listen',                '3.0.8'
   gem 'spring',                '1.7.2'
   gem 'spring-watcher-listen', '2.0.0'
+  gem 'pry-byebug'
 end
 
 group :test do
