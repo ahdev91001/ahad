@@ -131,6 +131,8 @@ function onLoadEventPropertyShowHelper() {
 
   if (DEBUG) console.log("We're on a property display page...");
 
+  $('#ps-search-again-btn').click(propertyShowSearchAgainClicked)
+  
   // Even with turbolinks, seems that the relevant events for
   // each page need to be initialized on the page load
   $(window).resize(resizeWindowEventPropertyShow); 
