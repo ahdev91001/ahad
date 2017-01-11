@@ -1,8 +1,9 @@
 ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../Gemfile', __dir__)
 
 require 'bundler/setup' # Set up gems listed in the Gemfile.
-require "benchmark"
+#require "benchmark"
 
+=begin
 def require(file_name)
   result = nil
 
@@ -16,3 +17,4 @@ def require(file_name)
 
   result
 end
+=end

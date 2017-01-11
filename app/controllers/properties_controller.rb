@@ -15,7 +15,8 @@ class PropertiesController < ApplicationController
   end
   
   def show
-    @property = Property.find(params[:id])
+    source = Property.find(params[:id])
+    @property = PropertyDecorator.new(source)
     @photo = Photo.find_by(propid: params[:id])
     @apn = APN.find_by(propid: params[:id])
   end

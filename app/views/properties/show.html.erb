@@ -91,107 +91,56 @@
   				"Unknown"
   			end %>
 	</div>
-	
-	<div class='hanging-indent'>	
-  	<span class="ps-details-titles">Stories: </span>
-  	<%= if ( @property.stories != nil )  
-  			  @property.stories
-  		  else
-  			  "Unknown"
-  		  end %>
-	</div>
-		
-	<div class='hanging-indent'>	
-  	<span class="ps-details-titles">APN: </span>
-  	<%= if ( @apn != nil && @apn.parcel != nil )  
-  		  	@apn.parcel
-  		  else
-  			  "Unknown"
-  		  end %>
-	</div>
 
-	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
-	  Current Lot Size: </span>".html_safe %>
-	<%= if (@property.currentlotsize != nil )  
-		    s +	@property.currentlotsize
-		  else
-			  s + "Unknown"
-		  end %>
-  </div>
 
-	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
-	  Historic Name: </span>".html_safe %>
-	<%= if (@property.historicname != nil )  
-		    s +	@property.historicname
-		  else
-			  s + "Unknown"
-		  end %>
-	</div>
+<%= @property.ps_show_field_or_show_unknown(
+	      "Stories", @property.stories, @property.stories != nil)  %>
 
-	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
-	  Legal Description: </span>".html_safe %>
-	<%= if (@property.legaldescription != nil )  
-		    s +	@property.legaldescription
-		  else
-			  s + "Unknown"
-		  end %>
-	</div>
+<%= @property.ps_show_field_or_show_unknown(
+	     "APN", @apn.parcel, @apn != nil && @apn.parcel != nil)  %>
 
-	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
-	  Style: </span>".html_safe %>
-	<%= if (@property.style != nil )  
-		    s +	@property.style
-		  else
-			  s + "Unknown"
-		  end %>
-	</div>
+<%= @property.ps_show_field_or_show_unknown(
+	     "Current Lot Size", @property.currentlotsize, 
+	     @property.currentlotsize != nil)  %>
 
-  <div class='hanging-indent'>
-  	<span class="ps-details-titles">Original Owner: </span>
-  	<%= if ( @property.originalowner != nil )  
-  			  @property.originalowner 
-  		  else
-  			  "Unknown"
-  		  end %>
-  </div>
+<%= @property.ps_show_field_or_show_unknown(
+	     "Historic Name", @property.historicname, 
+	     @property.historicname != nil)  %>
 
-	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
-	  Original Owner Spouse: </span>".html_safe %>
-	<%= if ( @property.originalownerspouse != nil )  
-			  s + @property.originalownerspouse + "</div>".html_safe
-		  end %>
+<%= @property.ps_show_field_or_show_unknown(
+	     "Legal Description", @property.legaldescription, 
+	     @property.legaldescription != nil)  %>
 
-	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
-	  Original Owner Occupation: </span>".html_safe %>
-	<%= if ( @property.originalowneroccupation != nil )  
-			  s + @property.originalowneroccupation + "</div>".html_safe
-		  end %>
+<%= @property.ps_show_field_or_show_unknown(
+	     "Style", @property.style, @property.style != nil)  %>
 
-	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
-	  Original Cost: </span>".html_safe %>
-	<%= if (@property.originalcost != nil )  
-		    s + number_to_currency(@property.originalcost, :precision => 0)
-		  else
-			  s + "Unknown"
-		  end %>
-	</div>
+<%= @property.ps_show_field_or_show_unknown(
+	     "Original Owner", @property.originalowner, 
+	     @property.originalowner != nil)  %>
 
-	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
-	  Original Lot Size: </span>".html_safe %>
-	<%= if (@property.originallotsize != nil ) then 
-		    s +	@property.originallotsize
-		  else
-			  s + "Unknown"
-		  end %>
-	</div>
+<%= @property.ps_show_field_or_hide_if_empty(
+	     "Original Owner Spouse", @property.originalownerspouse, 
+	     @property.originalownerspouse != nil)  %>
 
-  <!-- hide this field entirely unless it's filled in -->
-	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
-	  Moved on to Property: </span>".html_safe %>
-	<%= if (@property.movedontoproperty != nil ) then
-				s + @property.movedontoproperty + "</div>".html_safe
-		  end %>
+<%= @property.ps_show_field_or_hide_if_empty(
+	     "Original Owner Occupation", @property.originalowneroccupation, 
+	     @property.originalowneroccupation != nil)  %>
 
+<%= @property.ps_show_field_or_show_unknown(
+	     "Original Cost", 
+	     number_to_currency(@property.originalcost, :precision => 0), 
+	     @property.originalcost != nil)  %>
+
+<%= @property.ps_show_field_or_show_unknown(
+	     "Original Lot Size", @property.originallotsize, 
+	     @property.originallotsize != nil)  %>
+
+<%= @property.ps_show_field_or_hide_if_empty(
+	     "Moved on to Property", @property.movedontoproperty, 
+	     @property.movedontoproperty != nil)  %>
+
+
+  
   <!-- hide this field entirely unless it's filled in -->
 	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
 	  Place of Business: </span>".html_safe %>
