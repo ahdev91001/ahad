@@ -13,7 +13,7 @@ gem 'jbuilder',     '2.4.1'
 gem 'redcarpet',    '~> 3.0.0'
 gem 'normalize-scss', '~> 4.0', '>= 4.0.3'
 gem 'activemodel-serializers-xml'
-gem 'draper'
+gem 'draper', github: 'drapergem/draper'
 
 group :development, :test do
   gem 'byebug',  '9.0.0', platform: :mri

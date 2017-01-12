@@ -1,4 +1,6 @@
 class StaticPagesController < ApplicationController
+  include PropertiesHelper
+  
   def home
   end
 
@@ -6,40 +8,25 @@ class StaticPagesController < ApplicationController
   end
   
   def testform
-    #binding.pry  # use exit-all to exit pry interpreter
-    #puts "Hello"
-    #puts "There"
   end
   
   def search
-    # If an ID (if selected one of the options from
-    # the select2 dropdown), show it
-    
-    #binding.pry
-    
-    puts "\n\n*** Params[:id] [#{params[:id]}]\n\n"
-    
     if (params[:id] =~ /^\d+$/)
       redirect_to "/properties/" + params[:id]
-    # Otherwise it's a custom hand-typed address, so
-    # clean it up and search for it...
-    #
-    # - Collapse all \s\s+ down to \s
-    # - Upcase everything
-    # - Remove all periods after letters (\w)\. => $1
-    # - Change Street to ST, Avenue to AVE, etc.
-    # - Look for exact match.  
-    #    - If found, show it.
-    #    - If not, show all that match first word (usu. digits)
-    #    -    and show all (or some) that match second word (usu. street)
     else
-      # To test... what if Ave. instead of Ave or AVE or ave or Avenue
-     # binding.pry
-      @property = Property.find_by address1: params[:id]
+      addr_normalized = normalize_address(params[:id])
+      
+      logger.debug "Hand-typed address (not selected from dropdown list): (" +
+        params[:id] + ")"
+      logger.debug "  Address text normalized to: (#{addr_normalized})"
+      
+      @property = Property.find_by address1: addr_normalized
+
       if @property != nil
-        redirect_to "/properties/" + @property.id
+        redirect_to "/properties/" + @property.id.to_s
       else
-        @address = params[:id]
+        @address = params[:id] + 
+          (params[:id] != addr_normalized ? " (" + addr_normalized + ")" : "")
         render "properties/search_not_found"        
       end
     end
