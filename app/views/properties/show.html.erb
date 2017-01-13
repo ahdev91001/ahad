@@ -35,146 +35,100 @@
 
 <div id="ps-addr-title-fader"><%= @property.address1 %></div>
 
+<!-- All fields listed below -->
 <div id="ps-db-details">
-  <div class='hanging-indent'>
-  	<span class="ps-details-titles">Year Built: </span>
-  	<%= if (@property.yearbuilt != nil)
-  	      if (@property.yearbuiltflag != nil &&
-  	          @property.yearbuiltflag.upcase == "A") 
-  	          @property.yearbuilt + " (actual)"
-  	      else
-  	        @property.yearbuilt + " (estimated)"	
-  	      end
-  	    else  
-  	    	"Unknown"
-  	    end %>
-	</div>
 
-  <!-- hide this field entirely unless it's filled in -->
-	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
-	  Year Built (Assessor): </span>".html_safe %>
-	<%= if (@property.yearbuiltassessor != nil) then 
-		    s +	@property.yearbuiltassessor + "</div>".html_safe
-		  end %>
-
-  <!-- hide this field entirely unless it's filled in -->
-	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
-	  Year Built (Other): </span>".html_safe %>
-	<%= if (@property.yearbuiltother != nil) then 
-		    s +	@property.yearbuiltother + "</div>".html_safe
-		  end %>
+  <!-- Style the Field Titles all the same -->
+  <% prehtml = "<div class='hanging-indent'>	" +
+  	  "<span class='ps-details-titles'> %%FIELD_NAME%%: </span>" 
+  	 posthtml = "</div>" 
+  %>
   
-  <div class='hanging-indent'>	
-  	<span class="ps-details-titles">Architect: </span>
-  	<%= if ( @property.architect != nil )  
-  				if (@property.architectconfirmed != nil &&
-  						@property.architectconfirmed.upcase == "Y")
-  				  @property.architect + " (confirmed)"
-  				else
-  					@property.architect + " (unconfirmed)"
-  				end
-  			else
-  				"Unknown"
-  			end %>
-	</div>
+  <%= @property.ps_show_year_built(prehtml, posthtml,
+      "Year Built", @property.yearbuilt, @property.yearbuiltflag,
+      @property.yearbuilt != nil)  %>
 
-	<div class='hanging-indent'>	
-  	<span class="ps-details-titles">Builder: </span>
-  	<%= if ( @property.builder != nil )  
-  				if (@property.builderconfirmed != nil &&
-  				    @property.builderconfirmed.upcase == "Y") 
-  					@property.builder + " (confirmed)"
-  				else
-  					@property.builder + " (unconfirmed)"
-  				end
-  			else
-  				"Unknown"
-  			end %>
-	</div>
+  <%= @property.ps_show_field_or_hide_if_empty(prehtml, posthtml,
+	    "Year Built (Assessor)", @property.yearbuiltassessor, 
+	    @property.yearbuiltassessor != nil)  %>
 
+  <%= @property.ps_show_field_or_hide_if_empty(prehtml, posthtml,
+	    "Year Built (Other)", @property.yearbuiltother, 
+	    @property.yearbuiltother != nil)  %>
 
-<%= @property.ps_show_field_or_show_unknown(
-	      "Stories", @property.stories, @property.stories != nil)  %>
+  <%= @property.ps_show_field_or_show_unknown_w_confirmed(prehtml, posthtml,
+	    "Architect", @property.architect, @property.architectconfirmed,
+	    @property.architect != nil)  %>
 
-<%= @property.ps_show_field_or_show_unknown(
-	     "APN", @apn.parcel, @apn != nil && @apn.parcel != nil)  %>
+  <%= @property.ps_show_field_or_show_unknown_w_confirmed(prehtml, posthtml,
+	    "Builder", @property.builder, @property.builderconfirmed,
+	    @property.builder != nil)  %>
 
-<%= @property.ps_show_field_or_show_unknown(
-	     "Current Lot Size", @property.currentlotsize, 
-	     @property.currentlotsize != nil)  %>
+  <%= @property.ps_show_field_or_show_unknown(prehtml, posthtml,
+      "Stories", @property.stories, @property.stories != nil)  %>
 
-<%= @property.ps_show_field_or_show_unknown(
-	     "Historic Name", @property.historicname, 
-	     @property.historicname != nil)  %>
+  <%= @property.ps_show_field_or_show_unknown(prehtml, posthtml,
+	    "APN", @apn.parcel, @apn != nil && @apn.parcel != nil)  %>
 
-<%= @property.ps_show_field_or_show_unknown(
-	     "Legal Description", @property.legaldescription, 
-	     @property.legaldescription != nil)  %>
+  <%= @property.ps_show_field_or_show_unknown(prehtml, posthtml,
+	    "Current Lot Size", @property.currentlotsize, 
+	    @property.currentlotsize != nil)  %>
 
-<%= @property.ps_show_field_or_show_unknown(
-	     "Style", @property.style, @property.style != nil)  %>
+  <%= @property.ps_show_field_or_show_unknown(prehtml, posthtml,
+	    "Historic Name", @property.historicname, 
+	    @property.historicname != nil)  %>
 
-<%= @property.ps_show_field_or_show_unknown(
-	     "Original Owner", @property.originalowner, 
-	     @property.originalowner != nil)  %>
+  <%= @property.ps_show_field_or_show_unknown(prehtml, posthtml,
+	    "Legal Description", @property.legaldescription, 
+	    @property.legaldescription != nil)  %>
 
-<%= @property.ps_show_field_or_hide_if_empty(
-	     "Original Owner Spouse", @property.originalownerspouse, 
-	     @property.originalownerspouse != nil)  %>
+  <%= @property.ps_show_field_or_show_unknown(prehtml, posthtml,
+	    "Style", @property.style, @property.style != nil)  %>
 
-<%= @property.ps_show_field_or_hide_if_empty(
-	     "Original Owner Occupation", @property.originalowneroccupation, 
-	     @property.originalowneroccupation != nil)  %>
+  <%= @property.ps_show_field_or_show_unknown(prehtml, posthtml,
+	    "Original Owner", @property.originalowner, 
+	    @property.originalowner != nil)  %>
 
-<%= @property.ps_show_field_or_show_unknown(
-	     "Original Cost", 
-	     number_to_currency(@property.originalcost, :precision => 0), 
-	     @property.originalcost != nil)  %>
+  <%= @property.ps_show_field_or_hide_if_empty(prehtml, posthtml,
+	    "Original Owner Spouse", @property.originalownerspouse, 
+	    @property.originalownerspouse != nil)  %>
 
-<%= @property.ps_show_field_or_show_unknown(
-	     "Original Lot Size", @property.originallotsize, 
-	     @property.originallotsize != nil)  %>
+  <%= @property.ps_show_field_or_hide_if_empty(prehtml, posthtml,
+	    "Original Owner Occupation", @property.originalowneroccupation, 
+	    @property.originalowneroccupation != nil)  %>
 
-<%= @property.ps_show_field_or_hide_if_empty(
-	     "Moved on to Property", @property.movedontoproperty, 
-	     @property.movedontoproperty != nil)  %>
+  <%= @property.ps_show_field_or_show_unknown(prehtml, posthtml,
+	    "Original Cost", 
+	    number_to_currency(@property.originalcost, :precision => 0), 
+	    @property.originalcost != nil)  %>
 
+  <%= @property.ps_show_field_or_show_unknown(prehtml, posthtml,
+	    "Original Lot Size", @property.originallotsize, 
+	    @property.originallotsize != nil)  %>
 
-  
-  <!-- hide this field entirely unless it's filled in -->
-	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
-	  Place of Business: </span>".html_safe %>
-	<%= if (@property.placeofbusiness != nil) then 
-				s +	@property.placeofbusiness + "</div>".html_safe
-		  end %>
+  <%= @property.ps_show_field_or_hide_if_empty(prehtml, posthtml,
+	    "Moved on to Property", @property.movedontoproperty, 
+	    @property.movedontoproperty != nil)  %>
 
-  <!-- hide this field entirely unless it's filled in -->
-	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
-	  Street Direction: </span>".html_safe %>
-	<%= if (@property.streetdirection != nil) then 
-		    s +	@property.streetdirection + "</div>".html_safe
-		  end %>
+  <%= @property.ps_show_field_or_hide_if_empty(prehtml, posthtml,
+	    "Place of Business", @property.placeofbusiness, 
+	    @property.placeofbusiness != nil)  %>
 
-  <!-- hide this field entirely unless it's filled in -->
-	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
-	  Address Notes: </span>".html_safe %>
-	<%= if (@property.addressnote != nil) then 
-		    s +	@property.addressnote + "</div>".html_safe
-		  end %>
+  <%= @property.ps_show_field_or_hide_if_empty(prehtml, posthtml,
+	    "Street Direction", @property.streetdirection, 
+	    @property.streetdirection != nil)  %>
 
-  <!-- hide this field entirely unless it's filled in -->
-	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
-	  Quadrant: </span>".html_safe %>
-	<%= if (@property.quadrant != nil) then 
-		    s +	@property.quadrant + "</div>".html_safe
-		  end %>
+  <%= @property.ps_show_field_or_hide_if_empty(prehtml, posthtml,
+	    "Address Notes", @property.addressnote, 
+	    @property.addressnote != nil)  %>
 
-  <!-- hide this field entirely unless it's filled in -->
-	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
-	  Type: </span>".html_safe %>
-	<%= if (@property.type != nil) then 
-		    s +	@property.type.capitalize + "</div>".html_safe
-		  end %>
+  <%= @property.ps_show_field_or_hide_if_empty(prehtml, posthtml,
+	    "Quadrant", @property.quadrant, 
+	    @property.quadrant != nil)  %>
+
+  <%= @property.ps_show_field_or_hide_if_empty(prehtml, posthtml,
+	    "Type", @property.type.capitalize, 
+	    @property.type != nil)  %>
 
 	<div id="ps-note-sources">
 	<%= if (@property.notes_shpo_and_sources != nil) then 
@@ -182,9 +136,10 @@
 		  end %>
 	</div>
 	
-	<!-- Significance code: Eligible for California Historical Resources Inventory<br> -->
+	<!-- TODO: Significance code: Eligible for California Historical 
+	     Resources Inventory<br> -->
 	
-</div> <!-- ps-db-details -->
+</div> <!-- end ps-db-details -->
 
 <!--
 <div id="googlemap">

@@ -11,22 +11,60 @@ class PropertyDecorator < Draper::Decorator
   #   end
 
 
-  def ps_show_field_or_hide_if_empty(field_name, field_val, show_condition)
-    ps_show_field_or_show_unknown(field_name, 
-      field_val, show_condition) if show_condition
+  def ps_show_field_or_hide_if_empty(prehtml, posthtml, field_name, 
+    field_val, show_condition)
+    
+    ps_show_field_or_show_unknown(prehtml, posthtml, 
+      field_name, field_val, show_condition) if show_condition
+      
   end
   
   
-  def ps_show_field_or_show_unknown(field_name, field_val, show_condition)
+  def ps_show_field_or_show_unknown(prehtml, posthtml, field_name, 
+    field_val, show_condition)
     
-    markup = "<div class='hanging-indent'>	" +
-  	  "<span class='ps-details-titles'>" + field_name + ": </span>"
+    pre_subbed = prehtml.gsub(/%%FIELD_NAME%%/, field_name)
 
     if (show_condition)
-      (markup + field_val + "</div>").html_safe
+      (pre_subbed + field_val + posthtml).html_safe
     else
-      (markup + "Unknown" + "</div>").html_safe
+      (pre_subbed + "Unknown" + posthtml).html_safe
     end
   end
+
+  def ps_show_year_built(prehtml, posthtml, field_name, 
+    field_val, confirm_field, show_condition)
+
+    ps_show_field_or_show_unknown_w_confirmed_2(prehtml, posthtml, 
+      field_name, field_val, confirm_field, show_condition,
+      "A", " (actual)", " (estimated)")
+    
+  end
+
+  def ps_show_field_or_show_unknown_w_confirmed(prehtml, posthtml, field_name, 
+    field_val, confirm_field, show_condition)
+    
+    ps_show_field_or_show_unknown_w_confirmed_2(prehtml, posthtml, 
+      field_name, field_val, confirm_field, show_condition,
+      "Y", " (confirmed)", " (unconfirmed)")
+      
+  end
+  
+  def ps_show_field_or_show_unknown_w_confirmed_2(prehtml, posthtml, 
+    field_name, field_val, confirm_field, show_condition,
+    match_letter, match_string_true, match_string_false)
+  
+    pre_subbed = prehtml.gsub(/%%FIELD_NAME%%/, field_name)
+    
+    if (show_condition)
+      if (confirm_field != nil && confirm_field.upcase == match_letter)
+        (pre_subbed + field_val + match_string_true + posthtml).html_safe
+      else
+        (pre_subbed + field_val + match_string_false + posthtml).html_safe
+      end
+    else
+        (pre_subbed + "Unknown" + posthtml).html_safe
+    end
+  end # ps_show_field_or_show_unknown_w_confirmed
   
 end
