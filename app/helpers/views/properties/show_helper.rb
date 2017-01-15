@@ -9,15 +9,15 @@ module Views::Properties::ShowHelper
         image_tag(url, :id => "ps-photo-main", 
             :alt => "Photo of Property")
     else
-      ("<div id='ps-photo-main-no-photo'>\n" +
-        "    " + image_tag('house-stick-figure-med.png',
-                  :alt => 'Cartoon Photo of Property') +
-      %q{
-    <br>
-    We do not have a picture of this house yet.  
-    <a href="http://altadenaheritage.org/contact-us/" target="_blank">
-    Let us know</a> if you have one!
-  </div>}).html_safe
+      itag = image_tag('house-stick-figure-med.png',
+                  :alt => 'Cartoon Photo of Property')
+(%Q{<div id='ps-photo-main-no-photo'>
+        #{itag}
+        <br>
+        We do not have a picture of this house yet.  
+        <a href="http://altadenaheritage.org/contact-us/" target="_blank">
+        Let us know</a> if you have one!
+      </div>}).html_safe
     end 
   end
   
