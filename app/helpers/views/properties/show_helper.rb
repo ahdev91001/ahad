@@ -1,36 +1,40 @@
-require 'pry-byebug'
-
+#############################################################################
+# Views::Properties::ShowHelper
+#
+# Routines specific to the Properties#show view, mainly to remove code
+# and complexity from the template.  Note: if a routine is going to be used
+# across multiple views, don't put it here.
+#
+# Since 1/14/2017 Derek Carlson
+#############################################################################
 module Views::Properties::ShowHelper
 
-  def ps_photo_markup(photo)
-    if (@photo != nil && @photo.filename != nil && 
-       @photo.filename.length > 0) then 
-		    url = "http://altadenaheritagepdb.org/photo/" + @photo.filename
-        image_tag(url, :id => "ps-photo-main", 
-            :alt => "Photo of Property")
-    else
-      itag = image_tag('house-stick-figure-med.png',
-                  :alt => 'Cartoon Photo of Property')
-(%Q{<div id='ps-photo-main-no-photo'>
-        #{itag}
-        <br>
-        We do not have a picture of this house yet.  
-        <a href="http://altadenaheritage.org/contact-us/" target="_blank">
-        Let us know</a> if you have one!
-      </div>}).html_safe
-    end 
-  end
-  
-  #
-  #
-  #
-  def ps_markup_apn_or_hide(apn)
-    ps_markup_field_or_hide("APN", 
-        (apn != nil && apn.parcel != nil) ? apn.parcel : nil)
-  end
+  ###########################################################################
+  # #ps_markup_field_or_hide
 
+  # Generate markup for any field containing field title and value.
   #
+  # If value is nil, then markup will either be nil or will
+  # contain '[Field Title]: Unknown', depending on what the view
+  # setting is for that field when it's nil.
   #
+  # @author Derek Carlson <carlson.derek@gmail.com>
+  #
+  # @param name [String] the name of the field title formatted
+  #   for display on the screen (e.g. Original Owner)
+  #
+  # @param value [String, nil] the value for the field.  Ok to
+  #   be nil.
+  #
+  # @param hide [Boolean] optional: defaults to false.  If true
+  #   then a nil value will cause nil to be returned, resulting
+  #   in nothing being shown on the screen.
+  #
+  # @param ext_field [String]  STOP HERE
+  # @return [String, nil]      STOP HERE
+  #
+  # Note explain why chose optional args instead of options
+  # hash.
   #
   def ps_markup_field_or_hide(name, value, hide=false, 
                               ext_field=nil, ext_conf_val=nil,

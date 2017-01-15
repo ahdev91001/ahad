@@ -1,3 +1,5 @@
 class Apn < ActiveRecord::Base
-    self.table_name = "apn"
+  belongs_to  :property
+  self.table_name = "apn"
+  
 end

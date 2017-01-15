@@ -9,7 +9,21 @@
     </div>
     
     <div id="ps-photo-main-container">
-      <%= ps_photo_markup(@photo) %>
+      <% if (photo = @property.photos.first) && photo.filename %>
+        <%= image_tag("http://altadenaheritagepdb.org/photo/" + 
+              photo.filename, 
+              :id => "ps-photo-main", :alt => "Photo of Property") %>
+      <% else %>
+        <div id='ps-photo-main-no-photo'>
+          <%= image_tag('house-stick-figure-med.png',
+                    :alt => 'Cartoon Photo of Property') %>
+          <br>
+          We do not have a picture of this house yet.  
+          <a href="http://altadenaheritage.org/contact-us/" target="_blank">
+          Let us know</a> if you have one!
+        </div>
+      <% end %>
+
     </div>
     
     <div id="ps-addr-title-fader"><%= @property.address1 %></div>
@@ -34,8 +48,8 @@
 
   <%= ps_markup_field_or_hide("Stories", @property.stories) %>
 
-  <%= ps_markup_apn_or_hide(@apn) %>
-  
+  <%= ps_markup_field_or_hide("APN", (apn = @property.apn) && apn.parcel) %>
+
   <%= ps_markup_field_or_hide("Current Lot Size", @property.currentlotsize) %>
   <%= ps_markup_field_or_hide("Historic Name", @property.historicname) %>
   <%= ps_markup_field_or_hide("Legal Description", 
