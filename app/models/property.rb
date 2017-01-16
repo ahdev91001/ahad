@@ -1,6 +1,6 @@
 class Property < ActiveRecord::Base
-  has_many :photos, foreign_key: "propid"
-  has_one :apn, foreign_key: "propid"
+  has_many :photos, foreign_key: :propid
+  has_one :apn, foreign_key: :propid
   
   self.inheritance_column = nil # required because property table has a type
   # column, and that is a reserved name used for Single Table Inheritance

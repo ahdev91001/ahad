@@ -30,7 +30,26 @@ module Views::Properties::ShowHelper
   #   then a nil value will cause nil to be returned, resulting
   #   in nothing being shown on the screen.
   #
-  # @param ext_field [String]  STOP HERE
+  # @param ext_field [String] extended field name, for situations
+  #   where a second database field is used to confirm or elaborate
+  #   on the first (such as confirmed/unconfirmed, or actual/estimated)
+  #
+  # @param ext_conf_val [String] the value to check against for a true
+  #   response.  e.g., in the case of .builderconfirmed, this value
+  #   is "Y" for the case where the builder is indeed confirmed.  Note
+  #   that this value is upcased, and checked against the upcased result
+  #   from the database.  These are always dichotomies... not matching "Y",
+  #   whether it's "" or "N", implies the other result.  Another 
+  #   example: "A" is for "actual", and anything other than "A" results
+  #   in the other option (which is "estimated" in our case).
+  # 
+  # @param ext_true_str [String] when the value in the database field
+  #   named ext_field matches ext_conf_val, then this specifies the
+  #   text that should be added after the value, and in ()'s.
+  #
+  # @param ext_false_str [String] same as ext_true_str, except this
+  #   is the text that is added when there is NOT a match.
+  #
   # @return [String, nil]      STOP HERE
   #
   # Note explain why chose optional args instead of options
