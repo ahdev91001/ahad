@@ -1,254 +1,96 @@
 <% content_for :title, @property.address1 %>
 
-<!-- TODO: check for nil for @property, address1, etc. -->
+    <!-- Big address title that zooms in at top upon page load -->
+    <div id="ps-addr-title-zoom-container">
+      <h3 id="ps-addr-title-zoom">
+        <span id="ps-addr-title-zoom__text">
+        <%= @property.address1 %></span>
+      </h3>
+    </div>
+    
+    <div id="ps-photo-main-container">
+      <% if (photo = @property.photos.first) && photo.filename %>
+        <%= image_tag("http://altadenaheritagepdb.org/photo/" + 
+              photo.filename, 
+              :id => "ps-photo-main", :alt => "Photo of Property") %>
+      <% else %>
+        <div id='ps-photo-main-no-photo'>
+          <%= image_tag('house-stick-figure-med.png',
+                    :alt => 'Cartoon Photo of Property') %>
+          <br>
+          We do not have a picture of this house yet.  
+          <a href="http://altadenaheritage.org/contact-us/" target="_blank">
+          Let us know</a> if you have one!
+        </div>
+      <% end %>
 
-<% if (@photo != nil && @photo.filename != nil && 
-       @photo.filename.length > 0) then 
-		photourl = "http://altadenaheritagepdb.org/photo/" + @photo.filename
-	else
-		photourl = "None"
-	end %>
-
-<!-- Big address title that zooms in at top upon page load -->
-<div id="ps-addr-title-zoom-container">
-  <h3 id="ps-addr-title-zoom">
-    <span id="ps-addr-title-zoom__text">
-    <%= @property.address1 %></span>
-  </h3>
-</div>
-
-<div id="ps-photo-main-container">
-	<% if ( photourl == "None" ) %>
-    <div id="ps-photo-main-no-photo">
-      <%= image_tag("house-stick-figure-med.png",  
-          :alt => "Cartoon Photo of Property") %>
-      <br>
-  		We don't have a picture of this house yet.  
-  		<a href="http://altadenaheritage.org/contact-us/" target="_blank">
-  		Let us know</a> if you have one!
-		</div>	
-	<% else %>
-    <%= image_tag(photourl, :id => "ps-photo-main", 
-        :alt => "Photo of Property") %>
-	<% end %>	
-</div>
-
-<div id="ps-addr-title-fader"><%= @property.address1 %></div>
-
-<div id="ps-db-details">
-  <div class='hanging-indent'>
-  	<span class="ps-details-titles">Year Built: </span>
-  	<%= if (@property.yearbuilt != nil)
-  	      if (@property.yearbuiltflag != nil &&
-  	          @property.yearbuiltflag.upcase == "A") 
-  	          @property.yearbuilt + " (actual)"
-  	      else
-  	        @property.yearbuilt + " (estimated)"	
-  	      end
-  	    else  
-  	    	"Unknown"
-  	    end %>
-	</div>
-
-  <!-- hide this field entirely unless it's filled in -->
-	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
-	  Year Built (Assessor): </span>".html_safe %>
-	<%= if (@property.yearbuiltassessor != nil) then 
-		    s +	@property.yearbuiltassessor + "</div>".html_safe
-		  end %>
-
-  <!-- hide this field entirely unless it's filled in -->
-	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
-	  Year Built (Other): </span>".html_safe %>
-	<%= if (@property.yearbuiltother != nil) then 
-		    s +	@property.yearbuiltother + "</div>".html_safe
-		  end %>
+    </div>
+    
+    <div id="ps-addr-title-fader"><%= @property.address1 %></div>
+    
+    <!-- All fields listed below -->
+    <div id="ps-db-details">
   
-  <div class='hanging-indent'>	
-  	<span class="ps-details-titles">Architect: </span>
-  	<%= if ( @property.architect != nil )  
-  				if (@property.architectconfirmed != nil &&
-  						@property.architectconfirmed.upcase == "Y")
-  				  @property.architect + " (confirmed)"
-  				else
-  					@property.architect + " (unconfirmed)"
-  				end
-  			else
-  				"Unknown"
-  			end %>
-	</div>
+  <%= ps_markup_field_or_hide("Year Built", @property.yearbuilt, false,
+                              @property.yearbuiltflag, "A",
+                              " (actual)", " (estimated)") %>
+  <%= ps_markup_field_or_hide("Year Built (Assessor)", 
+                              @property.yearbuiltassessor, true) %>
+  <%= ps_markup_field_or_hide("Year Built (Other)", 
+                              @property.yearbuiltother, true) %>
 
-	<div class='hanging-indent'>	
-  	<span class="ps-details-titles">Builder: </span>
-  	<%= if ( @property.builder != nil )  
-  				if (@property.builderconfirmed != nil &&
-  				    @property.builderconfirmed.upcase == "Y") 
-  					@property.builder + " (confirmed)"
-  				else
-  					@property.builder + " (unconfirmed)"
-  				end
-  			else
-  				"Unknown"
-  			end %>
-	</div>
-	
-	<div class='hanging-indent'>	
-  	<span class="ps-details-titles">Stories: </span>
-  	<%= if ( @property.stories != nil )  
-  			  @property.stories
-  		  else
-  			  "Unknown"
-  		  end %>
-	</div>
-		
-	<div class='hanging-indent'>	
-  	<span class="ps-details-titles">APN: </span>
-  	<%= if ( @apn != nil && @apn.parcel != nil )  
-  		  	@apn.parcel
-  		  else
-  			  "Unknown"
-  		  end %>
-	</div>
+  <%= ps_markup_field_or_hide("Architect", @property.architect, false,
+                              @property.architectconfirmed, "Y",
+                              " (confirmed)", " (unconfirmed)") %>
+  <%= ps_markup_field_or_hide("Builder", @property.builder, false,
+                              @property.builderconfirmed, "Y",
+                              " (confirmed)", " (unconfirmed)") %>
 
-	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
-	  Current Lot Size: </span>".html_safe %>
-	<%= if (@property.currentlotsize != nil )  
-		    s +	@property.currentlotsize
-		  else
-			  s + "Unknown"
-		  end %>
-  </div>
+  <%= ps_markup_field_or_hide("Stories", @property.stories) %>
 
-	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
-	  Historic Name: </span>".html_safe %>
-	<%= if (@property.historicname != nil )  
-		    s +	@property.historicname
-		  else
-			  s + "Unknown"
-		  end %>
-	</div>
+  <%= ps_markup_field_or_hide("APN", (apn = @property.apn) && apn.parcel) %>
 
-	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
-	  Legal Description: </span>".html_safe %>
-	<%= if (@property.legaldescription != nil )  
-		    s +	@property.legaldescription
-		  else
-			  s + "Unknown"
-		  end %>
-	</div>
+  <%= ps_markup_field_or_hide("Current Lot Size", @property.currentlotsize) %>
+  <%= ps_markup_field_or_hide("Historic Name", @property.historicname) %>
+  <%= ps_markup_field_or_hide("Legal Description", 
+                              @property.legaldescription) %>
+  <%= ps_markup_field_or_hide("Style", @property.style) %>
 
-	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
-	  Style: </span>".html_safe %>
-	<%= if (@property.style != nil )  
-		    s +	@property.style
-		  else
-			  s + "Unknown"
-		  end %>
-	</div>
+  <%= ps_markup_field_or_hide("Original Owner", @property.originalowner) %>
+  <%= ps_markup_field_or_hide("Original Owner Spouse", 
+                              @property.originalownerspouse, true) %>
+  <%= ps_markup_field_or_hide("Original Owner Occupation", 
+                              @property.originalowneroccupation, true) %>
+  <%= ps_markup_field_or_hide("Original Cost", 
+        number_to_currency(@property.originalcost, :precision => 0)) %>
+  <%= ps_markup_field_or_hide("Original Lot Size", 
+                              @property.originallotsize) %>
 
-  <div class='hanging-indent'>
-  	<span class="ps-details-titles">Original Owner: </span>
-  	<%= if ( @property.originalowner != nil )  
-  			  @property.originalowner 
-  		  else
-  			  "Unknown"
-  		  end %>
-  </div>
+  <%= ps_markup_field_or_hide("Moved on to Property", 
+                              @property.movedontoproperty, true) %>
+  <%= ps_markup_field_or_hide("Place of Business", 
+                              @property.placeofbusiness, true) %>
+  <%= ps_markup_field_or_hide("Street Direction", 
+                              @property.streetdirection, true) %>
+  <%= ps_markup_field_or_hide("Address Notes", 
+                              @property.addressnote, true) %>
+  <%= ps_markup_field_or_hide("Quadrant", 
+                              @property.quadrant, true) %>
+  <%= ps_markup_field_or_hide("Type", 
+      @property.type != nil ? @property.type.capitalize : "", true) %>
 
-	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
-	  Original Owner Spouse: </span>".html_safe %>
-	<%= if ( @property.originalownerspouse != nil )  
-			  s + @property.originalownerspouse + "</div>".html_safe
-		  end %>
-
-	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
-	  Original Owner Occupation: </span>".html_safe %>
-	<%= if ( @property.originalowneroccupation != nil )  
-			  s + @property.originalowneroccupation + "</div>".html_safe
-		  end %>
-
-	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
-	  Original Cost: </span>".html_safe %>
-	<%= if (@property.originalcost != nil )  
-		    s + number_to_currency(@property.originalcost, :precision => 0)
-		  else
-			  s + "Unknown"
-		  end %>
-	</div>
-
-	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
-	  Original Lot Size: </span>".html_safe %>
-	<%= if (@property.originallotsize != nil ) then 
-		    s +	@property.originallotsize
-		  else
-			  s + "Unknown"
-		  end %>
-	</div>
-
-  <!-- hide this field entirely unless it's filled in -->
-	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
-	  Moved on to Property: </span>".html_safe %>
-	<%= if (@property.movedontoproperty != nil ) then
-				s + @property.movedontoproperty + "</div>".html_safe
-		  end %>
-
-  <!-- hide this field entirely unless it's filled in -->
-	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
-	  Place of Business: </span>".html_safe %>
-	<%= if (@property.placeofbusiness != nil) then 
-				s +	@property.placeofbusiness + "</div>".html_safe
-		  end %>
-
-  <!-- hide this field entirely unless it's filled in -->
-	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
-	  Street Direction: </span>".html_safe %>
-	<%= if (@property.streetdirection != nil) then 
-		    s +	@property.streetdirection + "</div>".html_safe
-		  end %>
-
-  <!-- hide this field entirely unless it's filled in -->
-	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
-	  Address Notes: </span>".html_safe %>
-	<%= if (@property.addressnote != nil) then 
-		    s +	@property.addressnote + "</div>".html_safe
-		  end %>
-
-  <!-- hide this field entirely unless it's filled in -->
-	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
-	  Quadrant: </span>".html_safe %>
-	<%= if (@property.quadrant != nil) then 
-		    s +	@property.quadrant + "</div>".html_safe
-		  end %>
-
-  <!-- hide this field entirely unless it's filled in -->
-	<% s = "<div class='hanging-indent'><span class='ps-details-titles'>
-	  Type: </span>".html_safe %>
-	<%= if (@property.type != nil) then 
-		    s +	@property.type.capitalize + "</div>".html_safe
-		  end %>
-
-	<div id="ps-note-sources">
-	<%= if (@property.notes_shpo_and_sources != nil) then 
-		    markdown(@property.notes_shpo_and_sources)
-		  end %>
-	</div>
-	
-	<!-- Significance code: Eligible for California Historical Resources Inventory<br> -->
-	
-</div> <!-- ps-db-details -->
-
-<!--
-<div id="googlemap">
-  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3300.5208208709487!2d-118.1586366847815!3d34.18416698057027!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2c2f7ab94ae73%3A0xfd92876118141170!2s265+Acacia+St%2C+Altadena%2C+CA+91001!5e0!3m2!1sen!2sus!4v1476747776267" width="100%" height="100%" frameborder="0" style="border:0" allowfullscreen></iframe>
-</div>  
-<br/>TEST MAP BELOW<br/>
-<div id="map" style="width: 500px; height: 500px;"></div>
-<div id="map"></div>
--->
-
-<div id="ps-search-again-container">
-	<button id="ps-search-again-btn" 
-	  class="btn-arrow-anim  btn-arrow-anim--wide-square-bottom" type="button">
-		<span class=".btn-arrow-anim__text">Search Again </span>
-	</button>
-</div>
+      <div id="ps-note-sources">
+    	  <%= if (@property.notes_shpo_and_sources != nil) then 
+    		      markdown(@property.notes_shpo_and_sources)
+    		    end 
+    	  %>
+      </div>
+    
+    </div> <!-- end ps-db-details -->
+    
+    <div id="ps-search-again-container">
+    	<button id="ps-search-again-btn" 
+    	  class="btn-arrow-anim  btn-arrow-anim--wide-square-bottom" type="button">
+    		<span class=".btn-arrow-anim__text">Search Again </span>
+    	</button>
+    </div>

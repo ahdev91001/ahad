@@ -13,7 +13,9 @@ TODO: Things to potentially cover...
 
 * Ruby version
 
-* System dependencies
+* System dependencies:
+  *   To run the test suite on cloud9, xvfb and firefox must both be installed
+      for the feature tests to run.
 
 * Configuration
 
@@ -21,7 +23,9 @@ TODO: Things to potentially cover...
 
 * Database initialization
 
-* How to run the test suite
+* To run test suite on cloud9: `xvfb-run bundle exec rspec spec --format doc`
+
+* To run test suite on local ubuntu dev machine: `bundle exec rspec spec --format doc`
 
 * Services (job queues, cache servers, search engines, etc.)
 

@@ -22,6 +22,8 @@
 
 # Ignore jsdocs that are dynamically created anyway
 /jsdoc/jsdocout/*
+# Ignore Yard ruby docs that are also dynamically created
+/doc/*
 
 # Ignore eclipse Aptana Studio 3 IDE config files
 /.metadata/*
