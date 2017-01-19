@@ -24,7 +24,7 @@ RSpec.feature "Actions available from testform page", :type => :feature, js: tru
     sleep(2)
     click_button("Submit")
     
-    expect(page).to have_text("653 Alameda St")
+    expect(page).to have_text(/653 Alameda St/i)
     sleep(2)
     
   end 
