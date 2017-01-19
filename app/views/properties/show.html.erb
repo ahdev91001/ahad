@@ -79,12 +79,12 @@
   <%= ps_markup_field_or_hide("Type", 
       @property.type != nil ? @property.type.capitalize : "", true) %>
 
-    <div id="ps-note-sources">
-    	<%= if (@property.notes_shpo_and_sources != nil) then 
-    		    markdown(@property.notes_shpo_and_sources)
-    		  end 
-    	%>
-    </div>
+      <div id="ps-note-sources">
+    	  <%= if (@property.notes_shpo_and_sources != nil) then 
+    		      markdown(@property.notes_shpo_and_sources)
+    		    end 
+    	  %>
+      </div>
     
     </div> <!-- end ps-db-details -->
     
