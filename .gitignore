@@ -25,3 +25,7 @@
 
 # Ignore eclipse Aptana Studio 3 IDE config files
 /.metadata/*
+
+# Ignore YARD (RDoc) dynamically created documentation
+/doc/*
+

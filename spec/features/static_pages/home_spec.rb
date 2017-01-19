@@ -19,7 +19,11 @@ require 'pry-byebug'
 #
 RSpec.feature "Actions available from home page", 
   :type => :feature, js: true do
-  
+
+  include PropertySpecPageHelper  
+  include StaticPagesSpecPageHelper
+  let(:home_page) { StaticPagesSpecPageHelper::HomePageSpecPageHelper.new }
+
   # 1 & 2 ####################################################################
   context "search for a property that exists in the database" do
 
@@ -32,106 +36,37 @@ RSpec.feature "Actions available from home page",
     # 1 ######################################################################
     scenario "by using dropdown list" do
       
-      visit "/"
-      find("#select2-sp-home-addr-select2-container").click
-      wait_for_ajax
-      find(".select2-results li:nth-child(3)").click # maybe by name, not index
-      click_button("sp-home-search-btn")
-      expect(page).to have_css("#ps-addr-title-zoom-container", wait: 5)
-      expect(page).to have_css("#ps-addr-title-zoom__text", 
-        :text => "1090 Rubio St")
- 
+      home_page.visit_page.click_select2_item("1090 Rubio St").click_search
+      expect(page).to show_property_at("1090 Rubio St")
+
     end  
 
     # 2 ######################################################################
     scenario "by typing directly into combobox" do
       
-      visit "/"
-      find("#select2-sp-home-addr-select2-container").click
-      wait_for_ajax
-      # Turn below into a PageHelper function
-      # select_property_in_db
-      find(".select2-search__field", wait: 5).set("259 Acacia St\n")
-      
-      find("#select2-sp-home-addr-select2-container", 
-        text: "259 Acacia St")
-      
-      # 1. without second find 
-      # 2. with second find without \n
-      # 3. with second find with \n
-      #
-      # A1. WORKS: With \n and without second find:
-      #  Q: Why does this one seem to block before search button click
-      #     but in case 3 below, that set doesn't block and search
-      #     gets clicked too soon?
-      #
-      # A2. WORKS: With \n, with second find WITHOUT \n. 
-      #
-      # A3. FAILS: With \n, with second find WITH \n: Find with \n seems to
-      #     literally be looking for that ending character in the text,
-      #     and it appears to be stripped above in the set and instead
-      #     treated as a literal hitting of the enter key.
-      #
-      # B1. FAILS: Without \n and without second find:
-      #     It hilights the correct option in the dropdown list, but
-      #     that never gets actually "selected" (as in someone clicking
-      #     the mouse or hitting the enter key), so when the search
-      #     button gets clicked, the dropdown just rolls up and the
-      #     combobox is still blank and only containing the placeholder
-      #     text.  Thus, the search goes through (CHANGE THIS WHEN
-      #     ADD JAVASCRIPT) and the "blank" property is not found.
-      #
-      # B2. FAILS: Without \n and with second find WITHOUT \n:
-      #     It highlights the selection in the dropdown, but does NOT
-      #     then put it into the #select2-sp-home-addr-select2-container 
-      #     element, so the second find times out.  
-      #
-      # B3. FAILS: Without \n and with second find with \n:
-      #     Just hangs on second find, because without the first \n,
-      #     the selection is never "acknowledged" and inserted into
-      #     the #select2-sp-home-addr-select2-container element.
-      #     But even if it did, it would not match the additional
-      #     \n, as was the case with A3.
-      
-      click_button("sp-home-search-btn")
-      expect(page).to have_css("#ps-addr-title-zoom-container", wait: 5)
-      expect(page).to have_css("#ps-addr-title-zoom__text", 
-        :text => "259 Acacia St")
- 
+      home_page.visit_page.
+        type_text_for_existing_item_into_select2("259 Acacia St").click_search
+      expect(page).to show_property_at("259 Acacia St")
+
     end  
-    
   end
 
   # 3 ########################################################################
-  scenario "search for a property that doesn't exist in the database" do
+  scenario "search for a property that doesn't exist in the database", :wip => true do
 
+      # Creating a few properties, so that the select2 AJAX call proceeds
+      # and loads the dropdown list, because that can affect thing even
+      # when someone types an address into the search field that isn't one
+      # of the addresses in the dropdown list.  Basically I want to set up
+      # select2 state to mirror what it will be like in real production.
       FactoryGirl.create(:property, id: "10064", address1: "653 Alameda St")
       FactoryGirl.create(:property, id: "10002", address1: "259 Acacia St")
       FactoryGirl.create(:property, id: "16494", address1: "1090 Rubio St")
       
-      visit "/"
-      find("#select2-sp-home-addr-select2-container").click
-      wait_for_ajax
-      # TODO: Turn below, the 2 statements, into a PageHelper function
-      # select_property_not_in_db()
-      find(".select2-search__field", wait: 5).set("1000 E Mount Curve Ave")
-      find("#select2-sp-home-addr-select2-container", 
-        text: "1000 E Mount Curve Ave")
-      
-      # B2. WORKS: Without \n, with second find WITHOUT \n. 
-      #     Apparently this set(), in conjunction with select2 (since
-      #     select2 doesn't hijack things by hilighting the option
-      #     in the dropdown list [hypothesis]) is enough for select2
-      #     to automatically transfer the value into 
-      #     #select2-sp-home-addr-select2-container without the need
-      #     for the \n signifying hitting the enter key. But if
-      #     the second find isn't there to give it a second to 
-      #     "take" or transfer, then #select2-sp-home-addr-select2-container
-      #     just stays blank because the search button is clicked 
-      #     before it can be updated from the .select2-search__field.
-      click_button("sp-home-search-btn")
-      expect(page).to have_css(".search-not-found-results", wait: 5)
-      expect(page).to have_text("for: 1000 E Mount Curve Ave")
+      home_page.visit_page.type_text_for_unlisted_item_into_select2(
+        "1000 E Mount Curve Ave").click_search
+      expect(page).to show_property_not_found("1000 E Mount Curve Ave")
+
   end
 
   # 4 ########################################################################
@@ -144,29 +79,26 @@ RSpec.feature "Actions available from home page",
   # Maybe assert a css saying "please fill in address" starts
   # hidden, then check for it being shown.  Think this through.
   #    
-  scenario "Search clicked with an empty select2 stays on homepage" do
+  scenario "search clicked with an empty select2 stays on homepage" do
     pending('rethink ux and fix search button js code when address' +
       'blank or just whitespace')
     visit "/"  
     click_button("sp-home-search-btn")
     sleep 3 # TODO: Come up with better solution
     expect(page).to have_text("Architectural Database") # seach
-    # for an ID or something, not just test
+    # for an ID or something, not just text
     
   end
 
   # 5 ########################################################################
-  scenario "Search clicked with some whitespace in select2 " +
+  scenario "search clicked with some whitespace in select2 " +
            "stays on homepage"
   
   
   # STOP HERE... clean up below, move all comments to dev log text file
   # and delete function.
-  #
-  # Then, fix DISABLEDonclick="rootHomeSearchClicked()" so it is set
-  # to active via JS, and remove this type of intermixed nonsense from html
-  
-  scenario "Search for a property that exists in the database" do
+
+  scenario "search for a property that exists in the database" do
     # setup
     FactoryGirl.create(:property, id: "10064", address1: "653 Alameda St")
     FactoryGirl.create(:property, id: "10002", address1: "259 Acacia St")
