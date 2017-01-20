@@ -321,6 +321,8 @@ function rootHomeSearchClicked() {
   if ( $("#sp-home-addr-select2").val() !== null )  {
     $(".btn-arrow-anim__text").html("Looking...");
     document.getElementById("sp-home-form").submit();
+  } else { 
+    return false; 
   }
 }
 

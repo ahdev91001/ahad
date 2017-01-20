@@ -1,19 +1,64 @@
+#############################################################################
+# module StaticPagesSpecPageHelper
+#
+# Abstracts away all css-specific capybara commands for spec'ing the
+# various pages of the StaticPages controller.
+#
+# Includes the infamous routines to have capybara work propertly with
+# select2 and selenium.  Ooooh, that one was hard to figure out.  
+#
+# Since 1/19/2017 Derek Carlson <carlson.derek@gmail.com>
+#############################################################################
 module StaticPagesSpecPageHelper
 
+  # The canonical code, whatever it happens to be, for verifying that
+  # the home page is up.
+  def be_the_home_page
+    have_css("#sp-home-ad-box", 
+      :text => "Architectural Database", :wait => 5) 
+  end
+  
+  ###########################################################################
+  # #HomePageSpecPageHelper
+  
+  # Abstracts all css-specific capybara commands for the home page.
+  # Returns self on all methods, allowing a slick fluent chaining
+  # syntax in the static pages spec.  If the page design or css
+  # naming changes, here is the only place you'll need to go to
+  # update the spec.
+  #
+  # @author Derek Carlson <carlson.derek@gmail.com>
+  #
+  ###########################################################################
   class HomePageSpecPageHelper
     include Capybara::DSL
     include WaitForAjax
     
+    # Visit the home page
+    #
+    # @return self
     def visit_page
       visit "/"
       self
     end
     
+    # Click the Search button on the home page
+    #
+    # @return self
     def click_search
       click_button("sp-home-search-btn")
       self
     end
     
+    # Select an item in a select2 element by clicking on an
+    # item in the dropdown list.
+    #
+    # @param name_or_list_index [String, Integer] either the 
+    #   name of an item in the dropdown list, or the index
+    #   of the item in the dropdown list, where the first
+    #   item's index is 1.
+    #
+    # @return self
     def click_select2_item(name_or_list_index)
       find("#select2-sp-home-addr-select2-container").click
       wait_for_ajax
@@ -43,88 +88,69 @@ module StaticPagesSpecPageHelper
     #
     # @param stuff [String] the text to be typed into the select2 search field
     #
-    # It turns out select2 is somewhat complex.  We have capybara type into a
-    # text box marked as .select2-search__field.  In order to get the typed
-    # text to register, we have to add a \n to the text because that simulates
-    # the hitting of the enter key -- otherwise the text never gets copied from
-    # the .select2-search__field into the actual value of the select2 element
-    # that the page uses when the form submits (which is the
-    # #select2-sp-home-addr-select2-container element)
+    # @return self
     #
-    # Once the \n forces the hitting of the enter key, one of two things 
-    # happens.
-    #
-    #, the text typed into
-    # the .select2-search__field gets copied into another element known as
-    # #select2-sp-home-addr-select2-container
-    #
-    # Below is a list of things I tried before I figured out what actually worked.
-    #
-    # The A cases (A1, A2, A3) are all for the case where we add a \n to the 
-    # text that is typed.  The "second find" referred to is commented out in
-    # the actual code below, and was something I was experimenting with to
-    # prevent the search button from getting clicked too soon, before the 
-    # .set actually registered.
-    #
-    # A1. WORKS: With \n and without second find:
-    #  Q: Here's the crazy thing, though.  If the text typed in was NOT
-    #     in the dropdown list, then the .set would NOT block, and if
-    #     there weren't a second find, search gets clicked before
-    #     the text registers in the select2 which causes failure 
-    #     due to a race condition.  You'll notice in the next routine
-    #     below 'type_text_for_nonexisting_item_into_select2()' that
-    #     the "second find" is uncommented and is actually necessary
-    #     to make it work -- it blocks until the typed text actually
-    #     registers with the #select2-sp-home-addr-select2-container.
-    #
-    # A2. WORKS: With \n, with second find WITHOUT \n. 
-    #
-    # A3. FAILS: With \n, with second find WITH \n: Find with \n seems to
-    #     literally be looking for that ending character in the text,
-    #     and it appears to be stripped above in the set and instead
-    #     treated as a literal hitting of the enter key.
-    #
-    # B1. FAILS: Without \n and without second find:
-    #     It hilights the correct option in the dropdown list, but
-    #     that never gets actually "selected" (as in someone clicking
-    #     the mouse or hitting the enter key), so when the search
-    #     button gets clicked, the dropdown just rolls up and the
-    #     combobox is still blank and only containing the placeholder
-    #     text.  Thus, the search goes through (CHANGE THIS WHEN
-    #     ADD JAVASCRIPT) and the "blank" property is not found.
-    #
-    # B2. FAILS: Without \n and with second find WITHOUT \n:
-    #     It highlights the selection in the dropdown, but does NOT
-    #     then put it into the #select2-sp-home-addr-select2-container 
-    #     element, so the second find times out.  
-    #
-    # B3. FAILS: Without \n and with second find with \n:
-    #     Just hangs on second find, because without the first \n,
-    #     the selection is never "acknowledged" and inserted into
-    #     the #select2-sp-home-addr-select2-container element.
-    #     But even if it did, it would not match the additional
-    #     \n, as was the case with A3.
+    # We have capybara type into a text box marked as .select2-search__field.  
+    # In order to get the typed text to "register", we have to add a \n to the
+    # text because that simulates the hitting of the enter key -- otherwise 
+    # the text never gets copied from the .select2-search__field into the actual
+    # value of the select2 element that the page uses when the form submits 
+    # (which is the #select2-sp-home-addr-select2-container element, which
+    # controls the value for the original #sp-home-addr-select2 select element
+    # which is the element with name="id" that is passed to the controller
+    # as params[:id]
     def type_text_for_existing_item_into_select2(stuff)
       find("#select2-sp-home-addr-select2-container").click
       wait_for_ajax
       find(".select2-search__field", wait: 5).set(stuff + "\n")
-      # Below is the 'second find' referred to above
-      #find("#select2-sp-home-addr-select2-container", 
-      #  text: stuff)
+      # For who-knows-what-reason, unlike the similar case for typing
+      # in the text of an item that doesn't exist in the dropdown list,
+      # the .set() above with the \n is enough to ensure that the value
+      # of .select2-search__field gets copied into
+      # #select2-sp-home-addr-select2-container before the code continues,
+      # preventing race conditions.  Unlike the other case, the second
+      # find, commented out below, isn't necessary in this case.
+      #
+      # find("#select2-sp-home-addr-select2-container", text: stuff)
       self
     end
 
-      # B2. WORKS: Without \n, with second find WITHOUT \n. 
-      #     Apparently this set(), in conjunction with select2 (since
-      #     select2 doesn't hijack things by hilighting the option
-      #     in the dropdown list [hypothesis]) is enough for select2
-      #     to automatically transfer the value into 
-      #     #select2-sp-home-addr-select2-container without the need
-      #     for the \n signifying hitting the enter key. But if
-      #     the second find isn't there to give it a second to 
-      #     "take" or transfer, then #select2-sp-home-addr-select2-container
-      #     just stays blank because the search button is clicked 
-      #     before it can be updated from the .select2-search__field.
+    ###########################################################################
+    # #type_text_for_unlisted_item_into_select2
+    
+    # Type text into a select2 search field specifically when that typed text 
+    # is not any of the items in the dropdown list.  This is important, 
+    # because capybara+select2 work differently depending on whether the typed 
+    # item is in the list or not.
+    #
+    # @author Derek Carlson <carlson.derek@gmail.com>
+    #
+    # @param stuff [String] the text to be typed into the select2 search field
+    #
+    # @return self
+    #
+    # Apparently find(".select2-search__field", wait: 5).set(stuff)
+    # initiates a copy of the text in .select2-search__field over to
+    # #select2-sp-home-addr-select2-container, but this takes some
+    # time to complete.  Without the following second find command
+    # that waits for the text to appear in 
+    # #select2-sp-home-addr-select2-container, the code just blazes
+    # on past and #select2-sp-home-addr-select2-container is still
+    # nil (for a moment), thus the original select element 
+    # (#sp-home-addr-select2) that it controls is also nil, thus
+    # the search button gets clicked too fast resulting in the
+    # controller getting sent a nil for params[:id] as opposed to the
+    # id of the item typed. 
+    #
+    # BTW, the id of an item NOT in the list is the actual text you typed
+    # -- e.g. if you typed "1234 Fred St", the id (params[:id]) also is
+    # "1234 Fred St".  This is achieved in static_pages.js where the
+    # select2 options are set - see the comments there to learn how
+    # this is made available.
+    # 
+    # Thus, the second find command is necessary to wait for the
+    # typed value to transfer, and prevents the race condition and
+    # the sending of a nil id.
     def type_text_for_unlisted_item_into_select2(stuff)
       find("#select2-sp-home-addr-select2-container").click
       wait_for_ajax
@@ -134,9 +160,8 @@ module StaticPagesSpecPageHelper
       self
     end
   
-  end
-
-end
+  end # class HomePageSpecPageHelper
+end # module StaticPagesSpecPageHelper
 
 RSpec.configure do |config|
   config.include StaticPagesSpecPageHelper, :type => :feature
