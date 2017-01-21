@@ -6,6 +6,7 @@ module UtilGlobals
   # Determines whether a shell command exists (or is installed).
   #
   # @param command [String] the command to check for, no path needed
+  #
   # @return [boolean] true if command exists; false otherwise
   def shell_command?(command)
     system("which #{command} > /dev/null 2>&1")
@@ -24,7 +25,9 @@ module UtilGlobals
   # method.  Sweet!
   #
   # @param object [Object] the object that contains the method
+  #
   # @param method_sym [Symbol] the method to be inspected
+  #
   # @return [Array] [full path to file, the line in the file]
   #
   # Note, if running on cloud9, you need to first intall the
@@ -32,7 +35,8 @@ module UtilGlobals
   # line.  To do so:
   #   npm install c9
   # and then you may need to restart your workspace.
-  # (From: http://stackoverflow.com/questions/28028178/cloud-9-how-to-open-a-file-in-the-c9-editor-from-c9-terminal)
+  # (From: http://stackoverflow.com/questions/28028178/
+  #   cloud-9-how-to-open-a-file-in-the-c9-editor-from-c9-terminal)
   #
   # Thankful for Pragmatic Studio for this one:
   # https://pragmaticstudio.com/blog/2013/2/13/view-source-ruby-methods

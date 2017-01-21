@@ -45,16 +45,25 @@ module Views::Properties::ShowHelper
   # 
   # @param ext_true_str [String] when the value in the database field
   #   named ext_field matches ext_conf_val, then this specifies the
-  #   text that should be added after the value, and in ()'s.
+  #   text that should be added after the value between ()'s.
   #
   # @param ext_false_str [String] same as ext_true_str, except this
   #   is the text that is added when there is NOT a match.
   #
-  # @return [String, nil]      STOP HERE
+  # @return [nil] if 'hide' is true and the value is nil
+  # @return [String] if 'hide' is false and the value is nil, returns
+  #   "[field name]: Unknown".  
+  # @return [String] if the value exists, and no confirm field is specified,
+  #   then returns "[field name]: [value]"
+  # @return [String] if the value exists and the confirm field is
+  #   specified, then returns 
+  #   "[field name]: [value] ([ext_true_str|ext_false_str])"
   #
-  # Note explain why chose optional args instead of options
-  # hash.
-  #
+  # Note: Chose to use optional args instead of an options hash
+  # so that while coding, if someone doesn't include all the necessary
+  # arguments, the code crashes on the spot with a specific error message
+  # about arguments, instead of continuing silently and yielding
+  # incorrect output.
   def ps_markup_field_or_hide(name, value, hide=false, 
                               ext_field=nil, ext_conf_val=nil,
                               ext_true_str=nil, ext_false_str=nil

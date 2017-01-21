@@ -5,6 +5,8 @@ require 'pry-byebug'
 #
 # JavaScript/Selenium feature tests for the home page.
 #
+# Tests:
+#
 # 1. Click a property from the dropdown list and click search.
 # 2. Type in a valid property in the text field and click search.
 #     => Both 1 & 2 lead to property found page. 
@@ -28,7 +30,7 @@ require 'pry-byebug'
 #     select element that was turned into select2 - it never gets a value
 #     of just whitespace.
 #
-# Notes
+# Notes:
 #
 #   In the body of a spec, can insert "binding.pry" to force it into a 
 #   debugger.  Then you can do "puts page.body" to see what the page
@@ -55,12 +57,6 @@ RSpec.feature "Actions available from home page",
   # 1 & 2 ####################################################################
   context "search for a property that exists in the database" do
 
-#    before(:each) do
-#      FactoryGirl.create(:property, id: "10064", address1: "653 Alameda St")
-#      FactoryGirl.create(:property, id: "10002", address1: "259 Acacia St")
-#      FactoryGirl.create(:property, id: "16494", address1: "1090 Rubio St")
-#    end
-    
     # 1 ######################################################################
     scenario "by using dropdown list" do
       
@@ -82,15 +78,14 @@ RSpec.feature "Actions available from home page",
   # 3 ########################################################################
   scenario "search for a property that doesn't exist in the database" do
 
-      # Creating a few properties, so that the select2 AJAX call proceeds
-      # and loads the dropdown list, because that can affect thing even
+      # Even though this test is for a property that doesn't exist, 
+      # we still create a few properties in the before(:each) above
+      # so that the select2 AJAX call proceeds as per usual and 
+      # loads the dropdown list, because that can affect things even
       # when someone types an address into the search field that isn't one
       # of the addresses in the dropdown list.  Basically I want to set up
       # select2 state to mirror what it will be like in real production.
-#      FactoryGirl.create(:property, id: "10064", address1: "653 Alameda St")
-#      FactoryGirl.create(:property, id: "10002", address1: "259 Acacia St")
-#      FactoryGirl.create(:property, id: "16494", address1: "1090 Rubio St")
-      
+
       home_page.visit_page.type_text_for_unlisted_item_into_select2(
         "1000 E Mount Curve Ave").click_search
       expect(page).to show_property_not_found("1000 E Mount Curve Ave")

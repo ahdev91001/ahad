@@ -1,3 +1,8 @@
+#############################################################################
+# PropertiesHelper
+#
+# Since 1/20/17 Derek Carlson <carlson.derek@gmail.com>
+#############################################################################
 module PropertiesHelper
   include UtilGlobals
 
@@ -8,6 +13,7 @@ module PropertiesHelper
   # the consistent way used in the database (address1 field).
   #
   # @param addr [String] the raw address
+  #
   # @return [String] the address converted into a format used in the database
   #
   # Handles multiple whitespace before, after, and between words, 

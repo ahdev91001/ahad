@@ -1,3 +1,8 @@
+#############################################################################
+# ApplicationHelper
+#
+# Since 1/20/17 Derek Carlson <carlson.derek@gmail.com>
+#############################################################################
 module ApplicationHelper
   def markdown(text)
     options = {

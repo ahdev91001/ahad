@@ -1,3 +1,9 @@
+# From http://stackoverflow.com/questions/1325865/
+#   what-is-the-standard-way-to-dump-db-to-yml-fixtures-in-rails
+# With additional fix to work on cloud9 found at:
+#   http://stackoverflow.com/questions/23336755/
+#   activerecordadapternotspecified-database-configuration-does-not-specify-adapte
+#   (search for answer with "#{Rails.env}".to_sym -- that fix did the trick. )
 namespace :db do
   namespace :fixtures do    
     desc 'Create YAML test fixtures from data in an existing database.  

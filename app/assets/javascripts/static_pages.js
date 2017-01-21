@@ -311,7 +311,7 @@ function resizeBGImgRootHome() {
 /////////////////////////////////////////////////////////////////////////////
 // #rootHomeSearchClicked
 /** 
- * @summary Executes when Search button clicked.  Note: Tied to HTML.
+ * @summary Executes when Search button clicked.
  *
  * @author Derek Carlson
  * @since 12/7/2016

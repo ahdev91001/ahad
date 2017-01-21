@@ -4,7 +4,8 @@ class Apn < ActiveRecord::Base
   # gotcha, as per:
   # http://stackoverflow.com/questions/38983666/
   #   validation-failed-class-must-exist
-  # Search for: "belongs_to :city, optional: true"
+  #   (search for answer containing: "belongs_to :city, optional: true")
+  #
   # Was having an issue with FactoryGirl trying to create either
   # a property or an apn and it was failing... the
   # optional: true solved that issue.  However, I changed the

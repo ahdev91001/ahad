@@ -5,7 +5,7 @@ class Property < ActiveRecord::Base
   self.inheritance_column = nil # required because property table has a type
   # column, and that is a reserved name used for Single Table Inheritance
   # per convention.  If need STI, change nil to :sti_type and probably
-  # add a migration to add that column to the DB.
+  # add a migration to add that column to the DB.  DDC
 
   self.table_name = "property"
 
