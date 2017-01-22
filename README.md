@@ -41,7 +41,7 @@ Selenium is already installed via the Gemfile, but the following components need
 - geckodriver, the Selenium web driver mediator for Firefox: a standalone binary that mediates between Selenium and Firefox
 - xvfb: The X windows Virtual Frame Buffer display server that allows Firefox to run on a system lacking an X Windows display
 
-## Here's why these things are needed:
+### Here's why these things are needed:
 
 **xvfb:** In order to do fully automated integration/feature tests of the site's pages that contain JavaScript (like the home page that incorporates the select2 combobox), RSpec uses Capybara which uses Selenium to drive Firefox through the tests.
 
@@ -51,7 +51,7 @@ However, Firefox won't run on cloud9 because the cloud9 virtual Ubuntu machine d
 
 **Selenium web driver for Firefox:** A mediating stand-alone executable known as "geckodriver" is necessary for Selenium 3 (we're using 3.0.5 as of 1/21/17) to drive Firefox 50 (50.1.0 as of 1/21/17).  With older versions of Selenium and Firefox this wasn't necessary.
 
-## Here's how to set them up:
+### Here's how to set them up:
 
 **Firefox**:
 ```
