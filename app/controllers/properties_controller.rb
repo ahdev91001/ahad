@@ -20,8 +20,13 @@ class PropertiesController < ApplicationController
                        # in our database.  (Note, could be an address not in the
                        # DB or could be a typo or 'St.' not 'Street', etc.)
     end
+    
     respond_with(@properties)
-    # TODO: currently crashes on /properties/ ... no index.html.erb file
+    # Currently does a 500.html in production on the
+    # /properties route because no index.html.erb file. Q: Do we want
+    # it to do anything over and above that?  (Q logged in Evernote
+    # "404.html for non-existent routes: Design a clever 404 page :)"
+    # 1/21/17 DDC)
   end
   
   # Does nothing special yet. :)
