@@ -66,12 +66,27 @@ RSpec.feature "Actions available from home page",
     end  
 
     # 2 ######################################################################
-    scenario "by typing directly into combobox" do
+    context "by typing directly into combobox", :wip => true do
       
-      home_page.visit_page.
-        type_text_for_existing_item_into_select2("259 Acacia St").click_search
-      expect(page).to show_property_at("259 Acacia St")
+      scenario "an address spelled verbatim to the way it's spelled " +
+        "in the database" do
+          
+        home_page.visit_page.
+          type_text_for_existing_item_into_select2("259 Acacia St").click_search
+        expect(page).to show_property_at("259 Acacia St")
+        
+      end
 
+      scenario "an address spelled different from the way it's spelled " +
+        "in the database" do
+          
+        home_page.visit_page.
+          type_text_for_unlisted_item_into_select2(
+            "259 ACACIA Street").click_search
+        expect(page).to show_property_at("259 Acacia St")
+        
+      end
+      
     end  
   end
 

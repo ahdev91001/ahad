@@ -121,16 +121,19 @@ describe "properties/show.html.erb" do
     expect(rendered).to match(/Year Built.*1911 \(estimated\)/m)
   end
 
-  # TODO: Change this to use a mock property object that
-  # can receive the .apn message and respond with a mock
-  # apn object that contains parcel.  Also see Evernote
-  # rails(ahad) notebook note named:
+  # Also see Evernote 'rails(ahad)' notebook note named:
   # "FactoryGirl and RSpec: has_one and has_many associations 
   #   setup for Property#show view spec"
   it "displays the APN when it's available" do
-    apn = FactoryGirl.create(:apn, parcel: "5844-015-004")
+    # Use below if want to run through the DB instead of using stubs
+    #apn = FactoryGirl.create(:apn, parcel: "5844-015-004") # [1]
+    #assign(:property, Property.find(apn.propid))           # [1]
+
     # 5844-015-004 is for 1090 Rubio St.
-    assign(:property, Property.find(apn.propid))
+    apn = double('apn', :parcel => "5844-015-004" )     # [2]
+    @property = FactoryGirl.build_stubbed(:property)    # [2]
+    allow(@property).to receive(:apn).and_return(apn)   # [2]
+    assign(:property, @property)                        # [2]
 
     render
     expect(rendered).to match(/APN.*5844-015-004/m)
@@ -140,40 +143,36 @@ describe "properties/show.html.erb" do
   # nil because MySQL has a Not Null constraint on parcel.
   # We can't just build it in memory, because the view
   # calls @property.apn, which does a database lookup
-  # for the apn, which would not exist if we just built
-  # it in memory.
+  # for the apn (via the association), which would not exist
+  # if we just built it in memory. So for this one it's necessary 
+  # to create a mock property object for the test.
   #
-  # So commenting this out for now.  This will be a good
-  # case for creating a mock property object (easy enough
-  # with .build_stubbed in FactoryGirl) which responds
-  # to the .apn message by returning a mock (or built)
-  # apn object in memory.  But I need to learn how to
-  # do all that first.
-  #
-  # Just because we can't insert a nil value into parcel
-  # doesn't mean that it's impossible, due to data corruption
-  # or due to the constraint being lifted in the future,
+  # Just because we can't insert a nil value into parcel into
+  # the database doesn't mean that it's impossible, due to data 
+  # corruption or due to the constraint being lifted in the future,
   # that a nil parcel exists.
-=begin
   it "displays 'APN: Unknown' when the parcel field is nil" do
 
-    apn = FactoryGirl.create(:apn, parcel: nil)
-    assign(:apn, apn)
-    assign(:property, Property.find(apn.propid))
+    apn = double('apn', :parcel => nil )
+    @property = FactoryGirl.build_stubbed(:property)
+    allow(@property).to receive(:apn).and_return(apn)
+    assign(:property, @property)
 
     render
     expect(rendered).to match(/APN.*Unknown/m)
   end
-=end
 
   # NOTE: Change this when View Settings are implemented, to
   # ensure that APN is set to "Show" so it passes the spec
-  #
-  # TODO: Change to use mock object for property and apn, to
-  # decouple from database
   it "displays 'APN: Unknown' when the parcel field is the empty string" do
-    apn = FactoryGirl.create(:apn, parcel: "")
-    assign(:property, Property.find(apn.propid))
+    # Below runs through the DB instead of using stubs
+    #apn = FactoryGirl.create(:apn, parcel: "")
+    #assign(:property, Property.find(apn.propid))
+
+    apn = double('apn', :parcel => "" )
+    @property = FactoryGirl.build_stubbed(:property)
+    allow(@property).to receive(:apn).and_return(apn)
+    assign(:property, @property)
 
     render
     expect(rendered).to match(/APN.*Unknown/m)
@@ -181,9 +180,6 @@ describe "properties/show.html.erb" do
 
   # NOTE: Change this when View Settings are implemented, to
   # ensure that APN is set to "Show" so it passes the spec
-  #
-  # TODO: Change to use mock object for property and apn, to
-  # decouple from database
   it "displays 'APN: Unknown' when there is no associated " +
       "APN record" do
     assign(:property, FactoryGirl.build_stubbed(:property))
@@ -192,12 +188,18 @@ describe "properties/show.html.erb" do
     expect(rendered).to match(/APN.*Unknown/m)
   end
 
-  # TODO: Change to use mock object for property and photo, to
-  # decouple from database
-  it "it displays a photo"  do
-    photo = FactoryGirl.create(:photo, filename: "16494_photo_01.jpg")
-    assign(:property, Property.find(photo.propid))
+  it "it displays a photo", :wip => true  do
+    # Use below to run through the database instead of stubs    
+    #photo = FactoryGirl.create(:photo, filename: "16494_photo_01.jpg")
+    #assign(:property, Property.find(photo.propid))
+
     # 16494_photo_01.jpg is for 1090 Rubio St.
+    photos = double('photos', 
+      :first => double('first', :filename => "16494_photo_01.jpg"))
+    @property = FactoryGirl.build_stubbed(:property)
+    allow(@property).to receive(:photos).and_return(photos)
+    
+    assign(:property, @property)
 
     render
     expect(rendered).to match(/16494_photo_01.jpg/m)
