@@ -15,7 +15,7 @@ module Views::Properties::ShowHelper
   # Generate markup for any field containing field title and value.
   #
   # If value is nil, then markup will either be nil or will
-  # contain '[Field Title]: Unknown', depending on what the view
+  # contain '[Field Title]: Not on File', depending on what the view
   # setting is for that field when it's nil.
   #
   # @author Derek Carlson <carlson.derek@gmail.com>
@@ -52,7 +52,7 @@ module Views::Properties::ShowHelper
   #
   # @return [nil] if 'hide' is true and the value is nil
   # @return [String] if 'hide' is false and the value is nil, returns
-  #   "[field name]: Unknown".  
+  #   "[field name]: Not on File".  
   # @return [String] if the value exists, and no confirm field is specified,
   #   then returns "[field name]: [value]"
   # @return [String] if the value exists and the confirm field is
@@ -82,7 +82,7 @@ module Views::Properties::ShowHelper
     if (value != nil)
       ("    " + title + value + conf_str + "\n      </div>").html_safe
     else
-      ("    " + title + "Unknown\n      </div>").html_safe unless hide
+      ("    " + title + "Not on File\n      </div>").html_safe unless hide
     end
   end
 end
