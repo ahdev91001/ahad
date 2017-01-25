@@ -24,25 +24,12 @@ class StaticPagesController < ApplicationController
     if (params[:id] =~ /^\d+$/)
       redirect_to "/properties/" + params[:id]
     else
-      addr_normalized = normalize_address(params[:id])
-      
-      logger.debug "Hand-typed address (not selected from dropdown list): (" +
-        params[:id] + ")"
-      logger.debug "  Address text normalized to: (#{addr_normalized})"
-
-      # Use LIKE to work with sqlite as well as mysql2       
-      @property = Property.where("address1 LIKE ?", "%#{addr_normalized}%")[0]
-      
-      # Below worked for mysql2 which does case-insensitive matching,
-      # but sqlite only does case-insensitive matching in LIKE statements.
-      # Got this from: http://stackoverflow.com/questions/2220423/
-      #   case-insensitive-search-in-rails-model
-      # The reply that starts with: "Quoting from the SQLite documentation:"
-      #@property = Property.find_by address1: addr_normalized
+      @property = Property.find_by_loose_address(params[:id])
 
       if @property != nil
         redirect_to "/properties/" + @property.id.to_s
       else
+        addr_normalized = normalize_address(params[:id])
         @address = params[:id] + 
           (params[:id] != addr_normalized ? " (" + addr_normalized + ")" : "")
         render "properties/search_not_found"        

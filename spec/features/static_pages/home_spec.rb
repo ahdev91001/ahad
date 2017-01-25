@@ -78,7 +78,7 @@ RSpec.feature "Actions available from home page",
       end
 
       scenario "an address spelled different from the way it's spelled " +
-        "in the database", :wip => true do
+        "in the database" do
           
         home_page.visit_page.
           type_text_for_unlisted_item_into_select2(
