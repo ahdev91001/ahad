@@ -44,9 +44,9 @@ group :test, :testsqlite do
   gem 'guard-minitest',           '2.4.4'
 end
 
-group :testsqlite do
-  gem 'sqlite3'
-end
+#group :testsqlite do
+#  gem 'sqlite3'
+#end
 
 group :production do
 #  gem 'pg', '0.18.4'
