@@ -164,6 +164,7 @@ function onLoadEventRootHomeHelper() {
                 // http://stackoverflow.com/questions/25616520/
                 //   select2-dropdown-allow-new-values-by-user-when-user-types
     selectOnBlur: true, 
+    selectOnClose: true,
     createSearchChoice: function (term, data) {
         if ($(data).filter(function () {
             return this.text.localeCompare(term) === 0;

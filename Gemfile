@@ -38,15 +38,12 @@ group :development do
 end
 
 group :test, :testsqlite do
+  gem 'sqlite3'
   gem 'rails-controller-testing', '0.1.1'
   gem 'minitest-reporters',       '1.1.9'
   gem 'guard',                    '2.13.0'
   gem 'guard-minitest',           '2.4.4'
 end
-
-#group :testsqlite do
-#  gem 'sqlite3'
-#end
 
 group :production do
 #  gem 'pg', '0.18.4'

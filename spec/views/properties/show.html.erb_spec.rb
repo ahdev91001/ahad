@@ -26,7 +26,7 @@ describe "properties/show.html.erb" do
       FactoryGirl.build_stubbed(:property, stories: nil))
     
     render
-    expect(rendered).to match(/Stories.*Unknown/m)
+    expect(rendered).to match(/Stories.*Not on File/m)
   end
 
   it "does not display anything when the field is set to " +
@@ -159,7 +159,7 @@ describe "properties/show.html.erb" do
     assign(:property, @property)
 
     render
-    expect(rendered).to match(/APN.*Unknown/m)
+    expect(rendered).to match(/APN.*Not on File/m)
   end
 
   # NOTE: Change this when View Settings are implemented, to
@@ -175,7 +175,7 @@ describe "properties/show.html.erb" do
     assign(:property, @property)
 
     render
-    expect(rendered).to match(/APN.*Unknown/m)
+    expect(rendered).to match(/APN.*Not on File/m)
   end
 
   # NOTE: Change this when View Settings are implemented, to
@@ -185,7 +185,7 @@ describe "properties/show.html.erb" do
     assign(:property, FactoryGirl.build_stubbed(:property))
 
     render
-    expect(rendered).to match(/APN.*Unknown/m)
+    expect(rendered).to match(/APN.*Not on File/m)
   end
 
   it "it displays a photo", :wip => true  do
