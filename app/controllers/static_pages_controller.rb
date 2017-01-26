@@ -24,17 +24,12 @@ class StaticPagesController < ApplicationController
     if (params[:id] =~ /^\d+$/)
       redirect_to "/properties/" + params[:id]
     else
-      addr_normalized = normalize_address(params[:id])
-      
-      logger.debug "Hand-typed address (not selected from dropdown list): (" +
-        params[:id] + ")"
-      logger.debug "  Address text normalized to: (#{addr_normalized})"
-      
-      @property = Property.find_by address1: addr_normalized
+      @property = Property.find_by_loose_address(params[:id])
 
       if @property != nil
         redirect_to "/properties/" + @property.id.to_s
       else
+        addr_normalized = normalize_address(params[:id])
         @address = params[:id] + 
           (params[:id] != addr_normalized ? " (" + addr_normalized + ")" : "")
         render "properties/search_not_found"        

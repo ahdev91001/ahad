@@ -24,32 +24,17 @@ development:
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
-
-# WARNING, below managed by automated rake task that modifies this file
-#
-# Do not remove the "# :test" comments below, because they are used
-# by rake tasks db:test:setsqlite (lib/tasks/test_sqlite.rake) and
-# db:test:setmysql (lib/tasks/test_mysql.rake) to automatically
-# comment and uncomment the :test and :testsqlite sections below
-# so that the test environment works with sqlite or mysql, respectively.
-#test:                           # :test
-#  <<: *default                  # :test
-#  database: altaheri_djrtest    # :test
-#  username: altaheri_13         # :test
-#  password: bfVadxzk            # :test
-#  host: db80a.pair.com          # :test
-#
-# WARNING, below managed by automated rake task that modifies this file.
-# (See comment above for details.)
-#
-# Do not change, move, or remove the :testsqlite comments below
-#
-test:                           # :testsqlite
-  adapter: sqlite3              # :testsqlite
-  pool: 5                       # :testsqlite
-  timeout: 5000                 # :testsqlite
-  database: db/test.sqlite3     # :testsqlite
-
+#test:
+#  <<: *default
+#  database: altaheri_djrtest
+#  username: altaheri_13
+#  password: bfVadxzk
+#  host: db80a.pair.com
+test:
+  adapter: sqlite3
+  pool: 5
+  timeout: 5000
+  database: db/test.sqlite3
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is

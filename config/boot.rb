@@ -5,10 +5,17 @@ require 'bundler/setup' # Set up gems listed in the Gemfile.
 # Uncomment below to get load times for all gems when rails boots
 # Code from: http://mildlyinternet.com/code/profiling-rails-boot-time.html
 require "benchmark"
+require "pry-byebug"  # causes Heroku to crash on install
+
 
 def require(file_name)
   result = nil
 
+  # look at caller object
+  #if file_name == "rails/commands"
+  #  binding.pry
+  #end
+  
   time = Benchmark.realtime do
     result = super
   end
