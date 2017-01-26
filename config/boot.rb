@@ -4,7 +4,6 @@ require 'bundler/setup' # Set up gems listed in the Gemfile.
 
 # Uncomment below to get load times for all gems when rails boots
 # Code from: http://mildlyinternet.com/code/profiling-rails-boot-time.html
-=begin
 require "benchmark"
 
 def require(file_name)
@@ -20,4 +19,3 @@ def require(file_name)
 
   result
 end
-=end

@@ -9,13 +9,37 @@
 #############################################################################
 module Views::Properties::ShowHelper
 
+  # Decided not to use below in the spec, because can't call
+  # NOT_ON_FILE() from within the it " " description.
+
+  #ps_field_value_nil_text = "Not on File"
+  #define_method(:NOT_ON_FILE) { ps_field_value_nil_text }
+
+  # When trying to run spec/views/properties/show.html.erb_spec.rb, 
+  # referencing the above NOT_ON_FILE() method, we get:
+  #
+  # /usr/local/rvm/gems/ruby-2.3.0/gems/rspec-core-3.5.4/lib/rspec/core/
+  #   example_group.rb:724:in `method_missing': `NOT_ON_FILE` is not available 
+  #   on an example group (e.g. a `describe` or `context` block). It is 
+  #   only available from within individual examples (e.g. `it` blocks)
+  #   or from constructs that run in the scope of an example 
+  #   (e.g. `before`, `let`, etc). (RSpec::Core::ExampleGroup::WrongScopeError)
+  #
+  # Since can't use the above in the spec, don't want to leave it uncommented
+  # here, because that makes people tend to think that if you change it
+  # here it will change everywhere it needs to change.
+  #
+  # Thus, the "Not on File", if this text is ever changed, needs to change
+  # in this module as well as in spec/views/properties/show.html.erb_spec.rb
+  
+
   ###########################################################################
   # #ps_markup_field_or_hide
 
   # Generate markup for any field containing field title and value.
   #
   # If value is nil, then markup will either be nil or will
-  # contain '[Field Title]: Unknown', depending on what the view
+  # contain '[Field Title]: Not on File', depending on what the view
   # setting is for that field when it's nil.
   #
   # @author Derek Carlson <carlson.derek@gmail.com>
@@ -52,7 +76,7 @@ module Views::Properties::ShowHelper
   #
   # @return [nil] if 'hide' is true and the value is nil
   # @return [String] if 'hide' is false and the value is nil, returns
-  #   "[field name]: Unknown".  
+  #   "[field name]: Not on File".  
   # @return [String] if the value exists, and no confirm field is specified,
   #   then returns "[field name]: [value]"
   # @return [String] if the value exists and the confirm field is
@@ -82,7 +106,7 @@ module Views::Properties::ShowHelper
     if (value != nil)
       ("    " + title + value + conf_str + "\n      </div>").html_safe
     else
-      ("    " + title + "Unknown\n      </div>").html_safe unless hide
+      ("    " + title + "Not on File\n      </div>").html_safe unless hide
     end
   end
 end

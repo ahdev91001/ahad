@@ -11,6 +11,7 @@ require "rails_helper"
 #############################################################################
 
 describe "properties/show.html.erb" do
+  include Views::Properties::ShowHelper  
   
   it "displays a field's name and value" do
     assign(:property,
@@ -21,12 +22,12 @@ describe "properties/show.html.erb" do
   end
   
   
-  it "displays the field name then 'Unknown' if a field is empty" do
+  it "displays the field name then 'Not on File' if a field is empty" do
     assign(:property,
       FactoryGirl.build_stubbed(:property, stories: nil))
     
     render
-    expect(rendered).to match(/Stories.*Unknown/m)
+    expect(rendered).to match(/Stories.*Not on File/m)
   end
 
   it "does not display anything when the field is set to " +
@@ -45,7 +46,7 @@ describe "properties/show.html.erb" do
     # Right now, if not hidden, the essence of the erroneous output 
     # for a nil Original Owner Spouse field looks like:
     #
-    #    Original Owner Spouse: Unknown
+    #    Original Owner Spouse: Not on File
     #
     # When in fact the entire line should be removed from the output,
     # no title, nuthin'.
@@ -155,14 +156,14 @@ describe "properties/show.html.erb" do
   # or due to the constraint being lifted in the future,
   # that a nil parcel exists.
 =begin
-  it "displays 'APN: Unknown' when the parcel field is nil" do
+  it "displays 'APN: Not on File' when the parcel field is nil" do
 
     apn = FactoryGirl.create(:apn, parcel: nil)
     assign(:apn, apn)
     assign(:property, Property.find(apn.propid))
 
     render
-    expect(rendered).to match(/APN.*Unknown/m)
+    expect(rendered).to match(/APN.*Not on File/m)
   end
 =end
 
@@ -171,12 +172,12 @@ describe "properties/show.html.erb" do
   #
   # TODO: Change to use mock object for property and apn, to
   # decouple from database
-  it "displays 'APN: Unknown' when the parcel field is the empty string" do
+  it "displays 'APN: Not on File' when the parcel field is the empty string" do
     apn = FactoryGirl.create(:apn, parcel: "")
     assign(:property, Property.find(apn.propid))
 
     render
-    expect(rendered).to match(/APN.*Unknown/m)
+    expect(rendered).to match(/APN.*Not on File/m)
   end
 
   # NOTE: Change this when View Settings are implemented, to
@@ -184,12 +185,12 @@ describe "properties/show.html.erb" do
   #
   # TODO: Change to use mock object for property and apn, to
   # decouple from database
-  it "displays 'APN: Unknown' when there is no associated " +
+  it "displays 'APN: Not on File' when there is no associated " +
       "APN record" do
     assign(:property, FactoryGirl.build_stubbed(:property))
 
     render
-    expect(rendered).to match(/APN.*Unknown/m)
+    expect(rendered).to match(/APN.*Not on File/m)
   end
 
   # TODO: Change to use mock object for property and photo, to
