@@ -14,7 +14,7 @@ gem 'normalize-scss', '~> 4.0', '>= 4.0.3'
 gem 'activemodel-serializers-xml'
 gem 'draper', github: 'drapergem/draper'
 
-group :development, :test, :testsqlite do
+group :development, :test do
   gem 'byebug',  '9.0.0', platform: :mri
   gem 'spring-commands-rspec'
   gem 'rspec-rails', '~> 3.5'
@@ -37,7 +37,7 @@ group :development do
   gem 'pry-byebug'
 end
 
-group :test, :testsqlite do
+group :test do
   gem 'sqlite3'
   gem 'rails-controller-testing', '0.1.1'
   gem 'minitest-reporters',       '1.1.9'
