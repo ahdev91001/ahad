@@ -10,7 +10,17 @@ include UtilRake
 namespace :heroku do
   desc 'Prepare environment for a successful "git push (staging|heroku)"'
   task :prep => :environment do
-    puts "Nothing specific to do yet, but if it comes up, put it here. :)"
+    sanitize_boot_rb_for_heroku_deployment
     puts "\nAll done!  Go deploy like a boss!!!\n\n"
   end
 end
+
+namespace :heroku do
+  desc 'Switch environment from a Heroku friendly deploy environment ' +
+    ' to a development friendly local environment.'
+  task :unprep => :environment do
+    unsanitize_boot_rb_for_local_dev_work
+    puts "\nAll done!  Go develop like a boss!!!\n\n"
+  end
+end
+
