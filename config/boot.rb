@@ -6,7 +6,7 @@ require 'bundler/setup' # Set up gems listed in the Gemfile.
 # Code from: http://mildlyinternet.com/code/profiling-rails-boot-time.html
 require "benchmark"
 
-#=begin  # :rake-automated-do-not-remove-this
+=begin  # :rake-automated-do-not-remove-this
 require "pry-byebug"  # causes Heroku to crash on install
 
 def require(file_name)
@@ -27,4 +27,4 @@ def require(file_name)
 
   result
 end
-#=end  # :rake-automated-do-not-remove-this
+=end  # :rake-automated-do-not-remove-this
