@@ -11,7 +11,9 @@ namespace :heroku do
   desc 'Prepare environment for a successful "git push (staging|heroku)"'
   task :prep => :environment do
     sanitize_boot_rb_for_heroku_deployment
-    puts "\nAll done!  Go deploy like a boss!!!\n\n"
+    puts "\nDon't forget to commit and push to git before deployment."
+    puts "(git needs the sanitized boot.rb so Heroku doesn't puke)\n"
+    puts "\nNow go deploy like a boss!!!\n\n"
   end
 end
 
