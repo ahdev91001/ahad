@@ -11,7 +11,10 @@
   </div>
 
   <div id="pnf-explanation">
-    Well, we went looking for <b><%= @address.titleize %></b>, but weren't able
+    Well, we went looking for <b><%= @address.titleize %></b>
+    <%= @address != normalize_address(@address) ?  
+         "(" + normalize_address(@address) +")" : "" %>
+    but weren't able
     to find it in our database.  We might not yet have any information on
     that property, or perhaps there was a typo such as a misspelled street name,
     mistyped address number, or an incorrect street designator 

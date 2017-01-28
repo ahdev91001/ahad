@@ -29,10 +29,7 @@ class StaticPagesController < ApplicationController
       if @property != nil
         redirect_to "/properties/" + @property.id.to_s
       else
-        addr_normalized = normalize_address(params[:id])
-        #@address = params[:id] + 
-        #  (params[:id] != addr_normalized ? " (" + addr_normalized + ")" : "")
-        @address = addr_normalized
+        @address = params[:id]
         render "properties/search_not_found"        
       end
     end
