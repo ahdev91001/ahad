@@ -16,7 +16,7 @@ module PropertySpecPageHelper
   
   # CSS that confirms that the "property not found" page is showing.
   def show_property_not_found(stuff)
-    have_css(".search-not-found-results", :text => /#{stuff}/i, :wait => 5)
+    have_css("#pnf-explanation", :text => /#{stuff}/i, :wait => 5)
   end
   
 end

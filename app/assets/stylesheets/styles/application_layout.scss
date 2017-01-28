@@ -5,6 +5,13 @@
 //
 /////////////////////////////////////////////////////////////////////////////
 
+// Globals used only in this file
+// Globals used also in other files
+$g-app-layout-ah-auto-shrink-threshold-width: 570px;
+// At 570px, the height of the image is the same as the 90%
+// height when it starts to shrink with narrower width.  Discovered
+// empirically.
+
 /****************************************************************************
  * White translucent fixed header bar at top w/AH logo 
  ****************************************************************************/
@@ -36,10 +43,8 @@
     width: 500px; /* 480px to match size when served from file directly */
   }
   
-    // TODO: Explain why 570 (manual kludge).
-    // At 570px, the height of the image is the same as the 90%
-    // height when it starts to shrink with narrower width.
-    @media screen and (max-width: 570px) {
+    @media screen and
+      (max-width: $g-app-layout-ah-auto-shrink-threshold-width) {
       #app-layout-ah-header-logo-img {
         width: 90%;
       }

@@ -18,6 +18,7 @@ body {
   font-family: $g-font-family-default;
 }
 
+
 /****************************************************************************
 * Animated >> Buttons 
 *
@@ -47,6 +48,11 @@ body {
   /* Override for "Search Again" button on bottom of property show page */
   .btn-arrow-anim--wide-square-bottom {
     border-radius: 10px 10px 0px 0px;
+    width: 200px;
+  }
+
+  .btn-arrow-anim--wide {
+    border-radius: 5px 5px 5px 5px;
     width: 200px;
   }
 

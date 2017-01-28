@@ -32,10 +32,11 @@
 
 // From static_pages.js
 /* global onLoadEventRootHomeHelper */
+/* global onLoadEventTestformHelper */
 
 // From properties.js
 /* global onLoadEventPropertyShowHelper */
-
+/* global onLoadEventPropertyNotFoundHelper */
 
 /**
  * Global debug variable for logging across all modules.
@@ -147,5 +148,9 @@ $(document).on('turbolinks:load', function (e) {
   } else if (window.location.href.match(/properties\/\d+/)) {
     // property#show page -- e.g. /properties/12413
     onLoadEventPropertyShowHelper(); // properties.js
+  } else if (window.location.href.match(/search.*/)) {
+    // property#[not found] -- e.g. /search?id=1000+E+Mount+...
+    onLoadEventPropertyNotFoundHelper(); // properties.js
   } 
 });
+

@@ -32,23 +32,23 @@ development:
 # db:test:setmysql (lib/tasks/test_mysql.rake) to automatically
 # comment and uncomment the :test and :testsqlite sections below
 # so that the test environment works with sqlite or mysql, respectively.
-#test:                           # :test
-#  <<: *default                  # :test
-#  database: altaheri_djrtest    # :test
-#  username: altaheri_13         # :test
-#  password: bfVadxzk            # :test
-#  host: db80a.pair.com          # :test
+test:                           # :test
+  <<: *default                  # :test
+  database: altaheri_djrtest    # :test
+  username: altaheri_13         # :test
+  password: bfVadxzk            # :test
+  host: db80a.pair.com          # :test
 #
 # WARNING, below managed by automated rake task that modifies this file.
 # (See comment above for details.)
 #
 # Do not change, move, or remove the :testsqlite comments below
 #
-test:                           # :testsqlite
-  adapter: sqlite3              # :testsqlite
-  pool: 5                       # :testsqlite
-  timeout: 5000                 # :testsqlite
-  database: db/test.sqlite3     # :testsqlite
+#test:                           # :testsqlite
+#  adapter: sqlite3              # :testsqlite
+#  pool: 5                       # :testsqlite
+#  timeout: 5000                 # :testsqlite
+#  database: db/test.sqlite3     # :testsqlite
 
 
 # As with config/secrets.yml, you never want to store sensitive information,

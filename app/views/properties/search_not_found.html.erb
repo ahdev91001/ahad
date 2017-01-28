@@ -1,5 +1,39 @@
-<h1>NOT FOUND</h1>
-<br><br><br>
-<div class="search-not-found-results">
-This is what you were looking for: <%= @address %>
+<% content_for :title, @address %>
+
+<div id="pnf-container">
+  <div id="pnf-title">
+    Property Not Found
+  </div>
+  
+  <div id="pnf-cartoon-house">
+    <%= image_tag('house-stick-figure-med-question-marks.png',
+                  :alt => 'Cartoon Photo of a House') %>
+  </div>
+
+  <div id="pnf-explanation">
+    Well, we went looking for <b><%= @address.titleize %></b>, but weren't able
+    to find it in our database.  We might not yet have any information on
+    that property, or perhaps there was a typo such as a misspelled street name,
+    mistyped address number, or an incorrect street designator 
+    (e.g. "St" instead of "Ave", etc.).
+    <br><br>
+    You may want to try your search again taking this into account.
+    <br><br>
+    If it turns out we don't have this property in our database and you'd like
+    to request us to do some research so that we may include it, 
+    or if you have additional information
+    on this property and would like to provide it in order to help us expand
+    the database, drop us a note 
+    <a href="http://altadenaheritage.org/contact-us/" target="_">here</a> 
+    and let us know. 
+  </div>
+
+  <div id="prop-search-again-container">
+  	<button id="ps-search-again-btn" 
+  	  class="btn-arrow-anim  btn-arrow-anim--wide-square-bottom" type="button">
+  		<span class=".btn-arrow-anim__text">Search Again </span>
+  	</button>
+  </div>
+
 </div>
+

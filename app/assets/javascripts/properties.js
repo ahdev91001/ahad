@@ -15,7 +15,7 @@
 //
 //   The window resize() code for property#show page.
 //
-// propertyShowSearchAgainClicked(): Jump to home/root page.
+// propertySearchAgainClicked(): Jump to home/root page.
 //
 // googleMapInitialize(): -- IP DDC 12/3/16
 //
@@ -40,7 +40,32 @@
 /* global map*/
 
 //
-// property#show globals
+// Globals common to all property pages
+//
+
+/**
+ * How far in px below header banner to position the topmost element.
+ * @constant
+ */
+var PROP__TOP_MARGIN_CLEARS_HEADER      = 12;
+
+/**
+ * Litte 'Search Again' box at the bottom stays hidden for
+ * BEFORE_REVEAL msec and then slides up in REVEAL msec.
+ * @constant
+ */
+var PROP__SEARCH_AGAIN_BEFORE_REVEAL_MSEC = 1100; 
+
+/**
+ * Little 'Search Again' box at the bottom stays hidden for
+ * BEFORE_REVEAL msec and then slides up in REVEAL msec.
+ * @constant
+ */
+var PROP__SEARCH_AGAIN_REVEAL_MSEC        = 800; 
+
+
+//
+// property#show page globals
 //
 
 /** @constant */
@@ -67,29 +92,9 @@ var OLPSH__ADDRESS_FADE_IN_START_PX    = 50;
  */
 var OLPSH__ADDRESS_FADE_IN_DISTANCE_PX = 200; 
 
-/**
- * Litte 'Search Again' box at the bottom stays hidden for
- * BEFORE_REVEAL msec and then slides up in REVEAL msec.
- * @constant
- */
-var OLPSH__SEARCH_AGAIN_BEFORE_REVEAL_MSEC = 1100; 
-
-/**
- * Little 'Search Again' box at the bottom stays hidden for
- * BEFORE_REVEAL msec and then slides up in REVEAL msec.
- * @constant
- */
-var OLPSH__SEARCH_AGAIN_REVEAL_MSEC        = 800; 
-
 
 /** @constant */
 var RWEPS___means_resizeWindowEventPropertyShow = null; // for jsdoc readability
-
-/**
- * How far in px below header banner to position the fade-in address div.
- * @constant
- */
-var RWEPS__ADDRESS_TOP_GAP      = 12;
 
 /**
  * Padding in px to right & left of address text within the fade-in
@@ -103,9 +108,31 @@ var RWEPS__ADDRESS_TEXT_PADDING = 10;
 // Code
 /////////////////////////////////////////////////////////////////////////////
 
+
 //
 //
-// property#show
+// Common methods to all properties pages
+//
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+// #propertySearchAgainClicked
+/** 
+ * @summary Executes when Search Again button clicked.
+ *
+ * @author Derek Carlson
+ * @since 12/7/2016
+ * 
+ */
+function propertySearchAgainClicked() {
+  window.location.href = "/"
+}
+
+
+//
+//
+// property#show page specific code
 //
 //
 
@@ -131,7 +158,7 @@ function onLoadEventPropertyShowHelper() {
 
   if (DEBUG) console.log("We're on a property display page...");
 
-  $('#ps-search-again-btn').click(propertyShowSearchAgainClicked)
+  $('#ps-search-again-btn').click(propertySearchAgainClicked)
   
   // Even with turbolinks, seems that the relevant events for
   // each page need to be initialized on the page load
@@ -169,11 +196,11 @@ function onLoadEventPropertyShowHelper() {
   // Have little "Search Again >>" button sneak up from the bottom
   // after just a small pause.  UX cute factor.  Hide below
   // screen at -200
-  $("#ps-search-again-container").css("bottom", -200);
+  $("#prop-search-again-container").css("bottom", -200);
   setTimeout( function() {
-    $("#ps-search-again-container").animate({bottom: [-1, "linear"]}, 
-      OLPSH__SEARCH_AGAIN_REVEAL_MSEC);
-  }, OLPSH__SEARCH_AGAIN_BEFORE_REVEAL_MSEC);
+    $("#prop-search-again-container").animate({bottom: [-1, "linear"]}, 
+      PROP__SEARCH_AGAIN_REVEAL_MSEC);
+  }, PROP__SEARCH_AGAIN_BEFORE_REVEAL_MSEC);
 
   // Below sets up scroll event so that the fixed address at the
   // top of the screen fades in as soon as the address titlebar
@@ -214,11 +241,9 @@ function onLoadEventPropertyShowHelper() {
  * 
  */
 function resizeWindowEventPropertyShow() {
-  var addressFadeInOutAtTop = document.getElementById("ps-addr-title-fader");
-	
   $("#ps-addr-title-fader").css("top",
     document.getElementById("app-layout-header-bar").clientHeight + 
-    RWEPS__ADDRESS_TOP_GAP);
+    PROP__TOP_MARGIN_CLEARS_HEADER);
 
   $("#ps-addr-title-fader").
     width($("#ps-addr-title-zoom__text").width() + 
@@ -311,25 +336,73 @@ function loadGoogleMapScript() {
   document.body.appendChild(script);
 }
 
+
 //
-// property#show functions tied to HTML
 //
+// property#[property not found]
+//
+//
+
+/////////////////////////////////////////////////////////////////////////////
+// #onLoadEventPropertyNotFoundHelper
+/**
+ * @summary Code for (turbolinks) on-load event for property not found page.
+ * 
+ * @desc Set up initial animation of Search Again button upon loading, 
+ * and set up window resize event to keep the title hugging the bottom of the
+ * header image.
+ * 
+ * Sets window.resize() event.
+ * 
+ * Called from main.js#{@link turbolinks:load}.
+ * 
+ * @author Derek Carlson
+ * @since 1/27/2017
+ * 
+ */
+function onLoadEventPropertyNotFoundHelper() {
+
+  if (DEBUG) console.log("We're on the property not found page...");
+
+  $('#prop-search-again-container').click(propertySearchAgainClicked)
+  
+  // Even with turbolinks, seems that the relevant events for
+  // each page need to be initialized on the page load
+  $(window).resize(resizeWindowEventPropertyNotFound); 
+  // This will keep the "Property Not Found" title at the top just under
+  // the header
+  resizeWindowEventPropertyNotFound();
+  
+  // Have little "Search Again >>" button sneak up from the bottom
+  // after just a small pause.  UX cute factor.  Hide below
+  // screen at -200
+  $("#prop-search-again-container").css("bottom", -200);
+  setTimeout( function() {
+    $("#prop-search-again-container").animate({bottom: [-1, "linear"]}, 
+      PROP__SEARCH_AGAIN_REVEAL_MSEC);
+  }, PROP__SEARCH_AGAIN_BEFORE_REVEAL_MSEC);
+
+} // end onLoadEventPropertyNotFoundHelper()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// #propertyShowSearchAgainClicked
-/** 
- * @summary Executes when Search Again button clicked.  Note: Tied to HTML.
+// #resizeWindowEventPropertyNotFound
+/**
+ * @summary window.resize event for property not found page.
+ * 
+ * @desc Keep the title div at the top of the page
+ * just below the header bar (which shrinks vertically when the browser
+ * gets narrow or on a phone).
  *
  * @author Derek Carlson
- * @since 12/7/2016
+ * @since 1/27/2017
  * 
  */
-function propertyShowSearchAgainClicked() {
-  window.location.href = "/"
+function resizeWindowEventPropertyNotFound() {
+  $("#pnf-title").css("margin-top",
+    document.getElementById("app-layout-header-bar").clientHeight + 
+    PROP__TOP_MARGIN_CLEARS_HEADER);
 }
-
-
 
 
 //

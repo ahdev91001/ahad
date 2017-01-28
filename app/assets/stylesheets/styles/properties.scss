@@ -11,6 +11,8 @@
 $g-ps-width-pct-for-wide-screens: 50%;  // width for content, switches at
 $g-ps-width-pct-for-small-screens: 90%; // $g-screen-width-min-desktop px
 $g-hanging-indent-px: 30px;
+$g-title-size-wide-screen: 38px; 
+$g-title-size-small-screen: 28px; 
 
 $g-screen-width-min-desktop: 880px;
 // When the browser is smaller than min-desktop width, make the
@@ -18,6 +20,25 @@ $g-screen-width-min-desktop: 880px;
 // and the font size for the title and content shrinks as well.
 // This covers smaller desktop browser windows, as well as pads
 // and phones, so no need to specify for each.
+
+/*-------------------------------------------------------------------------*\
+
+  Common to all property pages
+
+\*-------------------------------------------------------------------------*/
+
+//
+// Little "Search Again >>" button that sneaks in at the
+// bottom of the screen.
+//
+#prop-search-again-container {
+  bottom: 0;
+  left: 50%;
+  margin-left: -100px;
+  position: fixed ;
+  width: 200px;
+}
+
 
 /*-------------------------------------------------------------------------*\
   #property#show
@@ -58,7 +79,7 @@ $g-screen-width-min-desktop: 880px;
   }
   
   #ps-addr-title-zoom {
-    font-size: 38px;
+    font-size: $g-title-size-wide-screen;
     text-align: center;
     text-shadow: 4px 4px 4px #aaa;
     width: 100%;
@@ -71,7 +92,7 @@ $g-screen-width-min-desktop: 880px;
     
     // Shrink title size on small screens
     #ps-addr-title-zoom {
-      font-size: 28px;
+      font-size: $g-title-size-small-screen;
     }
   }
 
@@ -81,8 +102,9 @@ $g-screen-width-min-desktop: 880px;
 // address scrolls back onto the page.
 //
   
-/* width set depending on text inside in property.js | 
- * resizeWindowPropertyView() 
+/* 'width' set depending on text inside in property.js | 
+ * resizeWindowPropertyView(), 'top' (distance from header)
+ * also set dynamically.
  */
 #ps-addr-title-fader {
   background-color: white;
@@ -102,12 +124,12 @@ $g-screen-width-min-desktop: 880px;
   right: 0px;
   text-align: center;
   text-shadow: 4px 4px 4px #aaa;
-  top: 100px;
+  top: 100px; // see comment above
 }
 
   @media screen and (max-width: $g-screen-width-min-desktop) {
     #ps-addr-title-fader {
-      font-size: 28px;
+      font-size: $g-title-size-small-screen;
     }
   }
   
@@ -179,19 +201,6 @@ $g-screen-width-min-desktop: 880px;
   }
 
 //
-// Little "Search Again >>" button that sneaks in at the
-// bottom of the screen.
-//
-
-#ps-search-again-container {
-  bottom: 0;
-  left: 50%;
-  margin-left: -100px;
-  position: fixed ;
-  width: 200px;
-}
-
-//
 // Google map at bottom
 //
 
@@ -211,3 +220,51 @@ $g-screen-width-min-desktop: 880px;
       width: $g-ps-width-pct-for-small-screens;
     }
   }
+
+/*-------------------------------------------------------------------------*\
+  #property not found page
+
+\*-------------------------------------------------------------------------*/
+
+#pnf-container {  
+  margin-left:  auto;
+  margin-right: auto;
+  width: $g-ps-width-pct-for-wide-screens;
+}
+
+  @media screen and (max-width: $g-screen-width-min-desktop) {
+    #pnf-container {  
+      width: $g-ps-width-pct-for-small-screens;
+    }
+  }
+
+/* 'margin-top' scaled automatically via Javascript in
+ * properties.js | resizeWindowEventPropertyNotFound()
+ * when screen gets narrow enough for header to start shrinking
+ */
+#pnf-title {
+  font-size: $g-title-size-wide-screen;
+  text-align: center;  
+  text-shadow: 4px 4px 4px #aaa;
+  margin-top: 100px; // see comment above
+} 
+
+  @media screen and (max-width: $g-screen-width-min-desktop) {
+    #pnf-title {  
+      font-size: $g-title-size-small-screen;
+    }
+  }
+
+#pnf-cartoon-house {
+  text-align: center;  
+}
+
+/* margin-bottom set otherwise the "Search Again" fixed button at the bottom
+ * can lay over the last lines of the explanation, and you can't scroll down
+ * to see what those last lines say.  With the extra margin, there's room
+ * to scroll.
+ */
+#pnf-explanation {
+  margin-bottom: 100px;
+  margin-top: 20px;  
+}
