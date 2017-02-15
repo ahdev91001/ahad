@@ -1,3 +1,5 @@
+require 'fuzzystringmatch'
+
 module UtilGlobals
 
   ###########################################################################
@@ -94,4 +96,15 @@ module UtilGlobals
     logger.warn "[PC] => Called from: " + caller(2).first
   end
 
+  ###########################################################################
+  # #log_debug
+
+  # Logs message, prepending it with the file path from rails root, the 
+  # line number, and the function name where the debug message was defined.
+  #
+  # @param msg [String]
+  def log_debug(msg)
+    cc = caller(1).first.gsub(/.*\/(app\/.*)in `block in (.*)'$/, '\1\2()')
+    Rails.logger.debug cc + ": " + msg
+  end
 end

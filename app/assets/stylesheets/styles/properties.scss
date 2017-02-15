@@ -162,8 +162,44 @@ $g-screen-width-min-desktop: 880px;
   }
 
 //
+// PDF generation Please Wait spinner
+//
+
+#ps-pdf-please-wait-container {
+    background: transparent;
+    display: none; /* turned on via Javascript, otherwise obscures everything */
+    height:100%;
+    left: 0px;
+    position:fixed;
+    top: 0px;
+    width:100%;
+}    
+
+#ps-pdf-please-wait {
+    background-color: rgba(255,255,255,.85);
+    border-color: rgba(55,55,55,.2);
+    border-radius: 15px;
+    border-style: solid;
+    border-width: 1px;
+    color: black;
+    display: none; /* turned on via Javascript, otherwise obscures everything */
+    left:35%;
+    margin-top:-30px;
+    position:absolute;
+    padding: 5px;
+    text-align: center;
+    top:50%;
+    width:30%; /* each X% decrease in width, increase 'left' by X/2% */
+}
+
+//
 // All the property related text below the main photo
 //
+
+#ps-dl-pdf-img {
+  text-align: center;
+  margin-bottom: 5px;
+}
 
 #ps-db-details {
   font-size: 24px;
@@ -196,9 +232,40 @@ $g-screen-width-min-desktop: 880px;
     }
   }
 
-  #ps-note-sources {
-    font-size: 16px;
-  }
+#ps-note-sources {
+  font-size: 16px;
+}
+
+//
+// Animated dropdown accordion display of has_many relationships
+// (e.g. additionalarchitects, etc.)
+//
+
+// From: http://uniondesign.ca/simple-accordion-without-jquery-ui/
+.accordion-toggle {cursor: pointer; margin: 0;}
+.accordion-content {display: none;}
+.accordion-content__default {display: none;}
+.accordion-content__indent {margin-left: 10px;};
+
+table {
+  font-family: $g-font-family-default;
+  font-size: 20px;
+  border-color: rgba(0, 0, 0,.2);
+  border-radius: 15px;
+  border-style: solid;
+  border-width: 1px;
+
+}
+
+table th {
+  color: black;
+  font-weight: bold;
+}
+
+
+table td {
+  color: black;
+}
 
 //
 // Google map at bottom
@@ -267,4 +334,33 @@ $g-screen-width-min-desktop: 880px;
 #pnf-explanation {
   margin-bottom: 100px;
   margin-top: 20px;  
+}
+
+#pnf_suggested_container {
+    background-color: white;
+    border-color: rgba(55,55,55,.9);
+    border-radius: 15px;
+    border-style: solid;
+    border-width: 1px;
+    display: table;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    padding-left: 5px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#pnf_suggested_photo {
+    height: auto;
+    padding-left: 5px;
+    padding-right: 10px;
+    width: 80px;
+}
+
+#pnf_suggested_addr {
+    display: table-cell;
+    vertical-align: middle;
 }

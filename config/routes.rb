@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   
   get '/search' => 'static_pages#search' 
 
-  get 'properties/:id' => 'properties#show'
+  get 'properties/:id' => 'properties#show', as: 'property'
   
   get 'properties' => 'properties#index', as: 'properties'
 end
