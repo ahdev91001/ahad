@@ -50,5 +50,27 @@ class Property < ActiveRecord::Base
     # instead of find_by(:name,...) 
     Property.where("address1 LIKE ?", "%#{addr_normalized}%")[0]
   end
+
+  #
+  # Instance methods below
+  #
+  
+  
+  ###########################################################################
+  # #Property.get_photo_filename
+  
+  # Return filename of first photos, or return filename of placeholder 
+  # cartoon image if nil.
+  #
+  # @return [String] a valid image filename, either of the property, or
+  #   of a cartoon placeholder image.
+  def get_photo_filename()
+    s = self.photos.first;
+    if s == nil
+      "house-stick-figure-med.png" # perhaps make this non-hard-coded somehow
+    else
+      s.filename
+    end
+  end
   
 end

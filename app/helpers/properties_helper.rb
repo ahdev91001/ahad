@@ -74,5 +74,326 @@ module PropertiesHelper
 
     addr
   end
+
+  # TODO: Fill in comments
+  def get_photo_div_html(html, ph)
+    (ph[:photofname] =~ /photo/) ? 
+      pre = "http://altadenaheritagepdb.org/photo/" : pre = ""
+    html += 
+      ("<div id='pnf_suggested_container'>" + 
+          image_tag(pre + ph[:photofname], :id => 'pnf_suggested_photo',
+            :alt => 'Photo') + 
+          "<div id='pnf_suggested_addr'> " +
+            "<a href=\"#{property_path(ph[:id])}\">#{ph[:address]}</a> " +
+          "</div>" +
+         "</div>").html_safe
+  end
+
+  ###########################################################################
+  # #get_neighbors
+
+  # Format the output neighbors routine into a comma separated HTML
+  # list of neighboring properties, where each property
+  # in the list is hyperlinked to its property page.
+  #
+  # @param addr [String] the address to find neighbors of
+  #
+  # @return [Hash] { :num [Integer] - the number of matches,
+  #   :html [String] - comma separated list of neighboring properties
+  #   hyperlinked to their property#show pages.
+  #
+  # @return [Nil] if no neighbors are found
+  def get_neighbors(addr)
+    ar_h_matches = neighbors(addr)
+    html = ""
+    num = 0
+    if ar_h_matches.length > 0
+      ar_h_matches.each do | ph |
+        html = get_photo_div_html(html, ph)
+        num += 1
+      end
+      return { num: num, html: html.gsub(/(.*), $/, '\1').html_safe }
+    else
+      return nil
+    end
+  end
   
-end
+  ###########################################################################
+  # #get_similar_addresses
+
+  # Format the output from the three address matching routines into an HTML
+  # list of matching properties (usually just one), where each property
+  # in the list is hyperlinked to its property page.
+  #
+  # @param addr [String] the address to find matches for
+  #
+  # @return [Hash] { :num [Integer] - the number of matches,
+  #   :html [String] - comma separated list of matching properties
+  #   hyperlinked to their property#show pages.
+  #
+  # @return [Nil] if no similar matches are found
+  def get_similar_addresses(addr)
+
+    ar_h_matches = same_addr_num_and_first_letter(addr)
+    ar_h_matches |= same_addr_another_desigation(addr)
+    ar_h_matches |= fuzzy_addr_matcher(addr)
+    
+    html = ""
+    num = 0
+    if ar_h_matches.length > 0
+      ar_h_matches.each do | ph |
+        html = get_photo_div_html(html, ph)
+        num += 1
+      end
+      return { num: num, html: html.gsub(/(.*), $/, '\1').html_safe }
+    else
+      return nil
+    end
+  end
+  
+  ###########################################################################
+  # #same_addr_num_and_first_letter
+  
+  # Find a property with the same number and a street name that starts
+  # with the same letter.  For instances when the user brain-farts and
+  # types 'Alta Pine' really means 'Alta Vista'.
+  #
+  # Example: If we provide: 945 Alta Pine Dr (not in the DB, by the way)
+  #          Then this returns [{ id: 10302, address: "945 Alta Vista Dr" }]
+  #
+  # @param addr [String]
+  #
+  # @return [Array] [], if no valid property is found with the same number and
+  #   the same first letter of the street name.
+  #
+  # @return [Array] of hashes of the form { id: , address: }, that
+  #   represent valid properties in the database that match the
+  #   street number and the first letter of the street name.
+  #
+  # @author Derek Carlson <carlson.derek@gmail.com
+  def same_addr_num_and_first_letter(addr)
+    addr.upcase!
+
+    # If addr doesn't match this pattern, everything else
+    # fails below, so [f|b]ail fast and just return []
+    if addr !~ /^(\d+) (.*) (.*)$/
+      return []
+    end
+
+    num_n_letter = addr.gsub(/^(\d+ .).*$/,'\1')
+    ar_h_matches = []
+    props = Property.where("address1 LIKE '#{num_n_letter}%'")
+    # as long as we use LIKE, sqlite will match case-insensitive
+    # (mysql always matches case-insensitive)
+    props.each do | p |
+      ar_h_matches << { id: p.id, address: p.address1, 
+        photofname: p.get_photo_filename }
+    end
+    ar_h_matches 
+  end
+
+  
+  ###########################################################################
+  # #same_addr_another_desigation
+  
+  # Find a property with the same number and street name but a different
+  # designation (St, Ave, etc.)  Used for situations when an address is 
+  # not found, and it's because the user typed in the wrong designation.
+  #
+  # Example: If we provide: 653 Alameda Ave (not in the DB, by the way)
+  #          Then this returns [{ id: 10064, address: "653 Alameda St" }]
+  #
+  # @param addr [String]
+  #
+  # @return [Array] [], if no property is found with the same number and
+  #   street name but a different designation.
+  #
+  # @return [Array] of hashes of the form { id: , address: }, that
+  #   represent valid properties in the database that match the
+  #   street number and street name but with a different designation (St, 
+  #   Ave, etc.).  In theory this should be a list of, at most, one 
+  #   property.
+  #
+  # @author Derek Carlson <carlson.derek@gmail.com
+  def same_addr_another_desigation(addr)
+    addr.upcase!
+
+    # If addr doesn't match this pattern, everything else
+    # fails below, so [f|b]ail fast and just return []
+    if addr !~ /^(\d+) (.*) (.*)$/
+      return []
+    end
+
+    wo_desig = addr.gsub(/^(\d+ .*) .*$/,'\1')
+    ar_h_matches = []
+    props = Property.where("address1 LIKE '#{wo_desig}%'")
+    # as long as we use LIKE, sqlite will match case-insensitive
+    # (mysql always matches case-insensitive)
+    props.each do | p |
+      ar_h_matches << { id: p.id, address: p.address1, 
+        photofname: p.get_photo_filename }
+    end
+    ar_h_matches 
+  end
+
+  ###########################################################################
+  # #fuzzy_addr_matcher
+  
+  # Take a possibly typoed street name, look for another address with
+  # the same street number and a similar street name (ignore the 
+  # designator, like 'St', entirely), and if a similar street name is
+  # found, see if we have a property in the database at the same street
+  # number but with the alternative street name.  If a match is found,
+  # return the full new address as a possible match.
+  # 
+  # Example: 653 Alameca St -- that's a typo
+  #           [1] Look for similar street names to 'Alemaca'
+  #           [2] 'Alaca' and 'Alameda' are found at a 90% match
+  #           [3] 653 Alaca St -- no such address, so ignored
+  #           [4] 653 Alameda St -- this is an actual address
+  #               in our database, so it's suggested as a possible match
+  #               and perhaps what the user meant (minus the typo);
+  #               thus we return [{ id: 10064, address: "653 Alameda St"}]
+  #
+  # @param street [String] the full street address (number and
+  #   designation will be stripped prior to matching)
+  #
+  # @param thresh [Float] the matching threshold above which is
+  #   considered a close match. 0.90 works pretty well.
+  #
+  # @return [Array] [], if no matches are found
+  #
+  # @return [Array] of hashes of the form { id: , address: }, that
+  #   represent valid properties in the database that are fuzzy
+  #   matches to the input address.
+  #
+  # @author Derek Carlson <carlson.derek@gmail.com
+  def fuzzy_addr_matcher(addr, thresh=0.90)
+    addr.upcase!
+    
+    # If addr doesn't match this pattern, everything else
+    # fails below, so [f|b]ail fast and just return []
+    if addr !~ /^(\d+) (.*) (.*)$/
+      return []
+    end
+
+    # Remove number and designation
+    num = addr.gsub(/^(\d+) .*$/,'\1')  
+    desig = addr.gsub(/^\d+ .* (.*)$/,'\1')  
+    street = addr.gsub(/^\d+ (.*) .*$/,'\1') 
+    ar_h_valid_similar_addresses = []
+    jarow = FuzzyStringMatch::JaroWinkler.create( :native )
+
+    streets = ["ACACIA", "ALACA", "ALAMEDA", "ALBERTA", "ALEGRE", "ALICIA", "ALLEN", "ALPHA", "ALPINE VILLA", "ALTA CREST", "ALTA PASA", "ALTA PINE", "ALTA VISTA", "ALTA WOOD", "E ALTADENA", "N ALTADENA", "W ALTADENA", "ALVEY", "ALZADA", "ANNA MARIA", "ARALIA", "ARCHWOOD", "ATCHISON", "ATHENS", "AVOCADO", "BARGEN", "BARRY", "BELLAIRE", "BELLFORD", "BERENDO", "BEVERLY", "BOSTON", "BOULDER", "BOWRING", "BRAEBURN", "BUENA LOMA", "BULA", "CALANDA", "E CALAVERAS", "W CALAVERAS", "CALLECITA", "CAMP HUNTINGTON", "CANON", "CANYADA", "CANYON CREST", "CANYON DELL", "CANYON RIDGE", "CARROLL", "CASITAS", "CATALINA", "CATHERINE", "CHANEY", "COCOPAN", "COLMAN", "CONCHA", "COOLIDGE", "COUNTRY CLUB", "CRAIG", "CRARY", "CRAWFORD", "CRESCENT", "CREST", "CRESTFORD", "CROSBY", "DEODARA", "DEVIRIAN", "DEVONSHIRE", "DOLORES", "DOMINION", "EASTLYN", "EATON CANYON RD", "ECHO GLEN", "EL CORTO", "EL MOLINO", "EL NIDO", "EL PRIETO", "EL SERENO", "EL SOL", "ELIZABETH", "ELLINGTON VILLA", "EMERSON", "EWING", "FAIR OAKS", "FIGUEROA", "FLORECITA", "FONTANET", "GALBRETH", "GANESHA", "GARFIAS", "GARFIELD", "GAYWOOD", "GLEN", "GLEN CANYON", "GLENROSE", "", "GLENVIEW", "GRAND OAKS", "GRANDEUR", "GRAVELIA", "HANFORD", "HARDING", "E HARRIET", "W HARRIET", "HERMAR", "HIGHLAND", "HIGHVIEW", "HILL", "HOLLISTON", "HOLLYSLOPE", "HOMEPARK", "HOMEWOOD", "HULL", "JAXINE", "JEFFERSON", "KELLOGG", "KENGARY", "KENT", "LA CORONA", "LA FIESTA", "LA PAZ", "LA SOLANA", "LA VENEZIA", "LAKE AVE", "LAKE", "E LAS FLORES", "W LAS FLORES", "LAUN", "LAUREL", "LAYTON", "LEHIGH", "LEILANI", "LEWIS", "LEXINGTON", "LINCOLN", "E LOMA ALTA", "W LOMA ALTA", "LOMA VIEW", "LOVILA", "MADISON", "MADRE VISTA", "MAIDEN", "E MANOR", "W MANOR", "MAR VISTA", "MARATHON", "MARCHETA", "MARENGO", "E MARIGOLD", "W MARIGOLD", "E MARIPOSA", "W MARIPOSA", "MCNALLY", "MCWILTON", "MEADOWBROOK", "E MENDOCINO", "W MENDOCINO", "MENLO", "MICHIGAN", "MIDLOTHIAN", "MIDWICK", "MINORU", "MONTEROSA", "MORADA", "MORSLAY", "MOUNTAIN VIEW", "MT CURVE", "MT LOWE", "NAVARRO", "W NELDOME", "NEW YORK", "NORTHAVEN", "NORWIC", "OAKWOOD", "OLIVE", "OLIVERAS", "OXFORD", "PAGE", "E PALM", "W PALM", "1975 PALMYRA", "PARKMAN", "PARNELL", "E PENTAGON", "W PENTAGON", "PEPPER", "E PINE", "W PINE", "PINECREST DR", "PINECREST", "E POPPYFIELDS", "W POPPYFIELDS", "PORTER", "PUNAHOU", "RAYMOND", "REEVER", "REPOSA", "RIDGEVIEW", "RISING HILL RD", "RISING HILL", "ROOSEVELT", "ROYCE", "RUBIO", "RUBIO CANYON RD", "RUBIO CANYON", "E SACRAMENTO", "SAGEMONT", "SANTA ANITA", "SANTA ROSA AVE", "SANTA ROSA", "SCRIPPS", "SHELLY", "SIERRA BONITA", "SILVER SPRUCE", "SINALOA", "SKYLANE", "SKYVIEW", "SKYWOOD", "SONOMA", "1953 SOUTH", "1961 SOUTH", "1971 SOUTH", "1972 SOUTH", "1979 SOUTH", "2006 SOUTH", "2021 SOUTH", "2024 SOUTH", "2044 SOUTH", "2053 SOUTH", "2056 SOUTH", "2068 SOUTH", "2079 SOUTH", "SPAULDING", "ST JAMES", "ST PIERRE", "STERLING", "STONEHILL", "STONEHURST", "SUMMIT", "SUNMORE", "SUNNY OAKS", "SUNSET", "SUREE ELLEN", "TANOBLE", "TAOS", "TERRACE", "TIERRA ALTA", "TOLA", "VALENCIA", "VENTURA", "VERANADA", "VERMONT", "VIA MADERAS", "VILLA GROVE", "VILLA HEIGHTS", "VILLA ZANITA", "VISSCHER", "VISTILLAS", "WAGNER", "WAPELLO", "E WASHINGTON", "WINDSOR", "WINROCK", "WINTERHAVEN", "WISTARIA", "E WOODBURY", "W WOODBURY", "WOODGLEN", "YUCCA", "ZANE GREY"]
+    streets.each do | st |
+      if jarow.getDistance(st, street) > 0.90
+        
+        log_debug "Fuzzy Match: " + st + " to originally typed " + street
+
+        possible_addr = num + " " + st + " " + desig
+
+        log_debug "  Does the DB contain: " + 
+          possible_addr + "?"
+          
+        # Make sure the possible address actually exists in our database
+        # before we suggest it as a possibility.
+        
+        #@prop = Property.find_by(:address1 => possible_addr) 
+        # above commented out - although it is far faster,
+        # as long as we use LIKE, sqlite will match case-insensitive
+        # (mysql always matches case-insensitive)
+        props = Property.where("address1 LIKE '%#{possible_addr}%'")
+        
+        if props.length > 0
+          log_debug "  Yes!  Adding " + 
+            possible_addr + " as a possible alternative."
+          ar_h_valid_similar_addresses <<
+            { id: props[0][:id], address: props[0][:address1],
+              photofname: props[0].get_photo_filename }
+        else
+          log_debug "  " + possible_addr + 
+            " is not an address in the database, so tossing it as " +
+            "a possibility."
+        end
+      end
+    end
+    ar_h_valid_similar_addresses
+  end  # fuzzy_addr_matcher
+
+  ###########################################################################
+  # #neighbors
+  
+  # Get the neighboring houses on a street within a given range of addresses.
+  # Used when an address is not found in the DB, and we want to offer the
+  # user the possibility to look around at neighboring properties in case
+  # they can glean some useful information from that.
+  #
+  # @param addr [String]
+  #
+  # @param before [Integer] [Optional] how far below the address number to 
+  #   include.  Defaults to 20.  Thus, if the address is 651, then this
+  #   routine will look to return all valid properties from 631 to 671.
+  #
+  # @param after [Integer] [Optional] same as 'before', but how far above.
+  #
+  # @return [Array] [], if no matches are found
+  #
+  # @return [Array] of hashes of the form { id: , address: }, that
+  #   represent valid properties in the database that are neighbors
+  #   within the requested range.
+  #
+  # @author Derek Carlson <carlson.derek@gmail.com
+  def neighbors(addr, before=20, after=20)
+    addr.upcase!
+    
+    # If addr doesn't match this pattern, everything else
+    # fails below, so [f|b]ail fast and just return []
+    if addr !~ /^(\d+) (.*) (.*)$/
+      return []
+    end
+    
+    num = addr.gsub(/^(\d+) .*$/,'\1').to_i
+    street_name_only = addr.gsub!(/^\d+ (.*)$/,'\1') 
+    low = (num - before < 0 ? 0 : num - before)
+    high = num + after 
+    
+    log_debug "Looking for neighbors to " +
+      addr + " in the range from " + low.to_s + " to " + high.to_s
+
+    ar_h_close_addresses = []
+    if false
+      query = "streetnumberbegin >= #{low} and " +
+        "streetnumberbegin <= #{high} and " +
+        "streetname LIKE \"%#{street_name_only}%\""
+      # as long as we use LIKE, sqlite will match case-insensitive
+      # (mysql always matches case-insensitive)
+        
+      log_debug "  Running Property.where query: " + query
+      
+      ar_po_close = Property.where(query)
+    else
+      # New idea: Find neighbor to the left and right, if exist.
+      # The lower address neighbor:
+      query = "streetnumberbegin < #{num} and " +
+        "streetname LIKE \"%#{street_name_only}%\""
+      
+      log_debug "  Finding closest neighbor below..."
+      ar_po_close = Property.where(query).order(
+        'streetnumberbegin desc').limit(1)
+
+      query = "streetnumberbegin > #{num} and " +
+        "streetname LIKE \"%#{street_name_only}%\""
+
+      log_debug "  Finding closest neighbor above..."
+      ar_po_close += Property.where(query).order(
+        'streetnumberbegin asc').limit(1)
+    end
+    
+    ar_po_close.each do | p |
+      ar_h_close_addresses << { id: p.id, address: p.address1, 
+        photofname: p.get_photo_filename }
+    end
+    ar_h_close_addresses 
+  end # neighbors
+  
+end # PropertiesHelper

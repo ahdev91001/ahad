@@ -11,17 +11,40 @@
   </div>
 
   <div id="pnf-explanation">
-    Well, we went looking for <b><%= @address.titleize %></b>
+
+    <%= matches = get_similar_addresses(normalize_address(@address))
+        if matches != nil
+          (matches[:num] == 1) ? plur = "" : plur = " one of the following"
+          ("Did you mean to search for" + plur + ": " + 
+            matches[:html]).html_safe 
+        else
+          ""
+        end
+    %>
+
+
+    We went looking for <b><%= @address.titleize %></b>
     <%= @address != normalize_address(@address) ?  
          "(" + normalize_address(@address) +")" : "" %>
     but weren't able
     to find it in our database.  We might not yet have any information on
-    that property, or perhaps there was a typo such as a misspelled street name,
-    mistyped address number, or an incorrect street designator 
-    (e.g. "St" instead of "Ave", etc.).
+    that property, or perhaps there was a typo such as a misspelled street name
+    or a mistyped address number. You may want to try your search again taking 
+    this into account.
     <br><br>
-    You may want to try your search again taking this into account.
-    <br><br>
+    <%= matches = get_neighbors(normalize_address(@address))
+        if matches != nil
+          matches[:num] == 1 ? 
+            np = "the closest neighboring property that we have on file " +
+              "in our database" : 
+            np = "the two closest neighboring properties that we have on " +
+              "file in our database"
+          ("In case this could help, here's " + np + ":" + matches[:html] ).html_safe
+        else
+          ""
+        end
+    %>
+
     If it turns out we don't have this property in our database and you'd like
     to request us to do some research so that we may include it, 
     or if you have additional information
@@ -39,4 +62,3 @@
   </div>
 
 </div>
-

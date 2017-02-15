@@ -30,54 +30,33 @@
     
     <!-- All fields listed below -->
     <div id="ps-db-details">
-  
-  <%= ps_markup_field_or_hide("Year Built", @property.yearbuilt, false,
-                              @property.yearbuiltflag, "A",
-                              " (actual)", " (estimated)") %>
-  <%= ps_markup_field_or_hide("Year Built (Assessor)", 
-                              @property.yearbuiltassessor, true) %>
-  <%= ps_markup_field_or_hide("Year Built (Other)", 
-                              @property.yearbuiltother, true) %>
-
-  <%= ps_markup_field_or_hide("Architect", @property.architect, false,
-                              @property.architectconfirmed, "Y",
-                              " (confirmed)", " (unconfirmed)") %>
-  <%= ps_markup_field_or_hide("Builder", @property.builder, false,
-                              @property.builderconfirmed, "Y",
-                              " (confirmed)", " (unconfirmed)") %>
-
-  <%= ps_markup_field_or_hide("Stories", @property.stories) %>
-
-  <%= ps_markup_field_or_hide("APN", (apn = @property.apn) && apn.parcel) %>
-
-  <%= ps_markup_field_or_hide("Current Lot Size", @property.currentlotsize) %>
-  <%= ps_markup_field_or_hide("Historic Name", @property.historicname) %>
-  <%= ps_markup_field_or_hide("Legal Description", 
-                              @property.legaldescription) %>
-  <%= ps_markup_field_or_hide("Style", @property.style) %>
-
-  <%= ps_markup_field_or_hide("Original Owner", @property.originalowner) %>
-  <%= ps_markup_field_or_hide("Original Owner Spouse", 
-                              @property.originalownerspouse, true) %>
-  <%= ps_markup_field_or_hide("Original Owner Occupation", 
-                              @property.originalowneroccupation, true) %>
-  <%= ps_markup_field_or_hide("Original Cost", 
+      <%= ps_markup("Year Built", @property.yearbuilt_qualified) %>
+      <%= ps_markup("Year Built (Assessor)", @property.yearbuiltassessor, true) %>
+      <%= ps_markup("Year Built (Other)", @property.yearbuiltother, true) %>
+      <%= ps_markup("Architect", @property.architect_qualified) %>
+      <%= ps_markup("Builder", @property.builder_qualified) %>
+      <%= ps_markup("Stories", @property.stories) %>
+      <%= ps_markup("APN", (apn = @property.apn) && apn.parcel) %>
+      <%= ps_markup("Current Lot Size", @property.currentlotsize) %>
+      <%= ps_markup("Historic Name", @property.historicname) %>
+      <%= ps_markup("Legal Description", @property.legaldescription) %>
+      <%= ps_markup("Style", @property.style) %>
+      <%= ps_markup("Original Owner", @property.originalowner) %>
+      <%= ps_markup("Original Owner Spouse", 
+                    @property.originalownerspouse, true) %>
+      <%= ps_markup("Original Owner Occupation", 
+                    @property.originalowneroccupation, true) %>
+      <%= ps_markup("Original Cost", 
         number_to_currency(@property.originalcost, :precision => 0)) %>
-  <%= ps_markup_field_or_hide("Original Lot Size", 
-                              @property.originallotsize) %>
-
-  <%= ps_markup_field_or_hide("Moved on to Property", 
-                              @property.movedontoproperty, true) %>
-  <%= ps_markup_field_or_hide("Place of Business", 
-                              @property.placeofbusiness, true) %>
-  <%= ps_markup_field_or_hide("Street Direction", 
-                              @property.streetdirection, true) %>
-  <%= ps_markup_field_or_hide("Address Notes", 
-                              @property.addressnote, true) %>
-  <%= ps_markup_field_or_hide("Quadrant", 
-                              @property.quadrant, true) %>
-  <%= ps_markup_field_or_hide("Type", 
-      @property.type != nil ? @property.type.capitalize : "", true) %>
+      <%= ps_markup("Original Lot Size", @property.originallotsize) %>
+      <%= ps_markup("Moved on to Property", @property.movedontoproperty, true) %>
+      <%= ps_markup("Place of Business", 
+                    @property.placeofbusiness, true) %>
+      <%= ps_markup("Street Direction", @property.streetdirection, true) %>
+      <%= ps_markup("Address Notes", @property.addressnote, true) %>
+      <%= ps_markup("Quadrant", @property.quadrant, true) %>
+      <%= ps_markup("Type", 
+          @property.type != nil ? @property.type.capitalize : "", true) %>
 
       <div id="ps-note-sources">
     	  <%= if (@property.notes_shpo_and_sources != nil) then 
@@ -85,9 +64,9 @@
     		    end 
     	  %>
       </div>
-    
+
     </div> <!-- end ps-db-details -->
-    
+
     <div id="prop-search-again-container">
     	<button id="ps-search-again-btn" 
     	  class="btn-arrow-anim  btn-arrow-anim--wide-square-bottom" type="button">
