@@ -1,4 +1,10 @@
 GIT
+  remote: git://github.com/alexpeattie/heroku_secrets.git
+  revision: 717af8e0acf399bc88d2c8c1a7e230023942af0f
+  specs:
+    heroku_secrets (0.0.2)
+
+GIT
   remote: git://github.com/drapergem/draper.git
   revision: ab51bf06d111c6278bd3bc0ca781655ae61cc4b9
   specs:
@@ -285,6 +291,7 @@ DEPENDENCIES
   guard (= 2.13.0)
   guard-minitest (= 2.4.4)
   guard-rspec
+  heroku_secrets!
   jbuilder (= 2.4.1)
   jquery-rails (= 4.1.1)
   listen (= 3.0.8)
