@@ -16,10 +16,10 @@ default: &default
 
 development:
   <<: *default
-  database: altaheri_djrdev
-  username: altaheri_12
-  password: jyyUSStR
-  host: db77a.pair.com
+  database: [FILL IN]
+  username: [FILL IN]
+  password: [FILL IN]
+  host:     [FILL IN]
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -32,23 +32,23 @@ development:
 # db:test:setmysql (lib/tasks/test_mysql.rake) to automatically
 # comment and uncomment the :test and :testsqlite sections below
 # so that the test environment works with sqlite or mysql, respectively.
-test:                           # :test
-  <<: *default                  # :test
-  database: altaheri_djrtest    # :test
-  username: altaheri_13         # :test
-  password: bfVadxzk            # :test
-  host: db80a.pair.com          # :test
+#test:                           # :test
+#  <<: *default                  # :test
+#  database: [FILL IN]           # :test
+#  username: [FILL IN]           # :test
+#  password: [FILL IN]           # :test
+#  host:     [FILL IN]           # :test
 #
 # WARNING, below managed by automated rake task that modifies this file.
 # (See comment above for details.)
 #
 # Do not change, move, or remove the :testsqlite comments below
 #
-#test:                           # :testsqlite
-#  adapter: sqlite3              # :testsqlite
-#  pool: 5                       # :testsqlite
-#  timeout: 5000                 # :testsqlite
-#  database: db/test.sqlite3     # :testsqlite
+test:                           # :testsqlite
+  adapter: sqlite3              # :testsqlite
+  pool: 5                       # :testsqlite
+  timeout: 5000                 # :testsqlite
+  database: db/test.sqlite3     # :testsqlite
 
 
 # As with config/secrets.yml, you never want to store sensitive information,
@@ -72,8 +72,7 @@ test:                           # :test
 #
 production:
   <<: *default
-  database: altaheri_djr
-  username: altaheri_3
-  password: <%= ENV['AHAD_RT1_DATABASE_PASSWORD'] %>
-  host: db154.pair.com
-
+  database: [FILL IN]
+  username: [FILL IN]
+  password: <%= ENV['DATABASE_URL'] %>
+  host:     [FILL IN]

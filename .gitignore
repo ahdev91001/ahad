@@ -7,6 +7,11 @@
 # Ignore bundler config.
 /.bundle
 
+# Don't give away the goods
+/config/secrets.yml
+/config/database.yml
+/config/database.yml.bak
+
 # Ignore the default SQLite database.
 /db/*.sqlite3
 /db/*.sqlite3-journal

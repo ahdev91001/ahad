@@ -49,9 +49,12 @@ RSpec.feature "Actions available from home page",
   let(:home_page) { StaticPagesSpecPageHelper::HomePageSpecPageHelper.new }
 
   before(:each) do
-    FactoryGirl.create(:property, id: "10064", address1: "653 Alameda St")
-    FactoryGirl.create(:property, id: "10002", address1: "259 Acacia St")
-    FactoryGirl.create(:property, id: "16494", address1: "1090 Rubio St")
+    FactoryGirl.create(:property, id: "10064", 
+      address1: "653 Alameda St", streetname: "Alameda St")
+    FactoryGirl.create(:property, id: "10002", 
+      address1: "259 Acacia St", streetname: "Acacia St")
+    FactoryGirl.create(:property, id: "16494", 
+      address1: "1090 Rubio St", streetname: "Rubio St")
   end
 
   # 1 & 2 ####################################################################

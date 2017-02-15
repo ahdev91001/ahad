@@ -286,7 +286,7 @@ module PropertiesHelper
     jarow = FuzzyStringMatch::JaroWinkler.create( :native )
 
     streets = Property.distinct.pluck(:streetname)
-      
+
     streets.each do | st |
       st.gsub!(/^(.*) .*$/, '\1') # remove designation (St, Ave, etc.)
       if jarow.getDistance(st, street) > 0.90
