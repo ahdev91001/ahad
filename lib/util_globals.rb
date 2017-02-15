@@ -1,5 +1,3 @@
-require 'fuzzystringmatch'
-
 module UtilGlobals
 
   ###########################################################################
