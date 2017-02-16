@@ -8,7 +8,6 @@
 /.bundle
 
 # Don't give away the goods
-/config/secrets.yml
 /config/database.yml
 /config/database.yml.bak
 

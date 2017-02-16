@@ -14,7 +14,6 @@ gem 'normalize-scss', '~> 4.0', '>= 4.0.3'
 gem 'activemodel-serializers-xml'
 gem 'draper', github: 'drapergem/draper'
 gem 'fuzzy-string-match'
-gem 'heroku_secrets', github: 'alexpeattie/heroku_secrets'
 
 group :development, :test do
   gem 'byebug',  '9.0.0', platform: :mri
