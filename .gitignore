@@ -10,6 +10,7 @@
 # Don't give away the goods
 #/config/database.yml
 /config/database.yml.bak
+#/config/secrets.yml
 
 # Ignore the default SQLite database.
 /db/*.sqlite3

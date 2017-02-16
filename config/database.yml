@@ -67,12 +67,9 @@ test:                           # :testsqlite
 #
 # You can use this database configuration with:
 #
-#   production:
+#   production: 
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
   <<: *default
-  #database: altaheri_djr
-  #username: altaheri_3
   url: <%= ENV['DATABASE_URL'] %>
-  #host:     db154.pair.com
