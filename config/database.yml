@@ -16,10 +16,10 @@ default: &default
 
 development:
   <<: *default
-  database: altaheri_djrdev
-  username: altaheri_12
-  password: jyyUSStR
-  host: db77a.pair.com
+  database: [removed for public consumption]
+  username: [removed for public consumption]
+  password: [removed for public consumption]
+  host:     [removed for public consumption]
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -34,10 +34,10 @@ development:
 # so that the test environment works with sqlite or mysql, respectively.
 #test:                           # :test
 #  <<: *default                  # :test
-#  database: altaheri_djrtest    # :test
-#  username: altaheri_13         # :test
-#  password: bfVadxzk            # :test
-#  host: db80a.pair.com          # :test
+#  database: [removed for public consumption]    # :test
+#  username: [removed for public consumption]    # :test
+#  password: [removed for public consumption]    # :test
+#  host:     [removed for public consumption]    # :test
 #
 # WARNING, below managed by automated rake task that modifies this file.
 # (See comment above for details.)
@@ -72,7 +72,7 @@ test:                           # :testsqlite
 #
 production:
   <<: *default
-  database: altaheri_djr
-  username: altaheri_3
+  database: [removed for public consumption]
+  username: [removed for public consumption]
   password: <%= ENV['DATABASE_URL'] %>
-  host: db154.pair.com
+  host:     [removed for public consumption]
