@@ -72,4 +72,8 @@ test:                           # :testsqlite
 #
 production:
   <<: *default
-  url: <%= ENV['DATABASE_URL'] %>
+  #url: <%= ENV['DATABASE_URL'] %>
+  database: altaheri_djr
+  username: altaheri_3
+  password: 4WfRtNBy
+  host: db154.pair.com
