@@ -1,6 +1,12 @@
 class Property < ActiveRecord::Base
 
   has_many :photos, foreign_key: :propid
+  has_many :additional_architects, foreign_key: :propid
+  has_many :additional_builders, foreign_key: :propid
+  has_many :alterations, foreign_key: :propid
+  has_many :building_permits, foreign_key: :propid
+  has_many :former_addresses, foreign_key: :propid
+  has_many :other_owners, foreign_key: :propid
   has_one :apn, foreign_key: :propid
   
   self.inheritance_column = nil # required because property table has a type
