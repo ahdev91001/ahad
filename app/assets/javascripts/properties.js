@@ -171,15 +171,23 @@ function onLoadEventPropertyShowHelper() {
       //$(".accordion-content").not($(this).next()).slideUp('fast');
   });  
 
-document.getElementById('wrapper').onclick = function() {
+document.getElementById('wrapper1').onclick = function() {
 
-    var className = ' ' + wrapper.className + ' ';
+    var className = ' ' + wrapper1.className + ' ';
 
     this.className = ~className.indexOf(' active ') ?
                          className.replace(' active ', ' ') :
                          this.className + ' active';
 };
 
+document.getElementById('wrapper2').onclick = function() {
+
+    var className = ' ' + wrapper2.className + ' ';
+
+    this.className = ~className.indexOf(' active ') ?
+                         className.replace(' active ', ' ') :
+                         this.className + ' active';
+};
 
   // Even with turbolinks, seems that the relevant events for
   // each page need to be initialized on the page load
