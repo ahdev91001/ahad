@@ -58,6 +58,118 @@
       <%= ps_markup("Type", 
           @property.type != nil ? @property.type.capitalize : "", true) %>
 
+      <div class="accordion">
+        <div class="accordion-toggle  ps-details-titles">
+          Additional Architects: <%= image_tag("dropdown-arrow-down-grey-35x35.png",
+            :alt => "\/", :style => "width: 20px;") %>
+        </div>
+        <div class="accordion-content  accordion-content__default  
+                    accordion-content__indent">
+          <% @property.additional_architects.each do |a| %>
+            <%= a.name + (a.year != nil ? " (" + a.year + ")" : "") %><br>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <div class="accordion-toggle  ps-details-titles">
+          Additional Builders: <%= image_tag("dropdown-arrow-down-grey-35x35.png",
+            :alt => "\/", :style => "width: 20px;") %>
+        </div>
+        <div class="accordion-content  accordion-content__default  
+                    accordion-content__indent">
+          <% @property.additional_builders.each do |a| %>
+            <%= a.name + (a.year != nil ? " (" + a.year + ")" : "") %><br>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <div class="accordion-toggle  ps-details-titles">
+          Alterations: <%= image_tag("dropdown-arrow-down-grey-35x35.png",
+            :alt => "\/", :style => "width: 20px;") %>
+        </div>
+        <div class="accordion-content  accordion-content__default  
+                    accordion-content__indent">
+          <table cellpadding = "1">
+            <tr>
+              <th align="left">Cost</th><th>Description</th><th>Year</th>
+            </tr>
+            <% @property.alterations.each do |a| %>
+              <tr>
+                <td> <%= number_to_currency(a.cost, :precision => 0) %> </td>
+                <td> <%= (a.description != nil ? a.description : "N/A") %> </td>
+                <td> <%= (a.year != nil ? a.year : "N/A") %> </td>
+              </tr>                  
+            <% end %>
+          </table>
+        </div>
+
+      <div class="accordion">
+        <div class="accordion-toggle  ps-details-titles">
+          Building Permits: <%= image_tag("dropdown-arrow-down-grey-35x35.png",
+            :alt => "\/", :style => "width: 20px;") %>
+        </div>
+        <div class="accordion-content  accordion-content__default  
+                    accordion-content__indent">
+          <table cellpadding = "1">
+            <tr>
+              <th align="left">Permit</th><th>Year</th>
+            </tr>
+            <% @property.building_permits.each do |a| %>
+              <tr>
+                <td> <%= a.permit %> </td>
+                <td> <%= (a.year != nil ? a.year : "N/A") %> </td>
+              </tr>                  
+            <% end %>
+          </table>
+        </div>
+
+      <div class="accordion">
+        <div class="accordion-toggle  ps-details-titles">
+          Former Addresses: <%= image_tag("dropdown-arrow-down-grey-35x35.png",
+            :alt => "\/", :style => "width: 20px;") %>
+        </div>
+        <div class="accordion-content  accordion-content__default  
+                    accordion-content__indent">
+          <table cellpadding = "2">
+            <tr>
+              <th align="left">Address</th><th>Years</th>
+            </tr>
+            <% @property.former_addresses.each do |a| %>
+              <tr>
+                <td> <%= a.address1 + "  " + a.address2 %> </td>
+                <td> <%= (a.years != nil ? a.years : "N/A") %> </td>
+              </tr>                  
+            <% end %>
+          </table>
+        </div>
+
+
+      <div class="accordion">
+        <div class="accordion-toggle  ps-details-titles">
+          Other Owners: <%= image_tag("dropdown-arrow-down-grey-35x35.png",
+            :alt => "\/", :style => "width: 20px;") %>
+        </div>
+        <div class="accordion-content  accordion-content__default  
+                    accordion-content__indent">
+          <table cellpadding = "2">
+            <tr>
+              <th align="left">Name</th><th>Years</th>
+            </tr>
+            <% @property.other_owners.each do |a| %>
+              <tr>
+                <td> <%= a.name %> </td>
+                <td> <%= (a.years != nil ? a.years : "N/A") %> </td>
+              </tr>                  
+            <% end %>
+          </table>
+        </div>
+
+
+
+
+
       <div id="ps-note-sources">
     	  <%= if (@property.notes_shpo_and_sources != nil) then 
     		      markdown(@property.notes_shpo_and_sources)
