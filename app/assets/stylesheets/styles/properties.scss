@@ -247,6 +247,71 @@ $g-screen-width-min-desktop: 880px;
 .accordion-content__default {display: none;}
 .accordion-content__indent {margin-left: 10px;};
 
+
+.wrapper {
+  margin: 0px;
+  display: block;
+  transition: 0.15s ease;
+}
+.wrapper.active .arrow {
+  -webkit-transform: rotate(45deg) translate(-5px, -5px);
+          transform: rotate(45deg) translate(-5px, -5px);
+}
+.wrapper.active .arrow:before {
+  -webkit-transform: translate(10px, 0);
+          transform: translate(10px, 0);
+}
+.wrapper.active .arrow:after {
+  -webkit-transform: rotate(90deg) translate(10px, 0);
+          transform: rotate(90deg) translate(10px, 0);
+}
+.wrapper.active ul {
+  opacity: 0.3;
+  height: 108px;
+}
+
+.arrow {
+  width: 13px;
+  height: 13px;
+  color: black;
+  display: inline-block;
+  position: relative;
+  bottom: -5px;
+  left: 10px;
+  transition: 0.4s ease;
+  margin-top: 2px;
+  text-align: left;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+.arrow:before, .arrow:after {
+  position: absolute;
+  content: "";
+  display: inline-block;
+  width: 12px;
+  height: 3px;
+  background-color: #444;
+  transition: 0.4s ease;
+}
+.arrow:after {
+  position: absolute;
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+  top: -5px;
+  left: 5px;
+}
+
+.click-text {
+  display: block;
+  text-align: left;
+  padding: 0 0px 0px;
+  margin: 0;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+
+
 table {
   font-family: $g-font-family-default;
   font-size: 20px;

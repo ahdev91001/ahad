@@ -58,6 +58,8 @@
       <%= ps_markup("Type", 
           @property.type != nil ? @property.type.capitalize : "", true) %>
 
+
+
       <div class="accordion">
         <div class="accordion-toggle  ps-details-titles">
           Additional Architects: <%= image_tag("dropdown-arrow-down-grey-35x35.png",
@@ -71,18 +73,7 @@
         </div>
       </div>
 
-      <div class="accordion">
-        <div class="accordion-toggle  ps-details-titles">
-          Additional Builders: <%= image_tag("dropdown-arrow-down-grey-35x35.png",
-            :alt => "\/", :style => "width: 20px;") %>
-        </div>
-        <div class="accordion-content  accordion-content__default  
-                    accordion-content__indent">
-          <% @property.additional_builders.each do |a| %>
-            <%= a.name + (a.year != nil ? " (" + a.year + ")" : "") %><br>
-          <% end %>
-        </div>
-      </div>
+
 
       <div class="accordion">
         <div class="accordion-toggle  ps-details-titles">
@@ -105,6 +96,19 @@
           </table>
         </div>
 
+
+      <div class="wrapper wrapper1" id="wrapper">
+        <div class="accordion-toggle  ps-details-titles">
+          <p class="click-text">Additional Builders: <span class="arrow"></span></p>
+        </div>
+        <div class="accordion-content  accordion-content__default  
+                    accordion-content__indent">
+          <% @property.additional_builders.each do |a| %>
+            <%= a.name + (a.year != nil ? " (" + a.year + ")" : "") %><br>
+          <% end %>
+        </div>
+      </div>
+      
       <div class="accordion">
         <div class="accordion-toggle  ps-details-titles">
           Building Permits: <%= image_tag("dropdown-arrow-down-grey-35x35.png",
@@ -165,6 +169,16 @@
             <% end %>
           </table>
         </div>
+
+
+
+
+
+
+
+
+
+
 
 
 
