@@ -54,7 +54,7 @@ class Property < ActiveRecord::Base
 
     # Use LIKE to work with sqlite as well as mysql2, 
     # instead of find_by(:name,...) 
-    Property.where("address1 LIKE ?", "%#{addr_normalized}%")[0]
+    Property.where("address1 LIKE ?", "#{addr_normalized}%")[0]
   end
 
   #
