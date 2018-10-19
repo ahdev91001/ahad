@@ -33,8 +33,43 @@
       <%= ps_markup("Year Built", @property.yearbuilt_qualified) %>
       <%= ps_markup("Year Built (Assessor)", @property.yearbuiltassessor, true) %>
       <%= ps_markup("Year Built (Other)", @property.yearbuiltother, true) %>
-      <%= ps_markup("Architect", @property.architect_qualified) %>
-      <%= ps_markup("Builder", @property.builder_qualified) %>
+      
+      <!-- 
+        -- Architects
+        -->
+
+      <% if @property.additional_architects.count > 0 %>
+        <%= ps_markup("Architects", @property.architect_qualified) %>
+      <% else %>
+        <%= ps_markup("Architect", @property.architect_qualified) %>
+      <% end %>
+      
+      <% if @property.additional_architects.count > 0 %>
+        <div class="ps-list-padded accordion-content__indent">
+          <% @property.additional_architects.each do |a| %>
+            <%= a.name + (a.year != nil ? " (" + a.year + ")" : "") %><br>
+          <% end %>
+        </div>      
+      <% end %>
+      
+      <!-- 
+        -- Builders
+        -->
+
+      <% if @property.additional_builders.count > 0 %>
+        <%= ps_markup("Builders", @property.builder_qualified, false, true) %>
+      <% else %>
+        <%= ps_markup("Builder", @property.builder_qualified) %>
+      <% end %>      
+      
+      <% if @property.additional_builders.count > 0 %>
+        <div class="ps-list-padded accordion-content__indent">
+          <% @property.additional_builders.each do |a| %>
+            <%= a.name + (a.year != nil ? " (" + a.year + ")" : "") %><br>
+          <% end %>
+        </div>
+      <% end %>
+
       <%= ps_markup("Stories", @property.stories) %>
       <%= ps_markup("APN", (apn = @property.apn) && apn.parcel) %>
       <%= ps_markup("Current Lot Size", @property.currentlotsize) %>
@@ -58,31 +93,12 @@
       <%= ps_markup("Type", 
           @property.type != nil ? @property.type.capitalize : "", true) %>
 
-
-
-      <div class="accordion">
-        <div class="accordion-toggle  ps-details-titles">
-          Additional Architects: <%= image_tag("dropdown-arrow-down-grey-35x35.png",
-            :alt => "\/", :style => "width: 20px;") %>
+    <% if @property.alterations.count > 0 then %>
+      <div class="ps-details-titles">
+          Alterations:
         </div>
-        <div class="accordion-content  accordion-content__default  
-                    accordion-content__indent">
-          <% @property.additional_architects.each do |a| %>
-            <%= a.name + (a.year != nil ? " (" + a.year + ")" : "") %><br>
-          <% end %>
-        </div>
-      </div>
-
-
-
-      <div class="accordion">
-        <div class="accordion-toggle  ps-details-titles">
-          Alterations: <%= image_tag("dropdown-arrow-down-grey-35x35.png",
-            :alt => "\/", :style => "width: 20px;") %>
-        </div>
-        <div class="accordion-content  accordion-content__default  
-                    accordion-content__indent">
-          <table cellpadding = "1">
+        <div>
+          <table class="ps-tables">
             <tr>
               <th align="left">Cost</th><th>Description</th><th>Year</th>
             </tr>
@@ -95,54 +111,19 @@
             <% end %>
           </table>
         </div>
-
-
-
-
-
-     <div class="wrapper wrapper1" id="wrapper1">
-        <div class="accordion-toggle  ps-details-titles">
-          <p class="click-text">Alterations: <span class="arrow"></span></p>
+      <% else %>
+        <div class='hanging-indent'> 
+          <span class="ps-details-titles">Alterations:</span> 
+          None on File
         </div>
-        <div class="accordion-content  accordion-content__default  
-                    accordion-content__indent">
-          <table cellpadding = "1">
-            <tr>
-              <th align="left">Cost</th><th>Description</th><th>Year</th>
-            </tr>
-            <% @property.alterations.each do |a| %>
-              <tr>
-                <td> <%= number_to_currency(a.cost, :precision => 0) %> </td>
-                <td> <%= (a.description != nil ? a.description : "N/A") %> </td>
-                <td> <%= (a.year != nil ? a.year : "N/A") %> </td>
-              </tr>                  
-            <% end %>
-          </table>
-        </div>
-
-
-
-      <div class="wrapper wrapper1" id="wrapper2">
-        <div class="accordion-toggle  ps-details-titles">
-          <p class="click-text">Additional Builders: <span class="arrow"></span></p>
-        </div>
-        <div class="accordion-content  accordion-content__default  
-                    accordion-content__indent">
-          <% @property.additional_builders.each do |a| %>
-            <%= a.name + (a.year != nil ? " (" + a.year + ")" : "") %><br>
-          <% end %>
-        </div>
-      </div>
-
+      <% end %>
       
-      <div class="accordion">
-        <div class="accordion-toggle  ps-details-titles">
-          Building Permits: <%= image_tag("dropdown-arrow-down-grey-35x35.png",
-            :alt => "\/", :style => "width: 20px;") %>
+      <% if @property.building_permits.count > 0 %>
+        <div class="ps-details-titles">
+          Building Permits:
         </div>
-        <div class="accordion-content  accordion-content__default  
-                    accordion-content__indent">
-          <table cellpadding = "1">
+        <div>
+          <table class="ps-tables">
             <tr>
               <th align="left">Permit</th><th>Year</th>
             </tr>
@@ -154,15 +135,19 @@
             <% end %>
           </table>
         </div>
-
-      <div class="accordion">
-        <div class="accordion-toggle  ps-details-titles">
-          Former Addresses: <%= image_tag("dropdown-arrow-down-grey-35x35.png",
-            :alt => "\/", :style => "width: 20px;") %>
+       <% else %>
+        <div class='hanging-indent'> 
+          <span class="ps-details-titles">Building Permits:</span> 
+          None on File
         </div>
-        <div class="accordion-content  accordion-content__default  
-                    accordion-content__indent">
-          <table cellpadding = "2">
+      <% end %>
+      
+      <% if @property.former_addresses.count > 0 %>
+        <div class="ps-details-titles">
+          Former Addresses:
+        </div>
+        <div>
+          <table class="ps-tables">
             <tr>
               <th align="left">Address</th><th>Years</th>
             </tr>
@@ -174,16 +159,19 @@
             <% end %>
           </table>
         </div>
-
-
-      <div class="accordion">
-        <div class="accordion-toggle  ps-details-titles">
-          Other Owners: <%= image_tag("dropdown-arrow-down-grey-35x35.png",
-            :alt => "\/", :style => "width: 20px;") %>
+      <% else %>
+        <div class='hanging-indent'> 
+          <span class="ps-details-titles">Former Addresses:</span> 
+          None on File
         </div>
-        <div class="accordion-content  accordion-content__default  
-                    accordion-content__indent">
-          <table cellpadding = "2">
+      <% end %>
+
+      <% if @property.other_owners.count > 0 %>
+        <div class="ps-details-titles">
+          Other Owners:
+        </div>
+        <div>
+          <table class="ps-tables">
             <tr>
               <th align="left">Name</th><th>Years</th>
             </tr>
@@ -195,15 +183,12 @@
             <% end %>
           </table>
         </div>
-
-
-
-
-
-
-
-
-
+      <% else %>
+        <div class='hanging-indent'> 
+          <span class="ps-details-titles">Other Owners:</span> 
+          None on File
+        </div>
+      <% end %>
 
 
 

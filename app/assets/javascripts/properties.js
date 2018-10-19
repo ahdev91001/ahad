@@ -160,35 +160,6 @@ function onLoadEventPropertyShowHelper() {
 
   $('#ps-search-again-btn').click(propertySearchAgainClicked)
 
-  // From: http://uniondesign.ca/simple-accordion-without-jquery-ui/
-  // Simple non jQuery-UI based accordion controls for hiding and 
-  // showing all the has_many relationships (e.g. additionalarchitects)
-  // (Note: also has corresponding CSS in properties.scss)
-  $('.accordion').find('.accordion-toggle').click(function(){
-      //Expand or collapse this panel
-      $(this).next().slideToggle('fast');
-      //Hide the other panels
-      //$(".accordion-content").not($(this).next()).slideUp('fast');
-  });  
-
-document.getElementById('wrapper1').onclick = function() {
-
-    var className = ' ' + wrapper1.className + ' ';
-
-    this.className = ~className.indexOf(' active ') ?
-                         className.replace(' active ', ' ') :
-                         this.className + ' active';
-};
-
-document.getElementById('wrapper2').onclick = function() {
-
-    var className = ' ' + wrapper2.className + ' ';
-
-    this.className = ~className.indexOf(' active ') ?
-                         className.replace(' active ', ' ') :
-                         this.className + ' active';
-};
-
   // Even with turbolinks, seems that the relevant events for
   // each page need to be initialized on the page load
   $(window).resize(resizeWindowEventPropertyShow); 

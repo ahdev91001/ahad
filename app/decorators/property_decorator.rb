@@ -22,7 +22,7 @@ class PropertyDecorator < Draper::Decorator
   
   def architect_qualified
     add_addnl_info object.architect, object.architectconfirmed,
-      "Y", "(confirmed)", "(unconfirmed)"
+      "Y", "(confirmed)", "(attributed to)"
   end
 
   def builder_qualified

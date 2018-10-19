@@ -9,15 +9,17 @@
 module Views::Properties::ShowHelper
 
   # TODO: Add header comments
-  def ps_markup(name, value, hide=false)
+  def ps_markup(name, value, hide=false, hide_nof=false)
     title = "<div class='hanging-indent'> " +
        "<span class='ps-details-titles'> #{name}: </span>"
 
     if (value != nil)
       ("    " + title + value + "\n      </div>").html_safe
-    else
+    elsif hide_nof == false
       ("    " + title +
        "Not on File\n      </div>").html_safe unless hide
+    else
+      ("    " + title + "\n</div>").html_safe unless hide
     end
   end # ps_markup
 
