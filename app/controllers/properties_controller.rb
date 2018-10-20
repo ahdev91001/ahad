@@ -40,7 +40,10 @@ class PropertiesController < ApplicationController
         pdf = Prawn::Document.new
         pdf.text 'Hello World'
   
-        send_data pdf.render        
+        send_data pdf.render, 
+          filename: "#{params[:id]}.pdf",
+          type: 'application/pdf',
+          disposition: 'inline'        
       end
     end
   end

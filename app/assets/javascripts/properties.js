@@ -160,6 +160,8 @@ function onLoadEventPropertyShowHelper() {
 
   $('#ps-search-again-btn').click(propertySearchAgainClicked)
 
+  $('#ps-dl-pdf-img').click(generatePDFClicked);
+
   // Even with turbolinks, seems that the relevant events for
   // each page need to be initialized on the page load
   $(window).resize(resizeWindowEventPropertyShow); 
@@ -402,6 +404,22 @@ function resizeWindowEventPropertyNotFound() {
   $("#pnf-title").css("margin-top",
     document.getElementById("app-layout-header-bar").clientHeight + 
     PROP__TOP_MARGIN_CLEARS_HEADER);
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// #generatePDFClicked
+/** 
+ * @summary Executes when the PDF download icon is clicked.
+ *
+ * @author Derek Carlson
+ * @since 1/30/2017
+ * 
+ */
+function generatePDFClicked() {
+  $("#ps-pdf-please-wait-container").css("display", "block")
+  $("#ps-pdf-please-wait").css("display", "block")
+  // the PDF button itself is a link, so it takes care of jumping
+  // to the ..properties/16494.pdf link
 }
 
 
