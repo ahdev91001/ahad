@@ -28,6 +28,23 @@
     
     <div id="ps-addr-title-fader"><%= @property.address1 %></div>
     
+
+    <!-- JS onClickEvent added to #ps-dl-pdf-img to pop up wait spinner -->    
+    <div id="ps-dl-pdf-img">
+    <%= link_to image_tag('pdf-dl-button-65x24.png', :alt => 'Download PDF'), 
+        property_path(@property.id) + ".pdf" %>
+    </div>
+
+    <div id="ps-pdf-please-wait-container">
+      <div id="ps-pdf-please-wait">
+        <%= image_tag('ring-alt.svg', :alt => 'Please Wait...') %>
+        <br>
+        <b>Generating PDF file...</b>
+      </div>
+    </div>
+
+
+
     <!-- All fields listed below -->
     <div id="ps-db-details">
       <%= ps_markup("Year Built", @property.yearbuilt_qualified) %>
