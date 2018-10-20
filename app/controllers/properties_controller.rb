@@ -37,8 +37,7 @@ class PropertiesController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-        pdf = Prawn::Document.new
-        pdf.text 'Hello World'
+        pdf = PropertyPdf.new(@property)
   
         send_data pdf.render, 
           filename: "#{params[:id]}.pdf",
