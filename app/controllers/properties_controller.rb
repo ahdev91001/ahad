@@ -39,8 +39,10 @@ class PropertiesController < ApplicationController
       format.pdf do
         pdf = PropertyPdf.new(@property)
   
+        fname = "#{@property.address1}".gsub(" ","-") + ".pdf"
+
         send_data pdf.render, 
-          filename: "#{params[:id]}.pdf",
+          filename: "#{@property.address1}".gsub(" ","-") + ".pdf",
           type: 'application/pdf',
           disposition: 'inline'        
       end
