@@ -15,6 +15,7 @@ gem 'activemodel-serializers-xml'
 gem 'draper', github: 'drapergem/draper'
 gem 'fuzzy-string-match'
 gem 'prawn'
+gem 'prawn-table'
 
 group :development, :test do
   gem 'byebug',  '9.0.0', platform: :mri
