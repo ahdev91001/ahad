@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   # resources :properties
   
@@ -13,4 +14,7 @@ Rails.application.routes.draw do
   get 'properties/:id' => 'properties#show', as: 'property'
   
   get 'properties' => 'properties#index', as: 'properties'
+
+  get  '/signup',  to: 'users#new'
+
 end
