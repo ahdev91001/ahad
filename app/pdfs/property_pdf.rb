@@ -38,9 +38,17 @@ class PropertyPdf < Prawn::Document
       # header
       bounding_box [bounds.left, bounds.top], :width  => bounds.width do
           font "Helvetica"
-          text "\##{@property.address1}", :align => :center, :size => 25, :color => '770000'
-          stroke_color "770000"
+          image Dir.getwd + "/app/assets/images/ahad-header-logo-from-website-alpha-2.png", 
+            :position => :center, :width => 350
+        
+          move_down 10
+          text "Report from Altadena Heritage Architectural Database courtesy of <link href='http://altadenaheritage.org/'><color rgb='5555FF'>AltadenaHeritage.org</color></link>",
+            :align => :center, :size => 10,  :inline_format => true
           stroke_horizontal_rule
+          move_down 10
+          text "<link href='https://pacific-garden-24850.herokuapp.com/properties/#{@property.id}'>#{@property.address1}</link>", 
+            :align => :center, :size => 25, :color => '770000', :inline_format => true
+          stroke_color "770000"
       end
 
       # footer
@@ -50,15 +58,6 @@ class PropertyPdf < Prawn::Document
           stroke_horizontal_rule
       end
     end
-  
-  move_down 10
-
-  image Dir.getwd + "/app/assets/images/ahad-header-logo-from-website-alpha-2.png", 
-    :position => :center, :width => 350
-
-  move_down 10
-  text "Report from Altadena Heritage Architectural Database courtesy of <link href='http://altadenaheritage.org/'><color rgb='5555FF'>AltadenaHeritage.org</color></link>",
-    :align => :center, :size => 10,  :inline_format => true
 
   move_down 20
 
@@ -72,15 +71,11 @@ class PropertyPdf < Prawn::Document
     text "<link href='http://altadenaheritage.org/contact-us/'><color rgb='5555FF'>" +
           "Let us know</color></link> if you have one!",  :align => :center,  :inline_format => true
   end
-  move_down 10
-  
-  text "<link href='https://pacific-garden-24850.herokuapp.com/properties/11136'><color rgb='5555FF'><u>#{@property.address1}</u></color></link>",
-      :inline_format => true, :align => :center
 
   move_down 20
   
-  bounding_box([119, 700], :width => 540-119, :height => 670) do  
-    move_down 350
+  bounding_box([119, 630], :width => 540-119, :height => 600) do  
+    move_down 270
 
     if @property.yearbuilt_qualified != nil
       text ps_markup_pdf("Year Built", @property.yearbuilt_qualified, true), 
@@ -148,6 +143,13 @@ class PropertyPdf < Prawn::Document
       text "<color rgb='777777'>APN:</color> Not on File", :inline_format => true
     else  
       text ps_markup_pdf("APN", (apn = @property.apn) && apn.parcel, true), 
+        :inline_format => true
+    end
+
+    if @property.chrs == nil 
+      text "<color rgb='777777'>CHRS:</color> Not on File", :inline_format => true
+    else  
+      text ps_markup_pdf("CHRS", @property.chrs, true), 
         :inline_format => true
     end
   
@@ -260,6 +262,9 @@ class PropertyPdf < Prawn::Document
     # 
     # Alterations
     #
+    if cursor < 40.0
+      start_new_page
+    end
     
     if @property.alterations.count > 0
       text "<color rgb='777777'>Alterations:</color>", :inline_format => true
@@ -281,6 +286,9 @@ class PropertyPdf < Prawn::Document
     # 
     # Building Permits
     #
+    if cursor < 40.0
+      start_new_page
+    end
     
     if @property.building_permits.count > 0
       text "<color rgb='777777'>Building Permits:</color>", :inline_format => true
@@ -301,6 +309,9 @@ class PropertyPdf < Prawn::Document
     # 
     # Former Addresses
     #
+    if cursor < 40.0
+      start_new_page
+    end
     
     if @property.former_addresses.count > 0
       text "<color rgb='777777'>Former Addresses:</color>", :inline_format => true
@@ -321,6 +332,9 @@ class PropertyPdf < Prawn::Document
     # 
     #  Other Owners
     #
+    if cursor < 40.0
+      start_new_page
+    end
     
     if @property.other_owners.count > 0
       text "<color rgb='777777'>Other Owners:</color>", :inline_format => true
