@@ -60,6 +60,7 @@ GEM
       public_suffix (>= 2.0.2, < 4.0)
     ansi (1.5.0)
     arel (7.1.4)
+    bcrypt (3.1.12)
     builder (3.2.3)
     byebug (9.0.0)
     capybara (2.18.0)
@@ -283,6 +284,7 @@ PLATFORMS
 
 DEPENDENCIES
   activemodel-serializers-xml
+  bcrypt (= 3.1.12)
   byebug (= 9.0.0)
   capybara (~> 2.5)
   coffee-rails (= 4.2.1)
