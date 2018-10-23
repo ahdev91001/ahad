@@ -72,8 +72,8 @@ test:                           # :test
 #
 production:
   <<: *default
+  #url: <%= ENV['DATABASE_URL'] %>
   database: altaheri_djr
   username: altaheri_3
-  password: <%= ENV['AHAD_RT1_DATABASE_PASSWORD'] %>
+  password: 4WfRtNBy
   host: db154.pair.com
-
