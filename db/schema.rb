@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20181022230058) do
 
   create_table "TESTnotesource", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "propid"
@@ -171,6 +171,13 @@ ActiveRecord::Schema.define(version: 0) do
 
   create_table "typevalue", primary_key: "value", id: :string, limit: 32, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.index ["value"], name: "value", unique: true, using: :btree
+  end
+
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.string   "name"
+    t.string   "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "yearflag", primary_key: "flag", id: :string, limit: 1, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
