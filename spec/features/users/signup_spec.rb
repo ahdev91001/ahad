@@ -32,7 +32,7 @@ RSpec.feature "Actions available user signup page",
 #  assert_equal before_count, after_count
 
     end  
-
+  end
 # ALSO:  check that a failed submission re-renders the new action
 
 # ALSO:  Add lines to check for the appearance of error messages
