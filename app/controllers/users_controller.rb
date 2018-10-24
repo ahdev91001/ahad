@@ -10,6 +10,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)    # Not the final implementation!
     if @user.save
+      log_in @user     
       flash[:success] = "Your account has been created! Welcome to AHAD you wonderful person you!"
       flash.keep # not even sure why this is needed, but it was
       # second answer at: https://stackoverflow.com/questions/7510418/

@@ -133,6 +133,7 @@ $(document).on('turbolinks:load', function (e) {
   
   if (DEBUG) console.log("Turbolinks page: " + page);
   
+  
   // Turn off property address fade in/out based on scrolling
   // for when we're on non-property view pages. Not sure
   // if the event persists across turbolinks page loads,
