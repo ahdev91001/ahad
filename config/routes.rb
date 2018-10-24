@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   get 'static_pages/help'
   get 'static_pages/testform'
   get 'static_pages/railstutorial'
-  get 'static_pages/hackbouncer', as: 'hackbouncer'
+ 
   get '/search' => 'static_pages#search' 
   get 'properties/:id' => 'properties#show', as: 'property'
   get 'properties' => 'properties#index', as: 'properties'

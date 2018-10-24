@@ -22,6 +22,18 @@ body {
   text-align: center;
 }
 
+a {
+  color: #D6AD52;
+}
+
+.alert-success {
+  background-color: green;
+  border-radius: 4px;
+  border: 2px solid #73AD21;
+  border-color: yellow;
+  opacity: 0.7;
+}
+
 /****************************************************************************
 * Animated >> Buttons 
 *

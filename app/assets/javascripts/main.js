@@ -159,6 +159,13 @@ $(document).on('turbolinks:load', function (e) {
   if (page == "root") {
     // Home page with search box -- root 'static_pages#home'
     onLoadEventRootHomeHelper();
+    // Select2, when rails linked to it, would get squished.
+    // However, when I resized the window, I would notice that
+    // all the resize events got called (like scale the BG image)
+    // and select2 would "pop back" to normal.  So I decided
+    // to try to force a resize event here on page load so that
+    // it would kick select2 into shape if it were squished.
+    // Sure enough, that did the trick.
     $(window).trigger('resize');
   } else if (page == "testform") {
   	onLoadEventTestformHelper();

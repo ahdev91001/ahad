@@ -9,10 +9,7 @@ class StaticPagesController < ApplicationController
   
   def testform
   end
-  
-  def hackbouncer
-    redirect_to root_path and return
-  end
+
   
   # Search for a property based on ID or an address.  Addresses of various
   # forms (e.g. St, St., Street, etc.) will be normalized, if possible,
