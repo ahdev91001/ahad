@@ -1,24 +1,20 @@
 <div id="app-layout-top-spacer"> </div>
 
-<header class="navbar "> <!-- navbar-fixed-top navbar-inverse -->
+<header class="navbar"> <!-- navbar-fixed-top navbar-inverse -->
   <div class="container">
     <nav>
-      <ul class="nav navbar-nav navbar-right">
+      <div class="nav-mobile">
+        <a id="nav-toggle" href="#!"><span></span></a>
+      </div>
+      <ul class="nav-list">
         <li><%= link_to "Search", root_path %></li>
-        <li><%= link_to "Help", '#' %></li>
         <% if logged_in? %>
-          <li><%= link_to "Users", '#' %></li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              Account <b class="caret"></b>
-            </a>
-            <ul class="dropdown-menu">
-              <li><%= link_to "Profile", current_user %></li>
-              <li><%= link_to "Settings", '#' %></li>
-              <li class="divider"></li>
-              <li>
-                <%= link_to "Log out", logout_path, method: :delete %>
-              </li>
+          <li><a href="#!">Users</a></li>
+          <li><a href="#!">Account</a>
+            <ul class="nav-dropdown">
+              <li><a href="#!">Profile</a></li>
+              <li><a href="#!">Settings</a></li>
+              <li><%= link_to "Log out", logout_path, method: :delete %></li>
             </ul>
           </li>
         <% else %>
@@ -26,5 +22,5 @@
         <% end %>
       </ul>
     </nav>
-  </div>
+</div>
 </header>

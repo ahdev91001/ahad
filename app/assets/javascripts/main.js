@@ -38,6 +38,8 @@
 /* global onLoadEventPropertyShowHelper */
 /* global onLoadEventPropertyNotFoundHelper */
 
+/* global jQuery */
+
 /**
  * Global debug variable for logging across all modules.
  * @constant
@@ -65,6 +67,18 @@ var DEBUG = true;  // "const" doesn't work in IE 8, 9, 10
  */
 $(document).on('ready', function (e) {
   if (DEBUG) console.log("Event: ready() at: " + e.timeStamp);
+
+  // Rolled-my-own dropdown list
+  // From: https://www.taniarascia.com/responsive-dropdown-navigation-bar/
+  $('nav ul li > a:not(:only-child)').click(function(e) {
+      $(this).siblings('.nav-dropdown').toggle();
+      $('.nav-dropdown').not($(this).siblings()).hide();
+      e.stopPropagation();
+    });
+  $('html').click(function() {
+      $('.nav-dropdown').hide();
+  });
+
 });
 
 
@@ -83,6 +97,7 @@ $(document).on('ready', function (e) {
  */
 $(window).on('load', function (e) {
 //	loadGoogleMapScript();
+
 });
 
 
@@ -144,6 +159,14 @@ $(document).on('turbolinks:load', function (e) {
   if (page == "root") {
     // Home page with search box -- root 'static_pages#home'
     onLoadEventRootHomeHelper();
+    // Select2, when rails linked to it, would get squished.
+    // However, when I resized the window, I would notice that
+    // all the resize events got called (like scale the BG image)
+    // and select2 would "pop back" to normal.  So I decided
+    // to try to force a resize event here on page load so that
+    // it would kick select2 into shape if it were squished.
+    // Sure enough, that did the trick.
+    $(window).trigger('resize');
   } else if (page == "testform") {
   	onLoadEventTestformHelper();
   } else if (window.location.href.match(/properties\/\d+/)) {
@@ -153,5 +176,8 @@ $(document).on('turbolinks:load', function (e) {
     // property#[not found] -- e.g. /search?id=1000+E+Mount+...
     onLoadEventPropertyNotFoundHelper(); // properties.js
   } 
+  
+
 });
+
 

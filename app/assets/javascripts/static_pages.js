@@ -152,7 +152,7 @@ function onLoadEventRootHomeHelper() {
   $(window).load(loadBGImgHandler);
   $(window).resize(resizeBGImgRootHome); 
   // set callback for whenever browser size changes
-
+  
   $('#sp-home-search-btn').click(rootHomeSearchClicked);
   
   // See [1] in header comments

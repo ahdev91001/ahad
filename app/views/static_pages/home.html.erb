@@ -7,7 +7,7 @@
 
 <!-- Architectural Database box with select2 input and search button -->
 <div id="sp-home-ad-box-container">
-	<div id="sp-home-ad-box">Architectural Database
+	<div id="sp-home-ad-box">Architectural Database 
 		<div>
 			<form action="/search" id="sp-home-form">
 				<div id="sp-home-addr-container">
@@ -23,5 +23,13 @@
 				</div>
   		</form>
 		</div>
-	</div>
+		<div style="font-size:14pt">
+			<% if logged_in? %>
+				<%= link_to "Logout", logout_path, method: :delete %>
+			<% else %>
+				<%= link_to "Login", login_path %>
+			<% end %>			
+		</div>
 </div>
+
+
