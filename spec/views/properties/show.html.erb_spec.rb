@@ -3,6 +3,12 @@ require "rails_helper"
 # View Spec for: properties/show.html.erb
 #
 # Since 1/14/2017 Derek Carlson
+#
+# TODO: Add a spec for just 1 architect / builder
+#       A spec for 1 arch/buil with multiple additional ones
+#       A spec for 0 arch/buil but with multipe additional ones
+#       A spec that ensures presence of PDF download button
+#
 #############################################################################
 
 describe "properties/show.html.erb" do
