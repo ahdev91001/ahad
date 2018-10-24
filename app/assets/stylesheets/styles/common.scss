@@ -26,6 +26,11 @@ a {
   color: #D6AD52;
 }
 
+a:hover { 
+  color: #F3CE7D; 
+  text-decoration: none; 
+}
+
 /****************************************************************************
 * Animated >> Buttons 
 *
@@ -139,6 +144,7 @@ nav {
       &:hover {
         background: $link-hover-color;
         color: $nav-font-color;
+        text-decoration: none;
       }
       &:not(:only-child):after {
       padding-left: 4px;
@@ -159,21 +165,6 @@ nav {
       z-index: 1;
       box-shadow: 0 3px 12px rgba(0, 0, 0, 0.45);
       display: none;
-    }
-    
-    .nav-mobile {
-      //display: none;
-      position: absolute;
-      top: 0;
-      right: 0;
-      background: $nav-background;
-      height: $nav-height;
-      width: $nav-height;
-    }
-    
-    @media only screen and (max-width: $breakpoint) {
-    // Insert all mobile styles here
-    
     }
   }
 }
