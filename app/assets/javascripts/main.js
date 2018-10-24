@@ -38,6 +38,8 @@
 /* global onLoadEventPropertyShowHelper */
 /* global onLoadEventPropertyNotFoundHelper */
 
+/* global jQuery */
+
 /**
  * Global debug variable for logging across all modules.
  * @constant
@@ -65,6 +67,27 @@ var DEBUG = true;  // "const" doesn't work in IE 8, 9, 10
  */
 $(document).on('ready', function (e) {
   if (DEBUG) console.log("Event: ready() at: " + e.timeStamp);
+
+  // Rolled-my-own dropdown list
+  // From: https://www.taniarascia.com/responsive-dropdown-navigation-bar/
+  $('nav ul li > a:not(:only-child)').click(function(e) {
+      $(this).siblings('.nav-dropdown').toggle();
+      $('.nav-dropdown').not($(this).siblings()).hide();
+      e.stopPropagation();
+    });
+  $('html').click(function() {
+      $('.nav-dropdown').hide();
+  });
+  
+//  $('#nav-toggle').on('click', function(e) {
+//    this.classList.toggle('active');
+//    e.stopPropagation();
+//  });
+  
+//  $('#nav-toggle').click(function() {
+//    $('nav ul').toggle();
+//  });
+    
 });
 
 
@@ -83,6 +106,7 @@ $(document).on('ready', function (e) {
  */
 $(window).on('load', function (e) {
 //	loadGoogleMapScript();
+
 });
 
 
@@ -153,5 +177,8 @@ $(document).on('turbolinks:load', function (e) {
     // property#[not found] -- e.g. /search?id=1000+E+Mount+...
     onLoadEventPropertyNotFoundHelper(); // properties.js
   } 
+  
+
 });
+
 
