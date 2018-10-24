@@ -109,6 +109,9 @@ $link-hover-color: #CC5555;
 
 nav {
   float: right;
+  position: fixed;
+  top: 90px;
+  right: 10px;
   ul {
     list-style: none;
     margin: 0;

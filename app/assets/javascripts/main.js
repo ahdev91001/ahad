@@ -78,16 +78,7 @@ $(document).on('ready', function (e) {
   $('html').click(function() {
       $('.nav-dropdown').hide();
   });
-  
-//  $('#nav-toggle').on('click', function(e) {
-//    this.classList.toggle('active');
-//    e.stopPropagation();
-//  });
-  
-//  $('#nav-toggle').click(function() {
-//    $('nav ul').toggle();
-//  });
-    
+
 });
 
 
