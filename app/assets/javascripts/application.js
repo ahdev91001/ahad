@@ -19,8 +19,8 @@
 // tests that involve select2 fail.  And if I move bootstrap AFTER jquery, then
 // my integration tests pass but the dropdown fails.  So either way I've got issues.
 //
-//= require jquery
 //= require bootstrap
+//= require jquery
 //= require jquery_ujs
 //= require turbolinks
 //= require bootstrap-sprockets
