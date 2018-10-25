@@ -1,29 +1,16 @@
 <div id="app-layout-top-spacer"> </div>
+<header>
+  <section class="navigation">
+    <div class="navbar">
+      
+      <% if logged_in? %>
+        <%= link_to "Log out", logout_path, method: :delete %>
+        <a href="#!">Users</a>
+      <% else %>
+        <%= link_to "Log in", login_path %>
+      <% end %>
+      <%= link_to "Search", root_path %>
 
-<section class="navigation">
-  <div class="nav-container">
-    <div class="brand">
-      <a href="#!">Logo</a>
     </div>
-    <nav>
-      <div class="nav-mobile">
-        <a id="nav-toggle" href="#!"><span></span></a>
-      </div>
-      <ul class="nav-list">
-        <li><%= link_to "Search", root_path %></li>
-        <% if logged_in? %>
-          <li><a href="#!">Users</a></li>
-          <li><a href="#!">Account</a>
-            <ul class="nav-dropdown">
-              <li><a href="#!">Profile</a></li>
-              <li><a href="#!">Settings</a></li>
-              <li><%= link_to "Log out", logout_path, method: :delete %></li>
-            </ul>
-          </li>
-        <% else %>
-          <li><%= link_to "Log in", login_path %></li>
-        <% end %>
-      </ul>
-    </nav>
-  </div>
-</section>
+  </section>
+</header>
