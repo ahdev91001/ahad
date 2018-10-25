@@ -49,7 +49,7 @@ $g-sp-home-screen-width-phone: 400px;
   margin-right: 20%;
   position: absolute;
   top: 40%;
-  width: calc(60% - 28px); 
+  width: 60%; // calc (60% - 28px)
   /* -10 px for borders, -18 px for scrollbar width
    * When served directly from file, and not via rails,
    * this was not needed.  ?!?
@@ -109,7 +109,7 @@ $g-sp-home-screen-width-phone: 400px;
     #sp-home-ad-box-container {
       margin-left:  0;
       margin-right: 0;
-      width: calc(100% - 30px); 
+      width: 100%; 
       /* 10 px for borders, 18 px for scrollbar 
        * When served directly from file, and not via rails,
        * this was not needed.  ?!?
