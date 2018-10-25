@@ -1,3 +1,9 @@
 // Place all the styles related to the Users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+// Move up content closer to nav bar, but not so close (on mobile
+// especially) that the nav bar runs into it
+.us-user-info-wrapper {
+  margin-top: -50px;
+}
