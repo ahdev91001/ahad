@@ -68,17 +68,23 @@ var DEBUG = true;  // "const" doesn't work in IE 8, 9, 10
 $(document).on('ready', function (e) {
   if (DEBUG) console.log("Event: ready() at: " + e.timeStamp);
 
-  // Rolled-my-own dropdown list
-  // From: https://www.taniarascia.com/responsive-dropdown-navigation-bar/
-  $('nav ul li > a:not(:only-child)').click(function(e) {
+  $(function() {
+    $('nav ul li > a:not(:only-child)').click(function(e) {
       $(this).siblings('.nav-dropdown').toggle();
       $('.nav-dropdown').not($(this).siblings()).hide();
       e.stopPropagation();
     });
-  $('html').click(function() {
+    $('html').click(function() {
       $('.nav-dropdown').hide();
+    });
   });
-
+  document.querySelector('#nav-toggle').addEventListener('click', function() {
+    this.classList.toggle('active');
+  });
+  $('#nav-toggle').click(function() {
+    $('nav ul').toggle();
+  });
+  
 });
 
 
