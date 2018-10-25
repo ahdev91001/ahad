@@ -76,6 +76,7 @@ $(document).on('ready', function (e) {
     });
     $('html').click(function() {
       $('.nav-dropdown').hide();
+      e.stopPropagation();
     });
   });
   document.querySelector('#nav-toggle').addEventListener('click', function() {
@@ -83,6 +84,7 @@ $(document).on('ready', function (e) {
   });
   $('#nav-toggle').click(function() {
     $('nav ul').toggle();
+    e.stopPropagation();
   });
   
 });
