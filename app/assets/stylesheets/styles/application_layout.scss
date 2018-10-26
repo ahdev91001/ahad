@@ -20,7 +20,7 @@ $g-app-layout-ah-auto-shrink-threshold-width: 570px;
  * [1] Remove padding-top:10px to match layout when served from file directly 
  */
 #app-layout-header-bar {
-  background-color: rgba(255, 255, 255, 0.75);
+  background-color: rgba(255, 255, 255, 1.0);
   box-shadow: 5px 5px 5px #888888;
   color: red;
   /* height: 80px; // Not needed.  Sized via code in resizeBGImgRootHome() */
@@ -29,7 +29,7 @@ $g-app-layout-ah-auto-shrink-threshold-width: 570px;
   position: fixed;
   top : 0px;
   width: 100%; 
-  z-index: 1000;
+  z-index: 100000;
 }
 
   /* [LOGO] Altadena Heritage */

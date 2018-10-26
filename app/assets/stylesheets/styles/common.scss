@@ -109,17 +109,19 @@ a:hover {
 /* The navigation bar */
 .navbar {
     overflow: hidden;
-    background-color: #333;
+    background-color: #000;
+    opacity: 1.0;
     position: fixed; /* Set the navbar to fixed position */
-    top: 90; /* Position the navbar at the top of the page */
+    top: 80; /* Position the navbar at the top of the page */
     width: 100%; /* Full width */
+    z-index: 100001;
 }
 
 /* Links inside the navbar */
 .navbar a {
     float: right;
     display: block;
-    color: #f2f2f2;
+    color: #AAA;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
@@ -129,4 +131,8 @@ a:hover {
 .navbar a:hover {
     background: #ddd;
     color: black;
+}
+
+.top-padding-to-miss-navbar {
+  margin-top: 150px;
 }
