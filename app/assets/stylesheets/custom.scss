@@ -78,12 +78,14 @@ input {
   }
 }
 
+/*
 .field_with_errors {
   @extend .has-error;
   .form-control {
     color: $state-danger-text;
   }
 }
+*/
 
 .checkbox {
   margin-top: -10px;
@@ -99,3 +101,14 @@ input {
   margin-left: 0;
 }
 
+/* Users index */
+
+.users {
+  list-style: none;
+  margin: 0;
+  li {
+    overflow: auto;
+    padding: 10px 10px;
+    border-bottom: 1px solid lightgray;
+  }
+}

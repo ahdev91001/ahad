@@ -10,96 +10,84 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181026154531) do
+ActiveRecord::Schema.define(version: 20181026193846) do
 
-  create_table "TESTnotesource", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.integer "propid"
-    t.text    "nscleaned", limit: 65535
-    t.text    "nsraw",     limit: 65535
-  end
-
-  create_table "additionalarchitect", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "additionalarchitect", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "id",                   null: false
     t.integer "propid",               null: false
     t.string  "name",     limit: 128, null: false
     t.string  "year",     limit: 32
     t.string  "yearflag", limit: 1
-    t.index ["propid"], name: "propid", using: :btree
-    t.index ["yearflag"], name: "yearflag", using: :btree
   end
 
-  create_table "additionalbuilder", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "additionalbuilder", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "id",                   null: false
     t.integer "propid",               null: false
     t.string  "name",     limit: 128, null: false
     t.string  "year",     limit: 32
     t.string  "yearflag", limit: 1
-    t.index ["propid"], name: "propid", using: :btree
-    t.index ["yearflag"], name: "yearflag", using: :btree
   end
 
-  create_table "ahdesignationvalue", primary_key: "value", id: :string, limit: 128, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.index ["value"], name: "value", unique: true, using: :btree
+  create_table "ahdesignationvalue", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.string "value", limit: 128, null: false
   end
 
-  create_table "alteration", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "alteration", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "id",                      null: false
     t.integer "propid",                  null: false
     t.integer "cost"
     t.string  "description", limit: 128
     t.string  "year",        limit: 32
     t.string  "yearflag",    limit: 1
-    t.index ["propid"], name: "propid", using: :btree
-    t.index ["yearflag"], name: "yearflag", using: :btree
   end
 
-  create_table "apn", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "apn", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "id",                null: false
     t.integer "propid",            null: false
     t.string  "parcel", limit: 16, null: false
-    t.index ["propid"], name: "propid", using: :btree
   end
 
-  create_table "buildingpermit", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "buildingpermit", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "id",                  null: false
     t.integer "propid",              null: false
     t.string  "permit",   limit: 32, null: false
     t.string  "year",     limit: 32
     t.string  "yearflag", limit: 1
-    t.index ["propid"], name: "propid", using: :btree
-    t.index ["yearflag"], name: "yearflag", using: :btree
   end
 
-  create_table "chrscode", primary_key: "code", id: :string, limit: 6, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.index ["code"], name: "code", unique: true, using: :btree
+  create_table "chrscode", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.string "code", limit: 6, null: false
   end
 
-  create_table "formeraddress", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "formeraddress", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "id",                   null: false
     t.integer "propid",               null: false
     t.string  "address1", limit: 128, null: false
     t.string  "address2", limit: 128, null: false
     t.string  "years",    limit: 64
     t.string  "yearflag", limit: 1
-    t.index ["propid"], name: "propid", using: :btree
   end
 
-  create_table "otherowner", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "otherowner", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "id",                   null: false
     t.integer "propid",               null: false
     t.string  "name",     limit: 128, null: false
     t.string  "years",    limit: 32
     t.string  "yearflag", limit: 1
-    t.index ["propid"], name: "propid", using: :btree
-    t.index ["yearflag"], name: "yearflag", using: :btree
   end
 
-  create_table "photo", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "photo", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "id",                      null: false
     t.integer "propid",                  null: false
     t.string  "filename",    limit: 64,  null: false
     t.string  "description", limit: 128
-    t.index ["filename"], name: "filename", unique: true, using: :btree
-    t.index ["propid"], name: "propid", using: :btree
   end
 
-  create_table "photos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "photos", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "id",                     null: false
     t.integer "propid",                 null: false
     t.string  "filename",    limit: 45
     t.string  "description"
-    t.index ["propid"], name: "propid_index", using: :btree
   end
 
   create_table "property", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -149,70 +137,15 @@ ActiveRecord::Schema.define(version: 20181026154531) do
     t.index ["yearbuiltflag"], name: "yearbuiltflag", using: :btree
   end
 
-  create_table "quadrantvalue", primary_key: "value", id: :string, limit: 32, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.index ["value"], name: "value", unique: true, using: :btree
-  end
-
-  create_table "scandoc", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.integer "propid",                  null: false
-    t.string  "filename",    limit: 64,  null: false
-    t.string  "description", limit: 128
-    t.index ["filename"], name: "filename", unique: true, using: :btree
-    t.index ["propid"], name: "propid", using: :btree
-  end
-
-  create_table "streetdirectionvalue", primary_key: "value", id: :string, limit: 1, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.index ["value"], name: "value", unique: true, using: :btree
-  end
-
-  create_table "stylevalue", primary_key: "value", id: :string, limit: 32, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.index ["value"], name: "value", unique: true, using: :btree
-  end
-
-  create_table "typevalue", primary_key: "value", id: :string, limit: 32, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.index ["value"], name: "value", unique: true, using: :btree
-  end
-
-  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.string   "email"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.string   "password_digest"
     t.string   "remember_digest"
+    t.boolean  "admin",           default: false
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
   end
 
-  create_table "yearflag", primary_key: "flag", id: :string, limit: 1, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.string "description", limit: 32
-    t.index ["flag"], name: "flag", unique: true, using: :btree
-  end
-
-  create_table "yesnoflag", primary_key: "flag", id: :string, limit: 1, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.index ["flag"], name: "flag", unique: true, using: :btree
-  end
-
-  add_foreign_key "additionalarchitect", "property", column: "propid", name: "additionalarchitect_ibfk_2", on_update: :cascade, on_delete: :cascade
-  add_foreign_key "additionalarchitect", "yearflag", column: "yearflag", primary_key: "flag", name: "additionalarchitect_ibfk_1"
-  add_foreign_key "additionalbuilder", "property", column: "propid", name: "additionalbuilder_ibfk_2", on_update: :cascade, on_delete: :cascade
-  add_foreign_key "additionalbuilder", "yearflag", column: "yearflag", primary_key: "flag", name: "additionalbuilder_ibfk_1"
-  add_foreign_key "alteration", "property", column: "propid", name: "alteration_ibfk_2", on_update: :cascade, on_delete: :cascade
-  add_foreign_key "alteration", "yearflag", column: "yearflag", primary_key: "flag", name: "alteration_ibfk_1"
-  add_foreign_key "apn", "property", column: "propid", name: "apn_ibfk_1", on_update: :cascade, on_delete: :cascade
-  add_foreign_key "buildingpermit", "property", column: "propid", name: "buildingpermit_ibfk_2", on_update: :cascade, on_delete: :cascade
-  add_foreign_key "buildingpermit", "yearflag", column: "yearflag", primary_key: "flag", name: "buildingpermit_ibfk_1"
-  add_foreign_key "formeraddress", "property", column: "propid", name: "formeraddress_ibfk_1", on_update: :cascade, on_delete: :cascade
-  add_foreign_key "otherowner", "property", column: "propid", name: "otherowner_ibfk_2", on_update: :cascade, on_delete: :cascade
-  add_foreign_key "otherowner", "yearflag", column: "yearflag", primary_key: "flag", name: "otherowner_ibfk_1"
-  add_foreign_key "photo", "property", column: "propid", name: "photo_ibfk_1", on_update: :cascade, on_delete: :cascade
-  add_foreign_key "property", "quadrantvalue", column: "quadrant", primary_key: "value", name: "property_ibfk_3"
-  add_foreign_key "property", "streetdirectionvalue", column: "streetdirection", primary_key: "value", name: "property_ibfk_4"
-  add_foreign_key "property", "stylevalue", column: "style", primary_key: "value", name: "property_ibfk_5"
-  add_foreign_key "property", "typevalue", column: "type", primary_key: "value", name: "property_ibfk_6"
-  add_foreign_key "property", "yearflag", column: "yearbuiltassessorflag", primary_key: "flag", name: "property_ibfk_8"
-  add_foreign_key "property", "yearflag", column: "yearbuiltflag", primary_key: "flag", name: "property_ibfk_7"
-  add_foreign_key "property", "yesnoflag", column: "architectconfirmed", primary_key: "flag", name: "property_ibfk_1"
-  add_foreign_key "property", "yesnoflag", column: "builderconfirmed", primary_key: "flag", name: "property_ibfk_2"
-  add_foreign_key "property", "yesnoflag", column: "movedontoproperty", primary_key: "flag", name: "property_ibfk_9"
-  add_foreign_key "scandoc", "property", column: "propid", name: "scandoc_ibfk_1", on_update: :cascade, on_delete: :cascade
 end

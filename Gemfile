@@ -1,8 +1,11 @@
 source 'https://rubygems.org'
 
-gem 'rails',        '5.0.0.1'
+gem 'rails',          '5.0.0.1'
 gem 'bootstrap-sass', '3.3.7'
-gem 'bcrypt',       '3.1.12'
+gem 'bcrypt',         '3.1.12'
+gem 'faker',          '1.7.3'
+gem 'will_paginate',           '3.1.6'
+gem 'bootstrap-will_paginate', '1.0.0'
 gem 'responders',   '2.3.0'
 gem 'puma',         '3.4.0'
 gem 'sass-rails',   '5.0.6'

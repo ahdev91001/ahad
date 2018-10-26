@@ -1,0 +1,21 @@
+<% provide(:title, 'All Users') %>
+
+<div class="text-center">
+  <h1>All Users</h1>
+</div>
+
+<div class="ui-left-margin">
+  <%= will_paginate %>
+</div>
+
+<div id="ui-padded-sides">
+  <ul class="users">
+    <% @users.each do |user| %>
+      <%= render @users %>
+    <% end %>
+  </ul>
+</div>
+
+<div class="ui-left-margin">
+  <%= will_paginate %>
+</div>
