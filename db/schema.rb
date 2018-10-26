@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181023032237) do
+ActiveRecord::Schema.define(version: 20181026154531) do
 
   create_table "TESTnotesource", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "propid"
@@ -179,6 +179,7 @@ ActiveRecord::Schema.define(version: 20181023032237) do
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
     t.string   "password_digest"
+    t.string   "remember_digest"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
   end
 
