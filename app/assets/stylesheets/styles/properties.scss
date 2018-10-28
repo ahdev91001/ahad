@@ -266,12 +266,29 @@ table {
 table th {
   color: black;
   font-weight: bold;
+  padding: 0px 25px 0px 25px;
 }
 
 
 table td {
   color: black;
+  padding: 0px 25px 0px 25px;
 }
+
+input {
+  border-radius: 4px;
+}
+
+select {
+  border-radius: 4px;
+}
+
+#ps-edit-link {
+  text-align: center;
+  font-size:14pt;
+  margin-bottom: 10px;
+}
+  
 
 //
 // Google map at bottom

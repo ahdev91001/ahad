@@ -49,4 +49,36 @@ class PropertiesController < ApplicationController
     end
   end
 
+  def edit
+    @property = Property.find(params[:id])
+  end
+  
+  def update
+    @property = Property.find(params[:id])
+    if @property.update_attributes(property_params)
+      flash[:success] = "Property Updated"
+      redirect_to @property
+    else
+      render 'edit'
+    end
+  end
+
+  # Private #################################################################
+  
+  private
+
+    def property_params
+      params.require(:property).permit(
+        :address1, :address2, :addressnote, :ahdesignation,
+        :architect, :architectconfirmed, :builder, :builderconfirmed,
+        :chrs, :currentlotsize, :historicname, :legaldescription,
+        :movedontoproperty, :notes_shpo_and_sources, :originalcost,
+        :originallotsize, :originalowner, :originalowneroccupation,
+        :originalownerspouse, :orig_note_shpo_sources, :placeofbusiness,
+        :quadrant, :stories, :streetdirection, :streetname,
+        :streetnumberbegin, :streetnumberend, :style, :type,
+        :yearbuilt, :yearbuiltassessor, :yearbuiltassessorflag,
+        :yearbuiltflag, :yearbuiltother, :yearbuiltotherflag)
+    end
+    
 end

@@ -8,6 +8,12 @@
       </h3>
     </div>
     
+    <% if current_user && current_user.admin? && logged_in? %>
+      <div id="ps-edit-link">
+        <%= link_to "Edit", properties_path + "/" + @property.id.to_s + "/edit" %>
+      </div>
+    <% end %>
+    
     <div id="ps-photo-main-container">
       <% if (photo = @property.photos.first) && photo.filename %>
         <%= image_tag("http://altadenaheritagepdb.org/photo/" + 
@@ -115,7 +121,7 @@
           Alterations:
         </div>
         <div>
-          <table class="ps-tables">
+          <table class="ps-list-padded accordion-content__indent ps-tables">
             <tr>
               <th align="left">Cost</th><th>Description</th><th>Year</th>
             </tr>
@@ -140,7 +146,7 @@
           Building Permits:
         </div>
         <div>
-          <table class="ps-tables">
+          <table class="ps-list-padded accordion-content__indent ps-tables">
             <tr>
               <th align="left">Permit</th><th>Year</th>
             </tr>
@@ -164,7 +170,7 @@
           Former Addresses:
         </div>
         <div>
-          <table class="ps-tables">
+          <table class="ps-list-padded accordion-content__indent ps-tables">
             <tr>
               <th align="left">Address</th><th>Years</th>
             </tr>
@@ -188,7 +194,7 @@
           Other Owners:
         </div>
         <div>
-          <table class="ps-tables">
+          <table class="ps-list-padded accordion-content__indent ps-tables">
             <tr>
               <th align="left">Name</th><th>Years</th>
             </tr>
