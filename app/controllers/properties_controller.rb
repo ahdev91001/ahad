@@ -62,7 +62,11 @@ class PropertiesController < ApplicationController
       render 'edit'
     end
   end
-
+  
+  def index
+    @properties = Property.paginate(page: params[:page])
+  end
+  
   def new
     @property = Property.new
   end
@@ -78,6 +82,12 @@ class PropertiesController < ApplicationController
     else
       render 'new'
     end
+  end
+
+  def destroy
+    Property.find(params[:id]).destroy
+    flash[:success] = "Property deleted"
+    redirect_to users_url
   end
 
   # Private #################################################################

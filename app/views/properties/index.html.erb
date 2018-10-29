@@ -1,0 +1,34 @@
+<% provide(:title, 'All Properties') %>
+
+<%= render "layouts/header" %>
+
+<div class="text-center top-padding-to-miss-navbar">
+  <h1>All Properties</h1>
+</div>
+
+<!-- Work in progress
+<%= form_tag '', :method => :get do %>
+  <%= text_field :filter, class: 'form-control' %>
+  <%= submit_tag 'Filter' %>
+<% end %>
+-->
+
+<div id="pi-create-new-property-link">
+  <%= link_to "Create New Property", property_new_path %>
+</div>
+
+<div class="ui-left-margin">
+  <%= will_paginate %>
+</div>
+
+<div id="ui-padded-sides">
+  <ul class="properties">
+    <% @properties.each do |user| %>
+      <%= render @properties %>
+    <% end %>
+  </ul>
+</div>
+
+<div class="ui-left-margin">
+  <%= will_paginate %>
+</div>

@@ -12,7 +12,7 @@ Rails.application.routes.draw do
  
   get '/search' => 'static_pages#search' 
   get  'properties/new',  to: 'properties#new'
-  post 'properties/new',  to: 'properties#create'
+  post 'properties/new',  to: 'properties#create', as: 'property_new'
   get 'properties/:id' => 'properties#show', as: 'property'
   get 'properties/:id/edit' => 'properties#edit', as: 'property_edit'
   get 'properties' => 'properties#index', as: 'properties'

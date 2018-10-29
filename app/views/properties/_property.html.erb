@@ -1,0 +1,18 @@
+<li>
+  
+<!-- Below height = 100px, but width is full screen width  
+  <% if (photo = property.photos.first) && photo.filename %>
+    <%= image_tag("http://altadenaheritagepdb.org/photo/" + 
+          photo.filename, 
+          :id => "ps-photo-main", :alt => "Photo of Property", :size => "100x100") %>
+  <% else %>
+    <%= image_tag('house-stick-figure-med.png',
+          :alt => 'Cartoon Photo of Property', :size => "100x100") %>
+  <% end %>
+-->
+
+  <%= link_to property.address1, property %>
+  <%= link_to "| Edit" , property_edit_path(property) %>
+  <%= link_to "| Delete", property, method: :delete,
+                                  data: { confirm: "Are you sure you want to delete this property?" } %>
+</li>
