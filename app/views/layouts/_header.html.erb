@@ -10,7 +10,9 @@
         <%= link_to "Log in", login_path %>
       <% end %>
       <%= link_to "Properties", properties_path %>
-      <%= link_to "Settings", edit_user_path(current_user) %>
+      <% if current_user != nil %>
+        <%= link_to "Settings", edit_user_path(current_user) %>
+      <% end %>
       <%= link_to "Profile", root_path %>
       <%= link_to "Search", root_path %>
 

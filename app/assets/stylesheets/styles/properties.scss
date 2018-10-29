@@ -396,3 +396,15 @@ select {
 #pi-create-new-property-link {
   margin-left: 50px;
 }
+
+#pi-filter {
+  margin-left: 50px;
+  margin-right: 70%;
+}
+
+  @media screen and (max-width: $g-screen-width-min-desktop) {
+    #pi-filter {
+      margin-left: 50px;
+      margin-right: 10%;
+    }
+  }

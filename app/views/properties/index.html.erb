@@ -6,12 +6,12 @@
   <h1>All Properties</h1>
 </div>
 
-<!-- Work in progress
-<%= form_tag '', :method => :get do %>
-  <%= text_field :filter, class: 'form-control' %>
-  <%= submit_tag 'Filter' %>
-<% end %>
--->
+<div id="pi-filter">
+  <%= form_tag '', :method => :get do %>
+    <%= text_field('', :filter) %>
+    <%= submit_tag 'Filter' %>
+  <% end %>
+</div>
 
 <div id="pi-create-new-property-link">
   <%= link_to "Create New Property", property_new_path %>
