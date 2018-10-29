@@ -14,7 +14,7 @@ class PropertyDecorator < Draper::Decorator
   # TODO: Add comment header
   def add_addnl_info(field, conf_field, val, affirmed, unaffirmed)
     
-    if !field || !conf_field || field == "" || conf_field == ""
+    if !field || field == ""
       field
     else
       field + " " + (confirmed?(field, conf_field, val) ? affirmed : unaffirmed)
