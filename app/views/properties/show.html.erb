@@ -10,7 +10,7 @@
     
     <% if current_user && current_user.admin? && logged_in? %>
       <div id="ps-edit-link">
-        <%= link_to "Edit", properties_path + "/" + @property.id.to_s + "/edit" %>
+        <%= link_to "Edit", property_edit_path(@property) %>
       </div>
     <% end %>
     
@@ -54,8 +54,8 @@
     <!-- All fields listed below -->
     <div id="ps-db-details">
       <%= ps_markup("Year Built", @property.yearbuilt_qualified) %>
-      <%= ps_markup("Year Built (Assessor)", @property.yearbuiltassessor, true) %>
-      <%= ps_markup("Year Built (Other)", @property.yearbuiltother, true) %>
+      <%= ps_markup("Year Built (Assessor)", @property.yearbuiltassessor) %>
+      <%= ps_markup("Year Built (Other)", @property.yearbuiltother) %>
       
       <!-- 
         -- Architects

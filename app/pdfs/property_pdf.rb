@@ -78,17 +78,17 @@ class PropertyPdf < Prawn::Document
     move_down 270
 
     if @property.yearbuilt_qualified != nil
-      text ps_markup_pdf("Year Built", @property.yearbuilt_qualified, true), 
+      text ps_markup_pdf("Year Built", @property.yearbuilt_qualified, false), 
         :inline_format => true
     end
     
     if @property.yearbuiltassessor != nil
-      text ps_markup_pdf("Year Built (Assessor)", @property.yearbuiltassessor, true), 
+      text ps_markup_pdf("Year Built (Assessor)", @property.yearbuiltassessor, false), 
         :inline_format => true
     end
 
     if @property.yearbuiltother != nil
-      text ps_markup_pdf("Year Built (Other)", @property.yearbuiltother, true), 
+      text ps_markup_pdf("Year Built (Other)", @property.yearbuiltother, false), 
         :inline_format => true
     end
 
@@ -135,70 +135,70 @@ class PropertyPdf < Prawn::Document
     end
 
     if @property.stories != nil then
-      text ps_markup_pdf("Stories", @property.stories, true), 
+      text ps_markup_pdf("Stories", @property.stories, false), 
         :inline_format => true
     end
     
     if @property.apn == nil 
       text "<color rgb='777777'>APN:</color> Not on File", :inline_format => true
     else  
-      text ps_markup_pdf("APN", (apn = @property.apn) && apn.parcel, true), 
+      text ps_markup_pdf("APN", (apn = @property.apn) && apn.parcel, false), 
         :inline_format => true
     end
 
     if @property.chrs == nil 
       text "<color rgb='777777'>CHRS:</color> Not on File", :inline_format => true
     else  
-      text ps_markup_pdf("CHRS", @property.chrs, true), 
+      text ps_markup_pdf("CHRS", @property.chrs, false), 
         :inline_format => true
     end
   
     if @property.currentlotsize == nil 
       text "<color rgb='777777'>Current Lot Size:</color> Not on File", :inline_format => true
     else
-      text ps_markup_pdf("Current Lot Size", @property.currentlotsize, true), 
+      text ps_markup_pdf("Current Lot Size", @property.currentlotsize, false), 
         :inline_format => true
     end
 
     if @property.historicname == nil 
       text "<color rgb='777777'>Historic Name:</color> Not on File", :inline_format => true
     else
-      text ps_markup_pdf("Historic Name", @property.historicname, true), 
+      text ps_markup_pdf("Historic Name", @property.historicname, false), 
         :inline_format => true
     end
     
     if @property.legaldescription == nil 
       text "<color rgb='777777'>Legal Description:</color> Not on File", :inline_format => true
     else
-      text ps_markup_pdf("Legal Description", @property.legaldescription, true), 
+      text ps_markup_pdf("Legal Description", @property.legaldescription, false), 
         :inline_format => true
     end
     
     if @property.style == nil 
       text "<color rgb='777777'>Style:</color> Not on File", :inline_format => true
     else
-      text ps_markup_pdf("Style", @property.style, true), 
+      text ps_markup_pdf("Style", @property.style, false), 
         :inline_format => true
     end
   
     if @property.originalowner == nil 
       text "<color rgb='777777'>Original Owner:</color> Not on File", :inline_format => true
     else
-      text ps_markup_pdf("Original Owner", @property.originalowner, true), 
+      text ps_markup_pdf("Original Owner", @property.originalowner, false), 
         :inline_format => true
     end
 
     if @property.originalownerspouse == nil 
       text "<color rgb='777777'>Original Owner Spouse:</color> Not on File", :inline_format => true
     else
-      text ps_markup_pdf("Original Owner Spouse", @property.originalownerspouse, true),
+      text ps_markup_pdf("Original Owner Spouse", @property.originalownerspouse, false),
         :inline_format => true
     end
   
     if @property.originalowneroccupation == nil 
       text "<color rgb='777777'>Original Owner Occupation:</color> Not on File", :inline_format => true
     else
-      text  ps_markup_pdf("Original Owner Occupation", @property.originalowneroccupation, true), 
+      text  ps_markup_pdf("Original Owner Occupation", @property.originalowneroccupation, false), 
         :inline_format => true
     end
 
@@ -206,56 +206,56 @@ class PropertyPdf < Prawn::Document
       text "<color rgb='777777'>Original Cost:</color> Not on File", :inline_format => true
     else
       text  ps_markup_pdf("Original Cost", 
-        number_to_currency(@property.originalcost, :precision => 0), true), 
+        number_to_currency(@property.originalcost, :precision => 0), false), 
         :inline_format => true
     end
 
     if @property.originallotsize == nil 
       text "<color rgb='777777'>Original Lot Size:</color> Not on File", :inline_format => true
     else
-      text  ps_markup_pdf("Original Lot Size", @property.originallotsize, true), 
+      text  ps_markup_pdf("Original Lot Size", @property.originallotsize, false), 
         :inline_format => true
     end
 
     if @property.movedontoproperty == nil 
       text "<color rgb='777777'>Moved on to Property:</color> Not on File", :inline_format => true
     else
-      text  ps_markup_pdf("Moved on to Property", @property.movedontoproperty, true), 
+      text  ps_markup_pdf("Moved on to Property", @property.movedontoproperty, false), 
         :inline_format => true
     end
 
     if @property.placeofbusiness == nil 
       text "<color rgb='777777'>Place of Business:</color> Not on File", :inline_format => true
     else
-      text  ps_markup_pdf("Place of Business", @property.placeofbusiness, true), 
+      text  ps_markup_pdf("Place of Business", @property.placeofbusiness, false), 
         :inline_format => true
     end
 
     if @property.streetdirection == nil 
       text "<color rgb='777777'>Street Direction:</color> Not on File", :inline_format => true
     else
-      text  ps_markup_pdf("Street Direction", @property.streetdirection, true), 
+      text  ps_markup_pdf("Street Direction", @property.streetdirection, false), 
         :inline_format => true
     end
 
     if @property.addressnote == nil 
       text "<color rgb='777777'>Address Notes:</color> Not on File", :inline_format => true
     else
-      text  ps_markup_pdf("Address Notes", @property.addressnote, true), 
+      text  ps_markup_pdf("Address Notes", @property.addressnote, false), 
         :inline_format => true
     end
 
     if @property.quadrant == nil 
       text "<color rgb='777777'>Quadrant:</color> Not on File", :inline_format => true
     else
-      text  ps_markup_pdf("Quadrant", @property.quadrant, true), 
+      text  ps_markup_pdf("Quadrant", @property.quadrant, false), 
         :inline_format => true
     end
 
     if @property.type == nil 
       text "<color rgb='777777'>Type:</color> Not on File", :inline_format => true
     else
-      text  ps_markup_pdf("Type", @property.type != nil ? @property.type.capitalize : "", true), 
+      text  ps_markup_pdf("Type", @property.type != nil ? @property.type.capitalize : "", false), 
         :inline_format => true
     end
 
@@ -397,7 +397,7 @@ class PropertyPdf < Prawn::Document
   ###########################################################################
   def ps_markup_pdf(name, value, hide=false, hide_nof=false)
   
-    if (value != nil)
+    if (value != nil) && (value != "") && (value != "$")
       "<color rgb='777777'>#{name}:</color> #{value}"
     elsif hide_nof == false
       "<color rgb='777777'>#{name}:</color> Not on File" unless hide

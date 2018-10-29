@@ -11,8 +11,12 @@ Rails.application.routes.draw do
   get 'static_pages/railstutorial'
  
   get '/search' => 'static_pages#search' 
+  get  'properties/new',  to: 'properties#new'
+  post 'properties/new',  to: 'properties#create'
   get 'properties/:id' => 'properties#show', as: 'property'
+  get 'properties/:id/edit' => 'properties#edit', as: 'property_edit'
   get 'properties' => 'properties#index', as: 'properties'
+
   get  '/signup',  to: 'users#new'
   post '/signup',  to: 'users#create'
   get    '/login',   to: 'sessions#new'

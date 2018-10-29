@@ -63,6 +63,23 @@ class PropertiesController < ApplicationController
     end
   end
 
+  def new
+    @property = Property.new
+  end
+  
+  def create
+    @property = Property.new(property_params)    # Not the final implementation!
+    if @property.save
+      flash[:success] = "Property has been created!  Woo hoo!"
+      flash.keep # not even sure why this is needed, but it was
+      # second answer at: https://stackoverflow.com/questions/7510418/
+      #                     rails-redirect-to-with-error-but-flasherror-empty
+      redirect_to property_url(@property) 
+    else
+      render 'new'
+    end
+  end
+
   # Private #################################################################
   
   private

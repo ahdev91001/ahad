@@ -18,13 +18,13 @@
       <%= f.text_field :architect, class: 'form-control', maxlength: 128 %>
 
       <%= f.label :architectconfirmed, "Architect Confirmed" %>
-      <%= f.select :architectconfirmed, [['Y', 'Y'], ['N', 'N']] %>
+      <%= f.select :architectconfirmed, [['',''],['Y', 'Y'], ['N', 'N']] %>
 
       <%= f.label :builder %>
       <%= f.text_field :builder, class: 'form-control', maxlength: 128 %>
 
       <%= f.label :builderconfirmed, "Builder Confirmed" %>
-      <%= f.select :builderconfirmed, [['Y', 'Y'], ['N', 'N']] %>
+      <%= f.select :builderconfirmed, [['',''],['Y', 'Y'], ['N', 'N']] %>
 
       <%= f.label :chrs, "CHRS" %>
       <%= f.text_field :chrs, class: 'form-control', maxlength: 32 %>
@@ -39,7 +39,7 @@
       <%= f.text_field :legaldescription, class: 'form-control', maxlength: 64 %>
 
       <%= f.label :movedontoproperty, "Moved on to Property" %>
-      <%= f.select :movedontoproperty, [['Y', 'Y'], ['N', 'N']] %>
+      <%= f.select :movedontoproperty, [['',''],['Y', 'Y'], ['N', 'N']] %>
 
       <%= f.label :notes_shpo_and_sources, "Notes SHPO And Sources" %>
       <%= f.text_area :notes_shpo_and_sources, class: 'form-control', rows: "10", maxlength: 10000 %>
@@ -67,13 +67,18 @@
       <%= f.text_field :placeofbusiness, class: 'form-control', maxlength: 64 %>
 
       <%= f.label :quadrant, "Quadrant" %>
-      <%= f.text_field :quadrant, class: 'form-control', maxlength: 32 %>
+      <datalist id="quadrantlist">
+        <% Quadrant.all.each do |quadrant| %>
+          <option value="<%= quadrant.value.titlecase %>"></option>
+        <% end %>
+      </datalist>
+      <%= f.text_field :quadrant, class: 'form-control', list: "quadrantlist" %>
 
       <%= f.label :stories, "Stories" %>
       <%= f.number_field :stories %>
 
       <%= f.label :streetdirection, "Street Direction" %>
-      <%= f.select :streetdirection, [['N', 'N'], ['S', 'S'], ['E', 'E'], ['W', 'W']] %>
+      <%= f.select :streetdirection, [['',''],['N', 'N'], ['S', 'S'], ['E', 'E'], ['W', 'W']] %>
 
       <%= f.label :streetname, "Street Name" %>
       <%= f.text_field :streetname, class: 'form-control', maxlength: 64 %>
@@ -85,7 +90,6 @@
       <%= f.text_field :streetnumberend, class: 'form-control', maxlength: 16 %>
 
       <%= f.label :style, "Style" %>
-
       <datalist id="stylelist">
         <% Style.all.each do |style| %>
           <option value="<%= style.value %>"></option>
@@ -104,21 +108,23 @@
       <%= f.label :yearbuilt, "Year Built" %>
       <%= f.number_field :yearbuilt %>
 
+      <%= f.label :yearbuiltflag, "Year Built Flag" %>
+      <%= f.select :yearbuiltflag, [['',''],['A-Actual', 'A'], ['E-Estimate', 'E'], ['P-Pre', 'P']] %>
+
+
       <%= f.label :yearbuiltassessor, "Year Built Assessor" %>
       <%= f.number_field :yearbuiltassessor %>
 
       <%= f.label :yearbuiltassessorflag, "Year Built Assessor Flag" %>
-      <%= f.select :yearbuiltassessorflag, [['Y', 'Y'], ['N', 'N']] %>
+      <%= f.select :yearbuiltassessorflag, [['',''],['A-Actual', 'A'], ['E-Estimate', 'E'], ['P-Pre', 'P']] %>
 
-      <%= f.label :yearbuiltflag, "Year Built Flag" %>
-      <%= f.select :yearbuiltflag, [['Y', 'Y'], ['N', 'N']] %>
 
       <%= f.label :yearbuiltother, "Year Built Other" %>
       <%= f.number_field :yearbuiltother %>
 
       <%= f.label :yearbuiltotherflag, "Year Built Other Flag" %>
-      <%= f.select :yearbuiltotherflag, [['Y', 'Y'], ['N', 'N']] %>
-      
+      <%= f.select :yearbuiltotherflag, [['',''],['A-Actual', 'A'], ['E-Estimate', 'E'], ['P-Pre', 'P']] %>
+
       <br>
       <%= f.submit "Save Changes", class: "btn btn-primary" %>
 

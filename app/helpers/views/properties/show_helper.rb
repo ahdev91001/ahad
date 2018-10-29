@@ -12,8 +12,8 @@ module Views::Properties::ShowHelper
   def ps_markup(name, value, hide=false, hide_nof=false)
     title = "<div class='hanging-indent'> " +
        "<span class='ps-details-titles'> #{name}: </span>"
-
-    if (value != nil)
+  
+    if (value != nil && value != "" && value != "$")
       ("    " + title + value + "\n      </div>").html_safe
     elsif hide_nof == false
       ("    " + title +
