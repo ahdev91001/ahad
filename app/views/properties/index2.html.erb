@@ -8,7 +8,7 @@
 
 <div id="pi-filter">
   <%= form_tag '', :method => :get do %>
-    <%= text_field('', :filter) %>
+    <%= text_field('', :filter, :value => params[:filter]) %>
     <%= submit_tag 'Filter' %>
   <% end %>
 </div>

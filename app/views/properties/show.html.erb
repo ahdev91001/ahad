@@ -53,10 +53,21 @@
 
     <!-- All fields listed below -->
     <div id="ps-db-details">
+
+      <%= ps_markup("APN", (apn = @property.apn) && apn.parcel) %>
       <%= ps_markup("Year Built", @property.yearbuilt_qualified) %>
       <%= ps_markup("Year Built (Assessor)", @property.yearbuiltassessor) %>
       <%= ps_markup("Year Built (Other)", @property.yearbuiltother) %>
-      
+      <%= ps_markup("Legal Description", @property.legaldescription) %>
+      <%= ps_markup("Quadrant", @property.quadrant, true) %>
+      <%= ps_markup("Current Lot Size", @property.currentlotsize) %>
+      <%= ps_markup("Historic Name", @property.historicname) %>
+      <%= ps_markup("Style", @property.style) %>
+      <%= ps_markup("Stories", @property.stories) %>
+      <%= ps_markup("Type", 
+          @property.type != nil ? @property.type.capitalize : "", true) %>
+      <%= ps_markup("CHRS", @property.chrs) %>
+
       <!-- 
         -- Architects
         -->
@@ -93,28 +104,29 @@
         </div>
       <% end %>
 
-      <%= ps_markup("Stories", @property.stories) %>
-      <%= ps_markup("APN", (apn = @property.apn) && apn.parcel) %>
-      <%= ps_markup("Current Lot Size", @property.currentlotsize) %>
-      <%= ps_markup("Historic Name", @property.historicname) %>
-      <%= ps_markup("Legal Description", @property.legaldescription) %>
-      <%= ps_markup("Style", @property.style) %>
-      <%= ps_markup("Original Owner", @property.originalowner) %>
-      <%= ps_markup("Original Owner Spouse", 
-                    @property.originalownerspouse, true) %>
-      <%= ps_markup("Original Owner Occupation", 
-                    @property.originalowneroccupation, true) %>
-      <%= ps_markup("Original Cost", 
-        number_to_currency(@property.originalcost, :precision => 0)) %>
-      <%= ps_markup("Original Lot Size", @property.originallotsize) %>
-      <%= ps_markup("Moved on to Property", @property.movedontoproperty, true) %>
-      <%= ps_markup("Place of Business", 
-                    @property.placeofbusiness, true) %>
-      <%= ps_markup("Street Direction", @property.streetdirection, true) %>
-      <%= ps_markup("Address Notes", @property.addressnote, true) %>
-      <%= ps_markup("Quadrant", @property.quadrant, true) %>
-      <%= ps_markup("Type", 
-          @property.type != nil ? @property.type.capitalize : "", true) %>
+      <% if @property.building_permits.count > 0 %>
+        <div class="ps-details-titles">
+          Building Permits:
+        </div>
+        <div>
+          <table class="ps-list-padded accordion-content__indent ps-tables">
+            <tr>
+              <th align="left">Permit</th><th>Year</th>
+            </tr>
+            <% @property.building_permits.each do |a| %>
+              <tr>
+                <td> <%= a.permit %> </td>
+                <td> <%= (a.year != nil ? a.year : "N/A") %> </td>
+              </tr>                  
+            <% end %>
+          </table>
+        </div>
+       <% else %>
+        <div class='hanging-indent'> 
+          <span class="ps-details-titles">Building Permits:</span> 
+          None on File
+        </div>
+      <% end %>
 
     <% if @property.alterations.count > 0 then %>
       <div class="ps-details-titles">
@@ -140,54 +152,8 @@
           None on File
         </div>
       <% end %>
-      
-      <% if @property.building_permits.count > 0 %>
-        <div class="ps-details-titles">
-          Building Permits:
-        </div>
-        <div>
-          <table class="ps-list-padded accordion-content__indent ps-tables">
-            <tr>
-              <th align="left">Permit</th><th>Year</th>
-            </tr>
-            <% @property.building_permits.each do |a| %>
-              <tr>
-                <td> <%= a.permit %> </td>
-                <td> <%= (a.year != nil ? a.year : "N/A") %> </td>
-              </tr>                  
-            <% end %>
-          </table>
-        </div>
-       <% else %>
-        <div class='hanging-indent'> 
-          <span class="ps-details-titles">Building Permits:</span> 
-          None on File
-        </div>
-      <% end %>
-      
-      <% if @property.former_addresses.count > 0 %>
-        <div class="ps-details-titles">
-          Former Addresses:
-        </div>
-        <div>
-          <table class="ps-list-padded accordion-content__indent ps-tables">
-            <tr>
-              <th align="left">Address</th><th>Years</th>
-            </tr>
-            <% @property.former_addresses.each do |a| %>
-              <tr>
-                <td> <%= a.address1 + "  " + a.address2 %> </td>
-                <td> <%= (a.years != nil ? a.years : "N/A") %> </td>
-              </tr>                  
-            <% end %>
-          </table>
-        </div>
-      <% else %>
-        <div class='hanging-indent'> 
-          <span class="ps-details-titles">Former Addresses:</span> 
-          None on File
-        </div>
-      <% end %>
+
+      <%= ps_markup("Original Owner", @property.originalowner) %>
 
       <% if @property.other_owners.count > 0 %>
         <div class="ps-details-titles">
@@ -213,9 +179,46 @@
         </div>
       <% end %>
 
+      <%= ps_markup("Original Cost", 
+        number_to_currency(@property.originalcost, :precision => 0)) %>
+
+      <%= ps_markup("Original Lot Size", @property.originallotsize) %>
+
+      <%= ps_markup("Moved on to Property", @property.movedontoproperty, true) %>
+
+      <% if @property.former_addresses.count > 0 %>
+        <div class="ps-details-titles">
+          Former Addresses:
+        </div>
+        <div>
+          <table class="ps-list-padded accordion-content__indent ps-tables">
+            <tr>
+              <th align="left">Address</th><th>Years</th>
+            </tr>
+            <% @property.former_addresses.each do |a| %>
+              <tr>
+                <td> <%= a.address1 + "  " + a.address2 %> </td>
+                <td> <%= (a.years != nil ? a.years : "N/A") %> </td>
+              </tr>                  
+            <% end %>
+          </table>
+        </div>
+      <% else %>
+        <div class='hanging-indent'> 
+          <span class="ps-details-titles">Former Addresses:</span> 
+          None on File
+        </div>
+      <% end %>
 
 
+      <%= ps_markup("Original Owner Spouse", 
+                    @property.originalownerspouse) %>
+      <%= ps_markup("Original Owner Occupation", 
+                    @property.originalowneroccupation) %>
 
+      <%= ps_markup("Place of Business", 
+                    @property.placeofbusiness) %>
+      <%= ps_markup("Address Notes", @property.addressnote) %>
 
 
       <div id="ps-note-sources">
@@ -224,6 +227,24 @@
     		    end 
     	  %>
       </div>
+
+      <br>
+      <div class="ps-details-titles">
+        CHRS Codes Key
+      </div>
+      
+      <table class="ps-list-padded accordion-content__indent ps-tables">
+        <tr>
+          <th align="left">Code</th><th>Description</th>
+        </tr>
+        <% Chrs.all.each do |c| %>
+          <tr>
+            <td> <%= c.code %> </td>
+            <td> <%= c.description %> </td>
+          </tr>                  
+        <% end %>
+      </table>
+      
 
     </div> <!-- end ps-db-details -->
 

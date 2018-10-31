@@ -63,7 +63,7 @@ class PropertiesController < ApplicationController
     end
   end
   
-  def index
+  def index2
     if params[:filter] != nil && params[:filter].length > 0 then
       query = "address1 LIKE \"%#{params[:filter]}%\""
       @properties = Property.where(query).group("id").paginate(page: params[:page], per_page: 12)
