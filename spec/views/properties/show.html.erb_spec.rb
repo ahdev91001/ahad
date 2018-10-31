@@ -46,15 +46,19 @@ describe "properties/show.html.erb" do
   #
   # When in fact the entire line should be removed from the output,
   # no title, nuthin'.
-  it "does not display anything when the field is set to " +
-     "'don't show anything when the value is nil'" do
-    assign(:property,
-      FactoryGirl.build_stubbed(
-        :property, originalownerspouse: nil).decorate)
-
-    render
-    expect(rendered).not_to  match(/Original Owner Spouse/m)
-  end
+  
+  # Below commented out 10/30/18 because we decided to have it show all
+  # fields regardless. DDC
+  
+  #it "does not display anything when the field is set to " +
+  #   "'don't show anything when the value is nil'" do
+  #  assign(:property,
+  #    FactoryGirl.build_stubbed(
+  #      :property, originalownerspouse: nil).decorate)
+  #
+  #  render
+  #  expect(rendered).not_to  match(/Original Owner Spouse/m)
+  #end
 
   it "displays (confirmed) when a confirmable value has a " +
     "'Y' in its corresponding confirm field" do
@@ -91,7 +95,7 @@ describe "properties/show.html.erb" do
       FactoryGirl.build_stubbed(:property, builder: "Jones",
                                            builderconfirmed: nil).decorate) 
     render
-    expect(rendered).not_to match(/Builder.*Jones \(unconfirmed\)/m)
+    expect(rendered).to match(/Builder.*Jones \(unconfirmed\)/m)
   end
 
   it "displays (actual) when a date's confirm field is set to 'A'" do
@@ -115,7 +119,7 @@ describe "properties/show.html.erb" do
       FactoryGirl.build_stubbed(:property, yearbuilt: 1911,
                                            yearbuiltflag: nil).decorate)
     render
-    expect(rendered).not_to match(/Year Built.*1911 \(estimated\)/m)
+    expect(rendered).to match(/Year Built.*1911 \(estimated\)/m)
   end
 
   # Also see Evernote 'rails(ahad)' notebook note named:
