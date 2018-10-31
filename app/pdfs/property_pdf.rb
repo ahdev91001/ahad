@@ -249,6 +249,27 @@ class PropertyPdf < Prawn::Document
         :inline_format => true
     end
 
+    if @property.originalownerspouse == nil 
+      text "<color rgb='777777'>Original Owner Spouse:</color> Not on File", :inline_format => true
+    else
+      text ps_markup_pdf("Original Owner Spouse", @property.originalownerspouse, false),
+        :inline_format => true
+    end
+  
+    if @property.originalowneroccupation == nil 
+      text "<color rgb='777777'>Original Owner Occupation:</color> Not on File", :inline_format => true
+    else
+      text  ps_markup_pdf("Original Owner Occupation", @property.originalowneroccupation, false), 
+        :inline_format => true
+    end
+
+    if @property.placeofbusiness == nil 
+      text "<color rgb='777777'>Place of Business:</color> Not on File", :inline_format => true
+    else
+      text  ps_markup_pdf("Place of Business", @property.placeofbusiness, false), 
+        :inline_format => true
+    end
+
     # 
     #  Other Owners
     #
@@ -315,27 +336,6 @@ class PropertyPdf < Prawn::Document
       end
     else
       text "<color rgb='777777'>Former Addresses:</color> None on File", :inline_format => true
-    end
-
-    if @property.originalownerspouse == nil 
-      text "<color rgb='777777'>Original Owner Spouse:</color> Not on File", :inline_format => true
-    else
-      text ps_markup_pdf("Original Owner Spouse", @property.originalownerspouse, false),
-        :inline_format => true
-    end
-  
-    if @property.originalowneroccupation == nil 
-      text "<color rgb='777777'>Original Owner Occupation:</color> Not on File", :inline_format => true
-    else
-      text  ps_markup_pdf("Original Owner Occupation", @property.originalowneroccupation, false), 
-        :inline_format => true
-    end
-
-    if @property.placeofbusiness == nil 
-      text "<color rgb='777777'>Place of Business:</color> Not on File", :inline_format => true
-    else
-      text  ps_markup_pdf("Place of Business", @property.placeofbusiness, false), 
-        :inline_format => true
     end
 
     if @property.addressnote == nil 

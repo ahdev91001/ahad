@@ -23,8 +23,13 @@
 
 <div id="ui-padded-sides">
   <ul class="properties">
-    <% @properties.each do |user| %>
-      <%= render @properties %>
+    <!-- Need hack below to truncate @properties to 30 because
+         for some reason will_paginate is giving me 30x30 results,
+         so this just limits it down to the one set I need. -->
+    <% for i in 0..30 do %>
+      <% if @properties[i] != nil %>
+        <%= render @properties[i] %>
+      <% end %>
     <% end %>
   </ul>
 </div>

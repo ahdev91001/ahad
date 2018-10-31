@@ -65,10 +65,15 @@ class PropertiesController < ApplicationController
   
   def index2
     if params[:filter] != nil && params[:filter].length > 0 then
+      # Below is a serious security risk
+      # (https://guides.rubyonrails.org/active_record_querying.html#pure-string-conditions)
       query = "address1 LIKE \"%#{params[:filter]}%\""
-      @properties = Property.where(query).group("id").paginate(page: params[:page], per_page: 12)
+      # But below doesn't work      
+      @properties = Property.where("address1 LIKE \"%:the_filter%\"", {the_filter: params[:filter]}).paginate(page: params[:page], per_page: 30)
+      # Thus, for now...
+      @properties = Property.where(query).paginate(page: params[:page], per_page: 30)
     else  
-      @properties = Property.paginate(page: params[:page], per_page: 12)
+      @properties = Property.paginate(page: params[:page], per_page: 30)
     end
   end
   

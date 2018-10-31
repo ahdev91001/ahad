@@ -154,6 +154,13 @@
       <% end %>
 
       <%= ps_markup("Original Owner", @property.originalowner) %>
+      <%= ps_markup("Original Owner Spouse", 
+                    @property.originalownerspouse) %>
+      <%= ps_markup("Original Owner Occupation", 
+                    @property.originalowneroccupation) %>
+
+      <%= ps_markup("Place of Business", 
+                    @property.placeofbusiness) %>
 
       <% if @property.other_owners.count > 0 %>
         <div class="ps-details-titles">
@@ -209,16 +216,6 @@
           None on File
         </div>
       <% end %>
-
-
-      <%= ps_markup("Original Owner Spouse", 
-                    @property.originalownerspouse) %>
-      <%= ps_markup("Original Owner Occupation", 
-                    @property.originalowneroccupation) %>
-
-      <%= ps_markup("Place of Business", 
-                    @property.placeofbusiness) %>
-      <%= ps_markup("Address Notes", @property.addressnote) %>
 
 
       <div id="ps-note-sources">
