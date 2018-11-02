@@ -9,6 +9,8 @@ class Property < ActiveRecord::Base
   has_many :other_owners, foreign_key: :propid
   has_one :apn, foreign_key: :propid
   
+  accepts_nested_attributes_for :additional_builders
+  
   self.inheritance_column = nil # required because property table has a type
   # column, and that is a reserved name used for Single Table Inheritance
   # per convention.  If need STI, change nil to :sti_type and probably

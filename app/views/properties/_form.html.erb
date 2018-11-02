@@ -26,6 +26,19 @@
       <%= f.label :builderconfirmed, "Builder Confirmed" %>
       <%= f.select :builderconfirmed, [['',''],['Y', 'Y'], ['N', 'N']] %>
 
+      <%= f.label :additionalbuilders, "Additional Builders" %>
+      <div style="margin-left:100px">
+      <%= f.fields_for :additional_builders do |ab| %>
+        <div>
+          <%= ab.label :name %>
+          <%= ab.text_field :name %>
+  
+          <%= ab.label :year %>
+          <%= ab.text_field :year %>
+        </div>
+      <% end %>
+      </div>
+      
       <%= f.label :chrs, "CHRS" %>
       <%= f.text_field :chrs, class: 'form-control', maxlength: 32 %>
 

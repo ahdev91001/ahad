@@ -105,6 +105,7 @@ GEM
     formatador (0.2.5)
     fuzzy-string-match (1.0.1)
       RubyInline (>= 3.8.6)
+    geocoder (1.5.0)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
     guard (2.13.0)
@@ -305,6 +306,7 @@ DEPENDENCIES
   factory_girl_rails (~> 4.5.0)
   faker (= 1.7.3)
   fuzzy-string-match
+  geocoder
   guard (= 2.13.0)
   guard-minitest (= 2.4.4)
   guard-rspec

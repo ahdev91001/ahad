@@ -12,14 +12,7 @@
 
 <div id="ui-padded-sides">
   <ul class="users">
-    <!-- Need hack below to truncate @users to 30 because
-         for some reason will_paginate is giving me 30x30 results,
-         so this just limits it down to the one set I need. -->
-    <% for i in 0..30 do %>
-      <% if @users[i] != nil %>
-        <%= render @users[i] %>
-      <% end %>
-    <% end %>
+    <%= render @users %>
   </ul>
 </div>
 

@@ -11,9 +11,8 @@
       <% end %>
       <%= link_to "Properties", properties_all_path %>
       <% if current_user != nil %>
-        <%= link_to "Settings", edit_user_path(current_user) %>
+        <%= link_to "Profile", edit_user_path(current_user) %>
       <% end %>
-      <%= link_to "Profile", root_path %>
       <%= link_to "Search", root_path %>
 
     </div>
