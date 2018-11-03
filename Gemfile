@@ -23,6 +23,8 @@ gem 'fuzzy-string-match'
 gem 'prawn'
 gem 'prawn-table'
 gem 'geocoder'
+gem "cocoon"
+gem 'google_maps_service'
 
 group :development, :test do
   gem 'byebug',  '9.0.0', platform: :mri

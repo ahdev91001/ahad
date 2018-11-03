@@ -1,3 +1,5 @@
+require 'google_maps_service'
+
 class PropertiesController < ApplicationController
   respond_to :html, :json
 
@@ -33,7 +35,11 @@ class PropertiesController < ApplicationController
   def show
     source = Property.find(params[:id])
     @property = PropertyDecorator.new(source)
-
+    gmaps = GoogleMapsService::Client.new(key: 'AIzaSyBgnPpkjO__fzAjoyCUMGyoQgegorqv5rY')
+    results = gmaps.geocode("#{@property.address1} #{@property.address2}")
+    @lat = results[0][:geometry][:location][:lat]
+    @lng = results[0][:geometry][:location][:lng]
+    
     respond_to do |format|
       format.html
       format.pdf do
