@@ -226,22 +226,22 @@
       </div>
 
       <br>
-      <div class="ps-details-titles">
-        CHRS Codes Key
+      
+      <div class="ps-chrs-title">
+        California Historical Resource Status (CHRS) Codes Key
       </div>
       
-      <table class="ps-list-padded accordion-content__indent ps-tables">
+      <table class="ps-chrs-key">
         <tr>
-          <th align="left">Code</th><th>Description</th>
+          <td align="left">Code</td><td>Description</td>
         </tr>
         <% Chrs.all.each do |c| %>
           <tr>
-            <td> <%= c.code %> </td>
-            <td> <%= c.description %> </td>
+            <td valign="top"> <%= c.code %> </td>
+            <td valign="top"> <%= c.description %> </td>
           </tr>                  
         <% end %>
       </table>
-      
 
     </div> <!-- end ps-db-details -->
 
@@ -252,3 +252,4 @@
     	</button>
     </div>
     
+

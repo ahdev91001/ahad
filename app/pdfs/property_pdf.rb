@@ -62,7 +62,7 @@ class PropertyPdf < Prawn::Document
   move_down 20
 
   if (photo = @property.photos.first) && photo.filename
-    image open("http://altadenaheritagepdb.org/photo/#{@property.id}_photo_01.jpg"),
+    image open("http://altadenaheritagepdb.org/photo/#{photo.filename}"),
       :position => :center, :width => 300
   else
     image Dir.getwd + "/app/assets/images/house-stick-figure-med.png", 
@@ -362,25 +362,25 @@ class PropertyPdf < Prawn::Document
     if cursor < 40.0
       start_new_page
     end
- 
-    text "<color rgb='777777'>CHRS Code Key:</color>", :inline_format => true
 
-    bounding_box([30, cursor], :width => 390) do  
+    bounding_box([-50, cursor], :width => 390) do  
+      text "<color rgb='777777'>California Historical Resource Status (CHRS) Codes Key</color>", :inline_format => true, :size => 9
+
       data = [["Code", "Description"]]
       Chrs.all.each do |c|
         data += [[c.code, c.description]]
       end
-      table(data, :cell_style => { :size => 10, :padding => 5 }) do
+      table(data, :cell_style => { :size => 9, :padding => 5 }) do
         column(0).width = 48
-        columns(0).valign = :center
+        columns(0).valign = :top
         rows(0).valign = :center
         cells.borders = []
-        row(0).font_style = :bold
       end
       move_down 7
     end
-    
+
   end
+
 
   # Page numbering (duh)
   
