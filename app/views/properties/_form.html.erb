@@ -1,7 +1,7 @@
      <%= form_for(@property) do |f| %>
 
       <%= f.submit "Save Changes", class: "btn btn-primary" %>
-
+      
       <%= f.label :address1, "Address 1" %>
       <%= f.text_field :address1, class: 'form-control', maxlength: 128 %>
 
@@ -10,6 +10,11 @@
 
       <%= f.label :addressnote, "Address Note" %>
       <%= f.text_area :addressnote, class: 'form-control', rows: "3", maxlength: 128 %>
+
+      <%= f.fields_for :apn do |apn| %>
+          <%= apn.label :parcel, "APN" %>
+          <%= apn.text_field :parcel %>
+      <% end %>
 
       <%= f.label :ahdesignation, "AH Designation" %>
       <%= f.text_field :ahdesignation, class: 'form-control', maxlength: 128 %>

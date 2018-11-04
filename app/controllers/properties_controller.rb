@@ -37,8 +37,13 @@ class PropertiesController < ApplicationController
     @property = PropertyDecorator.new(source)
     gmaps = GoogleMapsService::Client.new(key: 'AIzaSyBgnPpkjO__fzAjoyCUMGyoQgegorqv5rY')
     results = gmaps.geocode("#{@property.address1} #{@property.address2}")
-    @lat = results[0][:geometry][:location][:lat]
-    @lng = results[0][:geometry][:location][:lng]
+    if results[0] == nil
+      @lat = 34.200503
+      @lng = -118.128852
+    else
+      @lat = results[0][:geometry][:location][:lat]
+      @lng = results[0][:geometry][:location][:lng]
+    end
     
     respond_to do |format|
       format.html
@@ -55,6 +60,9 @@ class PropertiesController < ApplicationController
 
   def edit
     @property = Property.find(params[:id])
+    if @property.apn == nil
+      @property.build_apn
+    end
   end
   
   def update
@@ -77,7 +85,7 @@ class PropertiesController < ApplicationController
   
   def new
     @property = Property.new
-    #3.times { @property.additional_builders.build }
+    @property.build_apn
   end
   
   def create
@@ -115,7 +123,8 @@ class PropertiesController < ApplicationController
         :streetnumberbegin, :streetnumberend, :style, :type,
         :yearbuilt, :yearbuiltassessor, :yearbuiltassessorflag,
         :yearbuiltflag, :yearbuiltother, :yearbuiltotherflag,
-        additional_builders_attributes: [:id, :name, :year, :_destroy])
+        additional_builders_attributes: [:id, :name, :year, :_destroy],
+        apn_attributes: [:id, :parcel, :_destroy])
     end
     
 end

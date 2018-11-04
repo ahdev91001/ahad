@@ -12,5 +12,5 @@ class Apn < ActiveRecord::Base
   # design and it was no longer necessary, so it's commented
   # out.  1/15/17 DDC
   self.table_name = "apn"
-  
+  self.primary_key = "id"
 end
