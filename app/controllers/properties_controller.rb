@@ -77,7 +77,7 @@ class PropertiesController < ApplicationController
   
   def new
     @property = Property.new
-    3.times { @property.additional_builders.build }
+    #3.times { @property.additional_builders.build }
   end
   
   def create
@@ -115,7 +115,7 @@ class PropertiesController < ApplicationController
         :streetnumberbegin, :streetnumberend, :style, :type,
         :yearbuilt, :yearbuiltassessor, :yearbuiltassessorflag,
         :yearbuiltflag, :yearbuiltother, :yearbuiltotherflag,
-        additional_builders_attributes: [:id, :name, :year])
+        additional_builders_attributes: [:id, :name, :year, :_destroy])
     end
     
 end
