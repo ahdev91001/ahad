@@ -17,10 +17,6 @@
 //
 // propertySearchAgainClicked(): Jump to home/root page.
 //
-// googleMapInitialize(): -- IP DDC 12/3/16
-//
-// loadGoogleMapScript(): -- IP DDC 12/3/16
-//
 //
 // TODO:
 //
@@ -225,22 +221,6 @@ function onLoadEventPropertyShowHelper() {
   }); // end window scroll event
   
   
-  var iDiv = document.createElement('div');
-  iDiv.id = 'mapid';
-  iDiv.style = "margin-left: auto; margin-right: auto; width: 600px; height: 400px;"
-  document.getElementsByTagName('body')[0].appendChild(iDiv);
-  
-  var mymap = L.map('mapid').setView([34.200503, -118.128852], 17);
-
-	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-		maxZoom: 18,
-		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-		id: 'mapbox.streets'
-	}).addTo(mymap);
-	
-	var marker = L.marker([34.200503, -118.128852]).addTo(mymap);
 	
 } // end onLoadEventPropertyShowHelper()
 
@@ -273,90 +253,6 @@ function resizeWindowEventPropertyShow() {
   // inside <span>, otherwise pops onto 2 lines intermittently
   // with no padding.
 }
-
-
-/////////////////////////////////////////////////////////////////////////////
-// #googleMapInitialize
-/**
- * Initialize google map to a specific address.
- * 
- * @todo Get this working. (IP 12/3/16 DDC)
- * 
- * @author Derek Carlson
- * @since 12/7/2016
- *
- */
-function googleMapInitialize() {
-	
-  var locations = [
-    ["348 Acacia St.",    34.183456, -118.158134, 1]
-  ];
-
-  if (window.map != null) {
-    window.map = null; // free up prior memory reference
-  }
-	
-  window.map = new google.maps.Map(document.getElementById('map'), {
-    mapTypeId: google.maps.MapTypeId.ROADMAP
-  });
-
-  var infowindow = new google.maps.InfoWindow();
-
-  var bounds = new google.maps.LatLngBounds();
-
-  var i, marker;
-	
-  for (i = 0; i < locations.length; i++) {
-    marker = new google.maps.Marker({
-      position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-      map: map
-    });
-
-    infowindow.setContent(locations[i][0]);
-    infowindow.open(map, marker);
-
-    bounds.extend(marker.position);
-
-    google.maps.event.addListener(marker, 'click', (function (marker, i) {
-      return function () {
-        infowindow.setContent(locations[i][0]);
-        infowindow.open(map, marker);
-      }
-    })(marker, i));
-  }
-
-  map.fitBounds(bounds);
-	
-  var listener = google.maps.event.addListener(map, "idle", function () {
-    map.setZoom(15);
-    google.maps.event.removeListener(listener);
-  });
-}
-
-
-/////////////////////////////////////////////////////////////////////////////
-// #loadGoogleMapScript
-/**
- * Load google map script and attach initialize callback.
- * 
- * @todo Get this working. (IP 12/3/16 DDC)
- * 
- * @author Derek Carlson
- * @since 12/7/2016
- * 
- */
-/* Idea... assign name to element, so can release it
- * and then reassign it... and use a global var to
- * store the address.  Then call this each time the property changes.
- */
-function loadGoogleMapScript() {
-  var script = document.createElement('script');
-  script.type = 'text/javascript';
-  script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&' +
-    'callback=googleMapInitialize';
-  document.body.appendChild(script);
-}
-
 
 //
 //

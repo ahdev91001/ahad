@@ -52,7 +52,7 @@
 
 
     <!-- All fields listed below -->
-    <div id="ps-db-details">
+    <div class="ps-db-details">
 
       <%= ps_markup("APN", (apn = @property.apn) && apn.parcel) %>
       <%= ps_markup("Year Built", @property.yearbuilt_qualified) %>
@@ -225,8 +225,32 @@
     	  %>
       </div>
 
-      <br>
+    </div> <!-- end ps-db-details -->
+
+    <div id="mapid"></div>
+    
+    <script>
+      //var iDiv = document.createElement('div');
+      //iDiv.id = 'mapid';
+      //iDiv.style = "margin-left: auto; margin-right: auto; width: 600px; height: 400px;"
+      //document.getElementsByTagName('body')[0].appendChild(iDiv);
       
+      var mymap = L.map('mapid').setView([<%=@lat%>, <%=@lng%>], 17);
+    
+    	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+    		maxZoom: 18,
+    		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+    			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+    			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    		id: 'mapbox.streets'
+    	}).addTo(mymap);
+    	
+    	var marker = L.marker([<%=@lat%>, <%=@lng%>]).addTo(mymap);
+    </script>
+
+    <br><br><br>
+    
+    <div id="ps-chrs-div">
       <div class="ps-chrs-title">
         California Historical Resource Status (CHRS) Codes Key
       </div>
@@ -242,13 +266,7 @@
           </tr>                  
         <% end %>
       </table>
-
-    </div> <!-- end ps-db-details -->
-
-LATITUDE: <%= @lat %><BR>
-LONGITUDE: <%= @lng %><BR>
- <!-- <div id="mapid" style="width: 600px; height: 400px;"></div> -->
- 
+    </div> 
 
     <div id="prop-search-again-container">
     	<button id="ps-search-again-btn" 

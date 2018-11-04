@@ -125,6 +125,7 @@ $g-screen-width-min-desktop: 880px;
   text-align: center;
   text-shadow: 4px 4px 4px #aaa;
   top: 100px; // see comment above
+  z-index: 1000;
 }
 
   @media screen and (max-width: $g-screen-width-min-desktop) {
@@ -201,7 +202,7 @@ $g-screen-width-min-desktop: 880px;
   margin-bottom: 5px;
 }
 
-#ps-db-details {
+.ps-db-details {
   font-size: 24px;
   margin-bottom: 30px;
   margin-left:  auto;
@@ -216,7 +217,7 @@ $g-screen-width-min-desktop: 880px;
   }
 
   @media screen and (max-width: $g-screen-width-min-desktop) {
-    #ps-db-details {
+    .ps-db-details {
       font-size: 22px;
       width: $g-ps-width-pct-for-small-screens;
     }
@@ -249,26 +250,38 @@ $g-screen-width-min-desktop: 880px;
 .ps-chrs-title {
   font-weight: bold;
   font-size: 16px;
-  margin-left: -50px;
-}
-
-@media screen and (max-width: $g-screen-width-min-desktop) {
-   .ps-chrs-title {
-    margin-left: 0px;
-  }
 }
 
 .ps-chrs-key {
+  border: none;
   font-size: 16px;
-  margin-left: -50px;
+}
+
+#ps-chrs-div {
+  margin-left: 20%;
+  margin-right: 20%;
+  margin-bottom: 100px;
 }
 
 @media screen and (max-width: $g-screen-width-min-desktop) {
-   .ps-chrs-key {
-    margin-left: 0px;
+   #ps-chrs-div {
+    margin-left: 10px;
+    margin-right: 0px;
   }
 }
 
+//
+// OpenStreetMap
+//
+#mapid {
+  border: 1px solid grey;
+  box-shadow: 5px 5px 5px #888888;  
+  margin-left: auto; 
+  margin-right: auto; 
+  width: 600px; 
+  height: 400px;
+
+}
 
 //
 // Display of has_many relationships (e.g. additionalarchitects, etc.)
@@ -312,28 +325,7 @@ select {
   font-size:14pt;
   margin-bottom: 10px;
 }
-  
 
-//
-// Google map at bottom
-//
-
-#map {  /* #googlemap */
-  border: 1px solid grey;
-  box-shadow: 5px 5px 5px #888888;  
-  height: 300px;
-  margin-bottom: 20px;
-  margin-left: auto;
-  margin-right: auto;
-  opacity: 1;
-  width: $g-ps-width-pct-for-wide-screens;
-}
-
-  @media screen and (max-width: $g-screen-width-min-desktop) {
-    #map { /* #googlemap */  
-      width: $g-ps-width-pct-for-small-screens;
-    }
-  }
 
 /*-------------------------------------------------------------------------*\
   #property not found page
