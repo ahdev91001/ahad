@@ -2,6 +2,19 @@
 
       <%= f.submit "Save Changes", class: "btn btn-primary" %>
       
+      <div>
+        <div style="width: 15%; float:left">
+          <% if @property.id != nil %>
+            <%= link_to "View Property", property_path(@property.id), data: { confirm: "You will lose any unsaved changes on this page.  Are you sure you want to view the property?" } %>
+          <% end %>
+        </div>        
+        <div style="margin-left: 15%;text-align:right;">
+          <%= link_to "Cancel Edits", :back, data: { confirm: "Are you sure you want to discard your changes?" } %>
+        </div>        
+      </div>
+      
+      <br>
+      
       <%= f.label :address1, "Address 1" %>
       <%= f.text_field :address1, class: 'form-control', maxlength: 128 %>
 
@@ -15,111 +28,6 @@
           <%= apn.label :parcel, "APN" %>
           <%= apn.text_field :parcel %>
       <% end %>
-
-      <%= f.label :ahdesignation, "AH Designation" %>
-      <%= f.text_field :ahdesignation, class: 'form-control', maxlength: 128 %>
-
-      <%= f.label :architect %>
-      <%= f.text_field :architect, class: 'form-control', maxlength: 128 %>
-
-      <%= f.label :architectconfirmed, "Architect Confirmed" %>
-      <%= f.select :architectconfirmed, [['',''],['Y', 'Y'], ['N', 'N']] %>
-
-      <%= f.label :builder %>
-      <%= f.text_field :builder, class: 'form-control', maxlength: 128 %>
-
-      <%= f.label :builderconfirmed, "Builder Confirmed" %>
-      <%= f.select :builderconfirmed, [['',''],['Y', 'Y'], ['N', 'N']] %>
-
-      <%= f.label :additionalbuilders, "Additional Builders" %>
-      
-      <div style="margin-left:100px">
-      <%= f.fields_for :additional_builders do |ab| %>
-         <%= render 'additional_builder_fields', f: ab %>
-      <% end %>
-        <div class="links">
-          <%= link_to_add_association 'Add Builder', f, :additional_builders %>
-        </div>
-      </div>
-      
-      <%= f.label :chrs, "CHRS" %>
-      <%= f.text_field :chrs, class: 'form-control', maxlength: 32 %>
-
-      <%= f.label :currentlotsize, "Current Lot Size" %>
-      <%= f.text_field :currentlotsize, class: 'form-control', maxlength: 64 %>
-
-      <%= f.label :historicname, "Historic Name" %>
-      <%= f.text_field :historicname, class: 'form-control', maxlength: 128 %>
-
-      <%= f.label :legaldescription, "Legal Description" %>
-      <%= f.text_field :legaldescription, class: 'form-control', maxlength: 64 %>
-
-      <%= f.label :movedontoproperty, "Moved on to Property" %>
-      <%= f.select :movedontoproperty, [['',''],['Y', 'Y'], ['N', 'N']] %>
-
-      <%= f.label :notes_shpo_and_sources, "Notes SHPO And Sources" %>
-      <%= f.text_area :notes_shpo_and_sources, class: 'form-control', rows: "10", maxlength: 10000 %>
-
-
-      <%= f.label :originalcost, "Original Cost" %>
-      <%= f.text_field :originalcost, class: 'form-control', maxlength: 32 %>
-
-      <%= f.label :originallotsize, "Original Lot Size" %>
-      <%= f.text_field :originallotsize, class: 'form-control', maxlength: 64 %>
-
-      <%= f.label :originalowner, "Original Owner" %>
-      <%= f.text_field :originalowner, class: 'form-control', maxlength: 64 %>
-
-      <%= f.label :originalowneroccupation, "Original Owner Occupation" %>
-      <%= f.text_field :originalowneroccupation, class: 'form-control', maxlength: 64 %>
-      
-      <%= f.label :originalownerspouse, "Original Owner Spouse" %>
-      <%= f.text_field :originalownerspouse, class: 'form-control', maxlength: 64 %>
-
-      <%= f.label :orig_note_shpo_sources, "Orig Notes SHPO And Sources" %>
-      <%= f.text_area :orig_note_shpo_sources, class: 'form-control', rows: "10", maxlength: 10000 %>
-
-      <%= f.label :placeofbusiness, "Place of Business" %>
-      <%= f.text_field :placeofbusiness, class: 'form-control', maxlength: 64 %>
-
-      <%= f.label :quadrant, "Quadrant" %>
-      <datalist id="quadrantlist">
-        <% Quadrant.all.each do |quadrant| %>
-          <option value="<%= quadrant.value.titlecase %>"></option>
-        <% end %>
-      </datalist>
-      <%= f.text_field :quadrant, class: 'form-control', list: "quadrantlist" %>
-
-      <%= f.label :stories, "Stories" %>
-      <%= f.number_field :stories %>
-
-      <%= f.label :streetdirection, "Street Direction" %>
-      <%= f.select :streetdirection, [['',''],['N', 'N'], ['S', 'S'], ['E', 'E'], ['W', 'W']] %>
-
-      <%= f.label :streetname, "Street Name" %>
-      <%= f.text_field :streetname, class: 'form-control', maxlength: 64 %>
-
-      <%= f.label :streetnumberbegin, "Street Number Begin" %>
-      <%= f.text_field :streetnumberbegin, class: 'form-control', maxlength: 16 %>
-
-      <%= f.label :streetnumberend, "Street Number End" %>
-      <%= f.text_field :streetnumberend, class: 'form-control', maxlength: 16 %>
-
-      <%= f.label :style, "Style" %>
-      <datalist id="stylelist">
-        <% Style.all.each do |style| %>
-          <option value="<%= style.value %>"></option>
-        <% end %>
-      </datalist>
-      <%= f.text_field :style, class: 'form-control', list: "stylelist" %>
-
-      <%= f.label :type, "Type" %>
-      <datalist id="typelist">
-        <% Type.all.each do |type| %>
-          <option value="<%= type.value.titlecase %>"></option>
-        <% end %>
-      </datalist>
-      <%= f.text_field :type, class: 'form-control', list: "typelist" %>
 
       <%= f.label :yearbuilt, "Year Built" %>
       <%= f.number_field :yearbuilt %>
@@ -140,6 +48,167 @@
 
       <%= f.label :yearbuiltotherflag, "Year Built Other Flag" %>
       <%= f.select :yearbuiltotherflag, [['',''],['A-Actual', 'A'], ['E-Estimate', 'E'], ['P-Pre', 'P']] %>
+
+      <%= f.label :legaldescription, "Legal Description" %>
+      <%= f.text_field :legaldescription, class: 'form-control', maxlength: 64 %>
+
+      <%= f.label :quadrant, "Quadrant" %>
+      <datalist id="quadrantlist">
+        <% Quadrant.all.each do |quadrant| %>
+          <option value="<%= quadrant.value.titlecase %>"></option>
+        <% end %>
+      </datalist>
+      <%= f.text_field :quadrant, class: 'form-control', list: "quadrantlist" %>
+
+      <%= f.label :currentlotsize, "Current Lot Size" %>
+      <%= f.text_field :currentlotsize, class: 'form-control', maxlength: 64 %>
+
+      <%= f.label :historicname, "Historic Name" %>
+      <%= f.text_field :historicname, class: 'form-control', maxlength: 128 %>
+
+      <%= f.label :style, "Style" %>
+      <datalist id="stylelist">
+        <% Style.all.each do |style| %>
+          <option value="<%= style.value %>"></option>
+        <% end %>
+      </datalist>
+      <%= f.text_field :style, class: 'form-control', list: "stylelist" %>
+
+      <%= f.label :stories, "Stories" %>
+      <%= f.number_field :stories %>
+
+      <%= f.label :type, "Type" %>
+      <datalist id="typelist">
+        <% Type.all.each do |type| %>
+          <option value="<%= type.value.titlecase %>"></option>
+        <% end %>
+      </datalist>
+      <%= f.text_field :type, class: 'form-control', list: "typelist" %>
+
+      <%= f.label :chrs, "CHRS" %>
+      <%= f.text_field :chrs, class: 'form-control', maxlength: 32 %>
+
+      <%= f.label :architect %>
+      <%= f.text_field :architect, class: 'form-control', maxlength: 128 %>
+
+      <%= f.label :architectconfirmed, "Architect Confirmed" %>
+      <%= f.select :architectconfirmed, [['',''],['Y', 'Y'], ['N', 'N']] %>
+
+      <!-- Additional Architects -->
+      <%= f.label :additionalarchitects, "Additional Architects" %>
+      <div style="margin-left:100px">
+      <%= f.fields_for :additional_architects do |aa| %>
+         <%= render 'additional_architect_fields', f: aa %>
+      <% end %>
+        <div class="links">
+          <%= link_to_add_association 'Add an Architect', f, :additional_architects %>
+        </div>
+      </div>
+      
+      <%= f.label :builder %>
+      <%= f.text_field :builder, class: 'form-control', maxlength: 128 %>
+
+      <%= f.label :builderconfirmed, "Builder Confirmed" %>
+      <%= f.select :builderconfirmed, [['',''],['Y', 'Y'], ['N', 'N']] %>
+
+      <%= f.label :additionalbuilders, "Additional Builders" %>
+      <div style="margin-left:100px">
+      <%= f.fields_for :additional_builders do |ab| %>
+         <%= render 'additional_builder_fields', f: ab %>
+      <% end %>
+        <div class="links">
+          <%= link_to_add_association 'Add a Builder', f, :additional_builders %>
+        </div>
+      </div>
+
+      <!-- Building Permits -->
+      <%= f.label :buildingpermits, "Building Permits" %>
+      <div style="margin-left:100px">
+      <%= f.fields_for :building_permits do |bp| %>
+         <%= render 'building_permit_fields', f: bp %>
+      <% end %>
+        <div class="links">
+          <%= link_to_add_association 'Add a Building Permit', f, :building_permits %>
+        </div>
+      </div>
+
+      <!-- Alterations -->
+      <%= f.label :alterations, "Alterations" %>
+      <div style="margin-left:100px">
+      <%= f.fields_for :alterations do |a| %>
+         <%= render 'alteration_fields', f: a %>
+      <% end %>
+        <div class="links">
+          <%= link_to_add_association 'Add an Alteration', f, :alterations %>
+        </div>
+      </div>
+      
+      <%= f.label :originalowner, "Original Owner" %>
+      <%= f.text_field :originalowner, class: 'form-control', maxlength: 64 %>
+
+      <%= f.label :originalownerspouse, "Original Owner Spouse" %>
+      <%= f.text_field :originalownerspouse, class: 'form-control', maxlength: 64 %>
+
+      <%= f.label :originalowneroccupation, "Original Owner Occupation" %>
+      <%= f.text_field :originalowneroccupation, class: 'form-control', maxlength: 64 %>
+
+      <%= f.label :placeofbusiness, "Place of Business" %>
+      <%= f.text_field :placeofbusiness, class: 'form-control', maxlength: 64 %>
+
+      <!-- Other Owners -->
+      <%= f.label :otherowners, "Other Owners" %>
+      <div style="margin-left:100px">
+      <%= f.fields_for :other_owners do |oo| %>
+         <%= render 'other_owner_fields', f: oo %>
+      <% end %>
+        <div class="links">
+          <%= link_to_add_association 'Add an Other Owner', f, :other_owners %>
+        </div>
+      </div>
+
+      <%= f.label :originalcost, "Original Cost" %>
+      <%= f.text_field :originalcost, class: 'form-control', maxlength: 32 %>
+
+      <%= f.label :originallotsize, "Original Lot Size" %>
+      <%= f.text_field :originallotsize, class: 'form-control', maxlength: 64 %>
+      
+      <%= f.label :movedontoproperty, "Moved on to Property" %>
+      <%= f.select :movedontoproperty, [['',''],['Y', 'Y'], ['N', 'N']] %>
+
+      <!-- Former Addresses -->
+      <%= f.label :formeraddresses, "Former Addresses" %>
+      <div style="margin-left:100px">
+      <%= f.fields_for :former_addresses do |fa| %>
+         <%= render 'former_address_fields', f: fa %>
+      <% end %>
+        <div class="links">
+          <%= link_to_add_association 'Add a Former Address', f, :former_addresses %>
+        </div>
+      </div>
+
+      <%= f.label :ahdesignation, "AH Designation" %>
+      <%= f.text_field :ahdesignation, class: 'form-control', maxlength: 128 %>
+
+      <%= f.label :notes_shpo_and_sources, "Notes SHPO And Sources" %>
+      <%= f.text_area :notes_shpo_and_sources, class: 'form-control', rows: "10", maxlength: 10000 %>
+      
+      <!--
+      <%= f.label :orig_note_shpo_sources, "Orig Notes SHPO And Sources" %>
+      <%= f.text_area :orig_note_shpo_sources, class: 'form-control', rows: "10", maxlength: 10000 %>
+      -->
+
+      <%= f.label :streetdirection, "Street Direction" %>
+      <%= f.select :streetdirection, [['',''],['N', 'N'], ['S', 'S'], ['E', 'E'], ['W', 'W']] %>
+
+      <%= f.label :streetname, "Street Name" %>
+      <%= f.text_field :streetname, class: 'form-control', maxlength: 64 %>
+
+      <%= f.label :streetnumberbegin, "Street Number Begin" %>
+      <%= f.text_field :streetnumberbegin, class: 'form-control', maxlength: 16 %>
+
+      <%= f.label :streetnumberend, "Street Number End" %>
+      <%= f.text_field :streetnumberend, class: 'form-control', maxlength: 16 %>
+
 
       <br>
       <%= f.submit "Save Changes", class: "btn btn-primary" %>

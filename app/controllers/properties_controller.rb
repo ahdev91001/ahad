@@ -38,8 +38,8 @@ class PropertiesController < ApplicationController
     gmaps = GoogleMapsService::Client.new(key: 'AIzaSyBgnPpkjO__fzAjoyCUMGyoQgegorqv5rY')
     results = gmaps.geocode("#{@property.address1} #{@property.address2}")
     if results[0] == nil
-      @lat = 34.200503
-      @lng = -118.128852
+      @lat = 0 # 34.200503
+      @lng = 0 # 118.128852
     else
       @lat = results[0][:geometry][:location][:lat]
       @lng = results[0][:geometry][:location][:lng]
@@ -123,7 +123,12 @@ class PropertiesController < ApplicationController
         :streetnumberbegin, :streetnumberend, :style, :type,
         :yearbuilt, :yearbuiltassessor, :yearbuiltassessorflag,
         :yearbuiltflag, :yearbuiltother, :yearbuiltotherflag,
+        additional_architects_attributes: [:id, :name, :year, :_destroy],
         additional_builders_attributes: [:id, :name, :year, :_destroy],
+        building_permits_attributes: [:id, :permit, :year, :_destroy],
+        alterations_attributes: [:id, :cost, :description, :year, :_destroy],
+        other_owners_attributes: [:id, :name, :years, :_destroy],
+        former_addresses_attributes: [:id, :address1, :address2, :years, :yearflag, :_destroy],
         apn_attributes: [:id, :parcel, :_destroy])
     end
     

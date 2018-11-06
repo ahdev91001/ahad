@@ -1,17 +1,20 @@
 class Property < ActiveRecord::Base
 
   has_many :photos, foreign_key: :propid
-  has_many :additional_architects, foreign_key: :propid
+  has_many :additional_architects, foreign_key: :propid, dependent: :destroy, inverse_of: :property
   has_many :additional_builders, foreign_key: :propid, dependent: :destroy, inverse_of: :property
+  has_many :building_permits, foreign_key: :propid, dependent: :destroy, inverse_of: :property
   has_many :alterations, foreign_key: :propid, dependent: :destroy, inverse_of: :property
-  has_many :building_permits, foreign_key: :propid
-  has_many :former_addresses, foreign_key: :propid
-  has_many :other_owners, foreign_key: :propid
+  has_many :other_owners, foreign_key: :propid, dependent: :destroy, inverse_of: :property
+  has_many :former_addresses, foreign_key: :propid, dependent: :destroy, inverse_of: :property
   has_one :apn, foreign_key: :propid, dependent: :destroy, inverse_of: :property
   
-  accepts_nested_attributes_for :additional_builders, 
-    :allow_destroy => true
-
+  accepts_nested_attributes_for :additional_architects, :allow_destroy => true
+  accepts_nested_attributes_for :additional_builders, :allow_destroy => true
+  accepts_nested_attributes_for :building_permits, :allow_destroy => true
+  accepts_nested_attributes_for :alterations, :allow_destroy => true
+  accepts_nested_attributes_for :other_owners, :allow_destroy => true
+  accepts_nested_attributes_for :former_addresses, :allow_destroy => true
   accepts_nested_attributes_for :apn, :allow_destroy => true
   
   self.inheritance_column = nil # required because property table has a type

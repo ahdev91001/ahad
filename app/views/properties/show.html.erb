@@ -229,23 +229,33 @@
 
     <div id="mapid"></div>
     
+    <div id="no-map-found">We're sorry, but we didn't find this address on a map.</div>
+    
     <script>
       //var iDiv = document.createElement('div');
       //iDiv.id = 'mapid';
       //iDiv.style = "margin-left: auto; margin-right: auto; width: 600px; height: 400px;"
       //document.getElementsByTagName('body')[0].appendChild(iDiv);
       
-      var mymap = L.map('mapid').setView([<%=@lat%>, <%=@lng%>], 17);
-    
-    	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-    		maxZoom: 18,
-    		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-    			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-    			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    		id: 'mapbox.streets'
-    	}).addTo(mymap);
-    	
-    	var marker = L.marker([<%=@lat%>, <%=@lng%>]).addTo(mymap);
+      if (<%=@lat%> != 0 && <%=@lng%> != 0) {
+        var mymap = L.map('mapid').setView([<%=@lat%>, <%=@lng%>], 17);
+      
+      	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+      		maxZoom: 18,
+      		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+      			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+      			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+      		id: 'mapbox.streets'
+      	}).addTo(mymap);
+      	
+      	var marker = L.marker([<%=@lat%>, <%=@lng%>]).addTo(mymap);
+      } else {
+        
+        var element = document.getElementById("mapid");
+        element.parentNode.removeChild(element);
+        
+        document.getElementById("no-map-found").setAttribute("style", "display:block");
+      }
     </script>
 
     <br><br><br>
