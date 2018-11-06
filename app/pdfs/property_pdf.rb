@@ -46,7 +46,7 @@ class PropertyPdf < Prawn::Document
             :align => :center, :size => 10,  :inline_format => true
           stroke_horizontal_rule
           move_down 10
-          text "<link href='https://pacific-garden-24850.herokuapp.com/properties/#{@property.id}'>#{@property.address1}</link>", 
+          text "<link href='#{Rails.application.routes.url_helpers.property_path(@property)}'>#{@property.address1}</link>", 
             :align => :center, :size => 25, :color => '770000', :inline_format => true
           stroke_color "770000"
       end
@@ -73,7 +73,7 @@ class PropertyPdf < Prawn::Document
   bounding_box([119, 630], :width => 540-119, :height => 600) do  
     move_down 210
     
-    text "<link href='https://pacific-garden-24850.herokuapp.com/properties/#{@property.id}'><color rgb='777777'>ID:</color> #{@property.id}</link>", 
+    text "<link href='#{Rails.application.routes.url_helpers.property_path(@property)}'><color rgb='777777'>ID:</color> #{@property.id}</link>", 
             :align => :left, :inline_format => true
 
     if @property.apn == nil 
