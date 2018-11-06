@@ -73,15 +73,15 @@ class PropertyPdf < Prawn::Document
   bounding_box([119, 630], :width => 540-119, :height => 600) do  
     move_down 210
     
-    text "<link href='#{Rails.application.routes.url_helpers.property_path(@property)}'><color rgb='777777'>ID:</color> #{@property.id}</link>", 
-            :align => :left, :inline_format => true
-
     if @property.apn == nil 
       text "<color rgb='777777'>APN:</color> Not on File", :inline_format => true
     else  
       text ps_markup_pdf("APN", (apn = @property.apn) && apn.parcel, false), 
         :inline_format => true
     end
+
+    text "<link href='#{Rails.application.routes.url_helpers.property_path(@property)}'><color rgb='777777'>AHAD ID:</color> #{@property.id}</link>", 
+            :align => :left, :inline_format => true
 
     if @property.yearbuilt_qualified != nil
       text ps_markup_pdf("Year Built", @property.yearbuilt_qualified, false), 

@@ -78,7 +78,7 @@ module PropertiesHelper
 
   # TODO: Fill in comments
   def get_photo_div_html(html, ph)
-    (ph[:photofname] =~ /photo/) ? 
+    (ph[:photofname] =~ /jpg/) ? 
       pre = "http://altadenaheritagepdb.org/photo/" : pre = ""
     html += 
       ("<div id='pnf_suggested_container'>" + 
