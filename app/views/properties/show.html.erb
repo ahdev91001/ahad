@@ -54,12 +54,13 @@
     <!-- All fields listed below -->
     <div class="ps-db-details">
 
+      <%= ps_markup("ID", @property.id.to_s) %>
       <%= ps_markup("APN", (apn = @property.apn) && apn.parcel) %>
       <%= ps_markup("Year Built", @property.yearbuilt_qualified) %>
       <%= ps_markup("Year Built (Assessor)", @property.yearbuiltassessor) %>
       <%= ps_markup("Year Built (Other)", @property.yearbuiltother) %>
       <%= ps_markup("Legal Description", @property.legaldescription) %>
-      <%= ps_markup("Quadrant", @property.quadrant, true) %>
+      <%= ps_markup("Quadrant", @property.quadrant) %>
       <%= ps_markup("Current Lot Size", @property.currentlotsize) %>
       <%= ps_markup("Historic Name", @property.historicname) %>
       <%= ps_markup("Style", @property.style) %>

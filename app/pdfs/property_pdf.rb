@@ -73,6 +73,9 @@ class PropertyPdf < Prawn::Document
   bounding_box([119, 630], :width => 540-119, :height => 600) do  
     move_down 210
     
+    text "<link href='https://pacific-garden-24850.herokuapp.com/properties/#{@property.id}'><color rgb='777777'>ID:</color> #{@property.id}</link>", 
+            :align => :left, :inline_format => true
+
     if @property.apn == nil 
       text "<color rgb='777777'>APN:</color> Not on File", :inline_format => true
     else  
