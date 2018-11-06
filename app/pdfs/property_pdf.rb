@@ -59,11 +59,9 @@ class PropertyPdf < Prawn::Document
       end
     end
 
-  move_down 20
-
   if (photo = @property.photos.first) && photo.filename
     image open("http://altadenaheritagepdb.org/photo/#{photo.filename}"),
-      :position => :center, :width => 300
+      :position => :center, :height => 200
   else
     image Dir.getwd + "/app/assets/images/house-stick-figure-med.png", 
     :position => :center, :width => 250
@@ -72,11 +70,9 @@ class PropertyPdf < Prawn::Document
           "Let us know</color></link> if you have one!",  :align => :center,  :inline_format => true
   end
 
-  move_down 20
-  
   bounding_box([119, 630], :width => 540-119, :height => 600) do  
-    move_down 270
-
+    move_down 210
+    
     if @property.apn == nil 
       text "<color rgb='777777'>APN:</color> Not on File", :inline_format => true
     else  
@@ -156,6 +152,9 @@ class PropertyPdf < Prawn::Document
     #
     # Architects
     #
+    if cursor < 80.0
+      start_new_page
+    end
     
     if @property.additional_architects.count > 0
       text ps_markup_pdf("Architects", @property.architect_qualified), 
@@ -178,6 +177,10 @@ class PropertyPdf < Prawn::Document
     # Builders
     #
   
+    if cursor < 80.0
+      start_new_page
+    end
+ 
     if @property.additional_builders.count > 0
       text ps_markup_pdf("Builders", @property.builder_qualified, false, true), 
         :inline_format => true
@@ -198,7 +201,7 @@ class PropertyPdf < Prawn::Document
     # 
     # Building Permits
     #
-    if cursor < 40.0
+    if cursor < 80.0
       start_new_page
     end
     
@@ -221,7 +224,7 @@ class PropertyPdf < Prawn::Document
     # 
     # Alterations
     #
-    if cursor < 40.0
+    if cursor < 80.0
       start_new_page
     end
     
@@ -273,7 +276,7 @@ class PropertyPdf < Prawn::Document
     # 
     #  Other Owners
     #
-    if cursor < 40.0
+    if cursor < 80.0
       start_new_page
     end
     
@@ -378,7 +381,6 @@ class PropertyPdf < Prawn::Document
       end
       move_down 7
     end
-
   end
 
 
