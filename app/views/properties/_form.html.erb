@@ -3,12 +3,12 @@
       <%= f.submit "Save Changes", class: "btn btn-primary" %>
       
       <div>
-        <div style="width: 15%; float:left">
+        <div style="width: 25%; float:left">
           <% if @property.id != nil %>
             <%= link_to "View Property", property_path(@property.id), data: { confirm: "You will lose any unsaved changes on this page.  Are you sure you want to view the property?" } %>
           <% end %>
         </div>        
-        <div style="margin-left: 15%;text-align:right;">
+        <div style="margin-left: 25%;text-align:right;">
           <%= link_to "Cancel Edits", :back, data: { confirm: "Are you sure you want to discard your changes?" } %>
         </div>        
       </div>

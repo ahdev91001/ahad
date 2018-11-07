@@ -31,6 +31,12 @@ a:hover {
   text-decoration: none; 
 }
 
+// To add minor padding, important on mobile
+.small-side-margins {
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
 /****************************************************************************
 * Animated >> Buttons 
 *
@@ -107,34 +113,86 @@ a:hover {
   }
 
 /* The navigation bar */
-.navbar {
-    overflow: hidden;
-    background-color: #000;
-    opacity: 1.0;
-    position: fixed; /* Set the navbar to fixed position */
-    top: 80; /* Position the navbar at the top of the page */
-    width: 100%; /* Full width */
-    z-index: 100001;
+section ul {
+	width: 100%;
+	list-style: none;
 }
 
-/* Links inside the navbar */
-.navbar a {
-    float: right;
-    display: block;
-    color: #AAA;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
+section li {
+	width: 100px;
+	float: right;
+	border-right: none;
+	text-align: center;
+	list-style: none;
 }
 
-/* Change background on mouse-over */
-.navbar a:hover {
-    background: #ddd;
-    color: black;
+section li:last-child {
+	border-right: none;
 }
+
+section li a {
+	color: #AAAAAA;
+	display: block;
+	width: 100%;
+	background: #000;
+	font-size: 1.35em;
+	text-decoration: none;
+}
+
+section li a:hover {
+	background: #ddd;
+	color: black;
+}
+
+#black-bar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 27px;
+	background-color: black;
+	width: 100%;
+}
+	
+#burger {
+	display: none;
+}
+	
+  @media screen and (max-width: 768px) {
+  	#burger {
+  		width: 1.4em;
+  		display: block;
+  		background: #FFF;
+  		color: #AAAAAA;
+  		font-size: 1.35em;
+  		text-align: center;
+  		float: right;
+  	}
+  	#nav.js {
+  		display: none;
+  	}
+  	section ul {
+  		width: 115%;
+  		opacity: 0.5;
+  		list-style: none;
+  	}
+  	section li {
+  		color: #AAAAAA;
+  		width: 20%;
+  		margin-left: 80%;
+  		border-right: none;
+  		background-color: black;
+  		text-align: left;
+  	}
+  	#black-bar {
+  		background-color: white;
+  	}
+  }
 
 .top-padding-to-miss-navbar {
-  margin-top: 150px;
+  margin-top: 115px;
 }
 
+.top-padding-to-miss-ah-header {
+  margin-top: 85px;
+}
 

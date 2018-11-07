@@ -1,20 +1,60 @@
 <div id="app-layout-top-spacer"> </div>
 <header>
   <section class="navigation">
-    <div class="navbar">
-      
-      <% if logged_in? %>
-        <%= link_to "Log out", logout_path, method: :delete %>
-        <%= link_to "Users", users_path %>
-      <% else %>
-        <%= link_to "Log in", login_path %>
-      <% end %>
-      <%= link_to "Properties", properties_all_path %>
-      <% if current_user != nil %>
-        <%= link_to "Profile", edit_user_path(current_user) %>
-      <% end %>
-      <%= link_to "Search", root_path %>
-
+    <div id="black-bar" class="top-padding-to-miss-ah-header">
+    	<ul id="nav">
+	      <% if logged_in? %>
+						<li><a href=<%=logout_path%>>&nbsp&nbspLog Out&nbsp&nbsp</a></li>
+						<li><a href=<%=users_path%>>&nbsp&nbspUsers&nbsp&nbsp</a></li>
+	      <% else %>
+						<li><a href=<%=login_path%>>&nbsp&nbspLogin&nbsp&nbsp</a></li>
+	      <% end %>
+				<li><a href=<%=properties_all_path%>>&nbsp&nbspProperties&nbsp&nbsp</a></li>
+	      <% if current_user != nil %>
+	  			<li><a href=<%=edit_user_path(current_user)%>>&nbsp&nbspProfile&nbsp&nbsp</a></li>
+	      <% end %>
+				<li><a href=<%=root_path%>>&nbsp&nbspSearch&nbsp&nbsp</a></li>
+			</ul>
     </div>
   </section>
+
+		<script type="text/javascript">
+			$("#nav").addClass("js").before('<div id="burger">&#9776;</div>');
+			
+			$(document).click(function(event) { 
+				if(!$(event.target).closest('#burger').length) {
+					if($('#nav').is(":visible") && window.innerWidth <= 768) {
+						$( "#nav" ).animate({
+							opacity: 0.0,
+							width: "125%",
+							}, 200, function() {
+							$('#burger').show();
+						});
+					}
+				}        
+			});
+			
+			$(window).resize(function(){
+				if(window.innerWidth > 768) {
+					$("#nav").removeAttr("style");
+					$("#burger").hide(); // media query doesn't always work
+				} else {
+					$("#burger").show(); // media query doesn't always work
+					
+				}
+			});
+			
+			$( "#burger" ).click(function() {
+				$("#burger").hide();
+				$("#nav").show();
+				$( "#nav" ).animate({
+						opacity: 1.0,
+						width: "100%",
+					}, 200, function() {
+				});
+			});
+			
+		</script>
+  
+  
 </header>

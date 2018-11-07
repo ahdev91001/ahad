@@ -37,6 +37,7 @@ $g-screen-width-min-desktop: 880px;
   margin-left: -100px;
   position: fixed ;
   width: 200px;
+  z-index: 1000;
 }
 
 
@@ -270,14 +271,6 @@ $g-screen-width-min-desktop: 880px;
   }
 }
 
-#no-map-found {
-  display: none;
-  font-size: 20px;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-}
-
 //
 // OpenStreetMap
 //
@@ -288,7 +281,21 @@ $g-screen-width-min-desktop: 880px;
   margin-right: auto; 
   width: 600px; 
   height: 400px;
+}
 
+  @media screen and (max-width: $g-screen-width-min-desktop) {
+    #mapid {
+      width: 300px; 
+      height: 200px;
+    }
+  }
+  
+#no-map-found {
+  display: none;
+  font-size: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
 
 //
@@ -333,7 +340,6 @@ select {
   font-size:14pt;
   margin-bottom: 10px;
 }
-
 
 /*-------------------------------------------------------------------------*\
   #property not found page
