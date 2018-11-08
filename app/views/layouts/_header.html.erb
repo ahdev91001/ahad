@@ -4,7 +4,7 @@
     <div id="black-bar" class="top-padding-to-miss-ah-header">
     	<ul id="nav">
 	      <% if logged_in? %>
-						<li><a href=<%=logout_path%>>&nbsp&nbspLog Out&nbsp&nbsp</a></li>
+						<li><a href=<%=logout_path%> data-method="delete">&nbsp&nbspLog Out&nbsp&nbsp</a></li>
 						<li><a href=<%=users_path%>>&nbsp&nbspUsers&nbsp&nbsp</a></li>
 	      <% else %>
 						<li><a href=<%=login_path%>>&nbsp&nbspLogin&nbsp&nbsp</a></li>

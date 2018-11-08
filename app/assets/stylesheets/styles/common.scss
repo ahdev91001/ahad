@@ -151,6 +151,7 @@ section li a:hover {
 	height: 27px;
 	background-color: black;
 	width: 100%;
+	z-index: 100000;
 }
 	
 #burger {
@@ -177,14 +178,16 @@ section li a:hover {
   	}
   	section li {
   		color: #AAAAAA;
-  		width: 20%;
-  		margin-left: 80%;
+  		width: 30%;
+  		margin-left: 70%;
   		border-right: none;
   		background-color: black;
   		text-align: left;
   	}
   	#black-bar {
   		background-color: white;
+  		border-bottom: 1px solid black;
+    	height: 29px;
   	}
   }
 
@@ -196,3 +199,9 @@ section li a:hover {
   margin-top: 85px;
 }
 
+    @media screen and
+      (max-width: $g-app-layout-ah-auto-shrink-threshold-width) {
+        .top-padding-to-miss-ah-header {
+          margin-top: 15.5%;
+        }
+    }
