@@ -138,6 +138,14 @@ $(document).on('turbolinks:load', function (e) {
   
   if (DEBUG) console.log("Turbolinks page: " + page);
   
+  // On small screens, hide the menu on load in case of user
+  // hitting back button.  Otherwise the slid-in menu is just
+  // sitting there from before.
+	if(window.innerWidth < 768) {
+  	$("#burger").show();
+  	$("#nav").hide();
+	}
+	
   // Turn off property address fade in/out based on scrolling
   // for when we're on non-property view pages. Not sure
   // if the event persists across turbolinks page loads,
