@@ -6,6 +6,8 @@ class PropertiesController < ApplicationController
   # Used by select2 AJAX call to populate its drop-down list.  Upon
   # typing each character, the string currently typed gets sent
   # here for a /.*stuff.*/ match against all the addresses in the database.
+  # Note, the "index2" routine below is the routine used to generate
+  # an actual page of properties on the screen.
   #
   # @param params[:term] [String] the partial or complete address
   #   that you are matching against or looking for.
@@ -75,6 +77,9 @@ class PropertiesController < ApplicationController
     end
   end
   
+  # index2 actually creates a full page of properties listed.  This
+  # differs from "index", which returns a JSON hash and is designed
+  # to be used with AJAX and select2.
   def index2
     if params[:filter] != nil && params[:filter].length > 0 then
       @properties = Property.where("address1 LIKE ?", "%#{params[:filter]}%").paginate(page: params[:page], per_page: 30)
@@ -104,7 +109,7 @@ class PropertiesController < ApplicationController
   def destroy
     Property.find(params[:id]).destroy
     flash[:success] = "Property deleted"
-    redirect_to users_url
+    redirect_to properties_all_path
   end
 
   # Private #################################################################
