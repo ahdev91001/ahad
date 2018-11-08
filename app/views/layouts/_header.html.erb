@@ -19,8 +19,9 @@
   </section>
 
 		<script type="text/javascript">
-			$("#nav").addClass("js").before('<div id="burger">&#9776;</div>');
-			
+			if(! $("#burger").length){
+				$("#nav").addClass("js").before('<div id="burger">&#9776;</div>');
+			}
 			$(document).click(function(event) { 
 				if(!$(event.target).closest('#burger').length) {
 					if($('#nav').is(":visible") && window.innerWidth <= 768) {
