@@ -70,6 +70,8 @@ test:                           # :testsqlite
 #   production:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
+
+# Below is read-only credentials
 production:
   <<: *default
   #url: <%= ENV['DATABASE_URL'] %>

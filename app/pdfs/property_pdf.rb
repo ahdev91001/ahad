@@ -42,7 +42,7 @@ class PropertyPdf < Prawn::Document
             :position => :center, :width => 350
         
           move_down 10
-          text "Report from Altadena Heritage Architectural Database courtesy of <link href='http://altadenaheritage.org/'><color rgb='5555FF'>AltadenaHeritage.org</color></link>",
+          text "Report Copyright \xC2\xA9 #{Time.current.year} from Altadena Heritage Architectural Database courtesy of <link href='http://altadenaheritage.org/'><color rgb='5555FF'>AltadenaHeritage.org</color></link>",
             :align => :center, :size => 10,  :inline_format => true
           stroke_horizontal_rule
           move_down 10
@@ -56,8 +56,13 @@ class PropertyPdf < Prawn::Document
           font "Helvetica"
           stroke_color "770000"
           stroke_horizontal_rule
+          move_down 5
+          text "Do you find this property data informative and useful? Consider <link href='http://altadenaheritage.org/donate/'><color rgb='5555FF'>supporting Altadena Heritage.</color></link>",
+            :align => :center, :size => 10,  :inline_format => true
       end
     end
+
+  bounding_box([bounds.left, bounds.top - 95], :width => bounds.width) do  
 
   if (photo = @property.photos.first) && photo.filename
     image open("http://altadenaheritagepdb.org/photo/#{photo.filename}"),
@@ -68,6 +73,8 @@ class PropertyPdf < Prawn::Document
     text "We do not have a picture of this house yet.", :align => :center
     text "<link href='http://altadenaheritage.org/contact-us/'><color rgb='5555FF'>" +
           "Let us know</color></link> if you have one!",  :align => :center,  :inline_format => true
+  end
+
   end
 
   bounding_box([119, 630], :width => 540-119, :height => 600) do  
