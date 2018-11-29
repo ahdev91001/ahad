@@ -74,6 +74,15 @@ production:
   <<: *default
   #url: <%= ENV['DATABASE_URL'] %>
   database: altaheri_djr
-  username: altaheri_3
-  password: 4WfRtNBy
+  username: altaheri_3_r
+  password: Wj89Rc6T
   host: db154.pair.com
+
+# Below is full R/W credentials
+#production:
+#  <<: *default
+#  #url: <%= ENV['DATABASE_URL'] %>
+#  database: altaheri_djr
+#  username: altaheri_3
+#  password: 4WfRtNBy
+#  host: db154.pair.com
