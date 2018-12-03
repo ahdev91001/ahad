@@ -6,6 +6,7 @@
 # Since 10/20/2018 Derek Carlson
 #############################################################################
 require "open-uri"
+require "uri"
 include ActionView::Helpers::NumberHelper
 
 class PropertyPdf < Prawn::Document
@@ -65,7 +66,7 @@ class PropertyPdf < Prawn::Document
   bounding_box([bounds.left, bounds.top - 95], :width => bounds.width) do  
 
   if (photo = @property.photos.first) && photo.filename
-    image open("http://altadenaheritagepdb.org/photo/#{photo.filename}"),
+    image open("http://altadenaheritagepdb.org/photo/" + URI.encode(photo.filename)),
       :position => :center, :height => 200
   else
     image Dir.getwd + "/app/assets/images/house-stick-figure-med.png", 
