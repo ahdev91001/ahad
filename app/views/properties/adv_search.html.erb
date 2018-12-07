@@ -1,0 +1,25 @@
+<% provide(:title, 'Advanced Search') %>
+
+<%= render "layouts/header" %>
+
+<div class="text-center top-padding-to-miss-navbar">
+  <h1>Advanced Search</h1>
+</div>
+
+Architect:
+<form action="/properties/adv_search" id="adv-search-form">
+	<div id="as-architects-container">
+		<select id="as-architects-select2" name="id" multiple="multiple">
+      <option selected="selected">orange</option>
+      <option>white</option>
+      <option selected="selected">purple</option>
+    </select>
+	</div>
+
+	<div id="as-architects-btn-container">
+		<button id="as-search-btn" class="btn-arrow-anim" name="search"
+	    type="submit" value="submit">
+		  <span class="btn-arrow-anim__text">Search </span>
+		</button>
+	</div>
+</form>

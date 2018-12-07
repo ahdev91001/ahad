@@ -164,6 +164,8 @@ $(document).on('turbolinks:load', function (e) {
     // it would kick select2 into shape if it were squished.
     // Sure enough, that did the trick.
     $(window).trigger('resize');
+  } else if (page == "adv_search") {
+    onLoadEventAdvSearchHelper();
   } else if (page == "testform") {
   	onLoadEventTestformHelper();
   } else if (window.location.href.match(/properties\/\d+/)) {

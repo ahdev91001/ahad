@@ -112,6 +112,10 @@ class PropertiesController < ApplicationController
     redirect_to properties_all_path
   end
 
+  def adv_search
+    
+  end
+
   # Private #################################################################
   
   private

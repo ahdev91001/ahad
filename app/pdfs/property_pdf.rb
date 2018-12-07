@@ -43,7 +43,7 @@ class PropertyPdf < Prawn::Document
             :position => :center, :width => 350
         
           move_down 10
-          text "Report Copyright \xC2\xA9 #{Time.current.year} from Altadena Heritage Architectural Database courtesy of <link href='http://altadenaheritage.org/'><color rgb='5555FF'>AltadenaHeritage.org</color></link>",
+          text "\xC2\xA9 #{Time.current.year} <link href='http://altadenaheritage.org/'><color rgb='5555FF'>Altadena Heritage</color></link>",
             :align => :center, :size => 10,  :inline_format => true
           stroke_horizontal_rule
           move_down 10
@@ -58,8 +58,6 @@ class PropertyPdf < Prawn::Document
           stroke_color "770000"
           stroke_horizontal_rule
           move_down 5
-          text "Do you find this property data informative and useful? Consider <link href='http://altadenaheritage.org/donate/'><color rgb='5555FF'>supporting Altadena Heritage.</color></link>",
-            :align => :center, :size => 10,  :inline_format => true
       end
     end
 
@@ -384,15 +382,20 @@ class PropertyPdf < Prawn::Document
       Chrs.all.each do |c|
         data += [[c.code, c.description]]
       end
-      table(data, :cell_style => { :size => 9, :padding => 5 }) do
+      table(data, :cell_style => { :size => 9, :padding => 1 }) do
         column(0).width = 48
         columns(0).valign = :top
         rows(0).valign = :center
         cells.borders = []
       end
-      move_down 7
+      move_down 27
+
+      text "Do you find this property data informative and useful? Consider <link href='http://altadenaheritage.org/donate/'><color rgb='5555FF'>supporting Altadena Heritage.</color></link>",
+        :align => :left, :size => 10,  :inline_format => true
+
     end
   end
+
 
 
   # Page numbering (duh)
