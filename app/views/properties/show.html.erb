@@ -14,6 +14,10 @@
       </div>
     <% end %>
     
+    <div style="text-align:center">
+    <%= "\xC2\xA9 #{Time.current.year} Altadena Heritage" %>
+    </div>
+    
     <div id="ps-photo-main-container">
       <% if (photo = @property.photos.first) && photo.filename %>
         <%= image_tag("http://altadenaheritagepdb.org/photo/" + 
