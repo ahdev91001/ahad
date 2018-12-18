@@ -6,20 +6,80 @@
   <h1>Advanced Search</h1>
 </div>
 
-Architect:
-<form action="/properties/adv_search" id="adv-search-form">
-	<div id="as-architects-container">
-		<select id="as-architects-select2" name="id" multiple="multiple">
-      <option selected="selected">orange</option>
-      <option>white</option>
-      <option selected="selected">purple</option>
-    </select>
+<div class="small-side-margins">
+	<form action="/properties/adv_search" id="adv-search-form">
+		<strong>Street</strong>
+    <%= text_field('', :filter, :value => params[:filter]) %>
+		<strong>Architect</strong>
+		<div id="as-architects-container">
+			<select id="as-architects-select2" name="architects[]" multiple="multiple">
+				<option>Any</option>
+	      <% ar_architects = Property.distinct.order(:architect).pluck(:architect) %>
+	      <% for i in 2..ar_architects.length do %>
+	      	<option 
+	      	<% if (!params[:architects].nil?) && (params[:architects].include? ar_architects[i]) then %>
+	      		selected >
+	      	<% else %>
+	      	  >
+	      	<% end %>
+	      	<%= ar_architects[i] %></option>
+	      <% end %>
+	    </select>
+		</div>
+
+		<strong>Builder</strong>
+		<div id="as-builders-container">
+			<select id="as-builders-select2" name="builders[]" multiple="multiple">
+				<option>Any</option>
+	      <% ar_builders = Property.distinct.order(:builder).pluck(:builder) %>
+	      <% for i in 0..ar_builders.length do %>
+	      	<option 
+	      	<% if (!params[:builders].nil?) && (params[:builders].include? ar_builders[i]) then %>
+	      		selected >
+	      	<% else %>
+	      	  >
+	      	<% end %>
+	      	<%= ar_builders[i] %></option>
+	      <% end %>
+	    </select>
+		</div>
+	
+		<br>
+
+		<div id="as-architects-btn-container">
+			<button id="as-search-btn" class="btn-arrow-anim" name="search"
+		    type="submit" value="submit">
+			  <span class="btn-arrow-anim__text">Search </span>
+			</button>
+		</div>
+	</form>
+</div>
+
+<% sql = get_adv_search_sql(params) %>
+<% @properties = Property.paginate_by_sql(sql, page: params[:page], per_page: 30)%>
+<% if @properties.count > 0 then %>
+
+	<div class="ui-left-margin">
+	  <%= will_paginate %>
+	</div>
+	
+	<div id="ui-padded-sides">
+	  <ul class="properties">
+	    <%= render @properties %>
+	  </ul>
+	</div>
+	
+	<div class="ui-left-margin">
+	  <%= will_paginate %>
 	</div>
 
-	<div id="as-architects-btn-container">
-		<button id="as-search-btn" class="btn-arrow-anim" name="search"
-	    type="submit" value="submit">
-		  <span class="btn-arrow-anim__text">Search </span>
-		</button>
-	</div>
-</form>
+<% else %>
+
+<div class="small-side-margins">
+	<strong>No Properties Found</strong>
+</div>
+
+<% end %>
+
+
+

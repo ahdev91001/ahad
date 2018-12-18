@@ -1,6 +1,8 @@
 <li>
   <%= link_to property.address1, property %>
-  <%= link_to "| Edit" , property_edit_path(property) %>
-  <%= link_to "| Delete", property, method: :delete,
-      data: { confirm: "Are you sure you want to delete this property?" } %>
+  <% if !current_user.nil? && current_user.admin? then %>
+    <%= link_to "| Edit" , property_edit_path(property) %>
+    <%= link_to "| Delete", property, method: :delete,
+        data: { confirm: "Are you sure you want to delete this property?" } %>
+  <% end %>
 </li>

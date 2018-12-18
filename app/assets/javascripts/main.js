@@ -30,13 +30,17 @@
 /////////////////////////////////////////////////////////////////////////////
 /* global $ */
 
-// From static_pages.js
-/* global onLoadEventRootHomeHelper */
-/* global onLoadEventTestformHelper */
+// From adv_search.js
+/* onLoadEventAdvSearchHelper */
 
 // From properties.js
 /* global onLoadEventPropertyShowHelper */
 /* global onLoadEventPropertyNotFoundHelper */
+
+// From static_pages.js
+/* global onLoadEventRootHomeHelper */
+/* global onLoadEventTestformHelper */
+
 
 /* global jQuery */
 
@@ -164,7 +168,7 @@ $(document).on('turbolinks:load', function (e) {
     // it would kick select2 into shape if it were squished.
     // Sure enough, that did the trick.
     $(window).trigger('resize');
-  } else if (page == "adv_search") {
+  } else if (page.match(/adv_search/)) {
     onLoadEventAdvSearchHelper();
   } else if (page == "testform") {
   	onLoadEventTestformHelper();

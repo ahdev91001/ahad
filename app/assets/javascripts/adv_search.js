@@ -51,9 +51,8 @@
 function onLoadEventAdvSearchHelper() {
   if (DEBUG) console.log("Initializing advanced search page javascript...");
 
-  // See [1] in header comments
   $('#as-architects-select2').select2({
-    placeholder: "Select Architect",
+    placeholder: "Select Architects",
     tags: true, // This & selectOnBlur & createSearchChoice
                 // are needed to allow entry of custom addresses
                 // that aren't in our database. See:
@@ -73,4 +72,27 @@ function onLoadEventAdvSearchHelper() {
     },
     allowClear: true,
   });
+
+  $('#as-builders-select2').select2({
+    placeholder: "Select Builders",
+    tags: true, // This & selectOnBlur & createSearchChoice
+                // are needed to allow entry of custom addresses
+                // that aren't in our database. See:
+                // http://stackoverflow.com/questions/25616520/
+                //   select2-dropdown-allow-new-values-by-user-when-user-types
+    selectOnBlur: true, 
+    selectOnClose: true,
+    createSearchChoice: function (term, data) {
+        if ($(data).filter(function () {
+            return this.text.localeCompare(term) === 0;
+        }).length === 0) {
+            return {
+                id: term,
+                text: term
+            };
+        }
+    },
+    allowClear: true,
+  });
+
 }
