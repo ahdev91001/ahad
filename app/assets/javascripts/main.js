@@ -75,6 +75,10 @@ $(document).on('ready', function (e) {
 
 });
 
+$(document).on('turbolinks:before-cache', function() {     
+  $('#as-architects-select2').select2('destroy');
+  $('#as-builders-select2').select2('destroy');
+} );
 
 /////////////////////////////////////////////////////////////////////////////
 // #window.load
