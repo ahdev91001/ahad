@@ -75,9 +75,13 @@ $(document).on('ready', function (e) {
 
 });
 
-$(document).on('turbolinks:before-cache', function() {     
+$(document).on('turbolinks:before-cache', function() {  
+  // Below prevents funky mangled display of select2 upon clicking
+  // the back button on the browser
   $('#as-architects-select2').select2('destroy');
   $('#as-builders-select2').select2('destroy');
+  $('#as-styles-select2').select2('destroy');
+  $('#as-types-select2').select2('destroy');
 } );
 
 /////////////////////////////////////////////////////////////////////////////

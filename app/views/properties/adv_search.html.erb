@@ -10,9 +10,10 @@
 	<form action="/properties/adv_search" id="adv-search-form">
 		<strong>Street</strong>
     <%= text_field('', :filter, :value => params[:filter]) %>
+
 		<strong>Architect</strong>
 		<div id="as-architects-container">
-			<select id="as-architects-select2" name="architects[]" multiple="multiple">
+			<select id="as-architects-select2" name="architects[]" multiple="multiple"  style="width: 95%">
 				<option>Any</option>
 	      <% ar_architects = Property.distinct.order(:architect).pluck(:architect) %>
 	      <% for i in 2..ar_architects.length do %>
@@ -29,7 +30,7 @@
 
 		<strong>Builder</strong>
 		<div id="as-builders-container">
-			<select id="as-builders-select2" name="builders[]" multiple="multiple">
+			<select id="as-builders-select2" name="builders[]" multiple="multiple" style="width: 95%">
 				<option>Any</option>
 	      <% ar_builders = Property.distinct.order(:builder).pluck(:builder) %>
 	      <% for i in 0..ar_builders.length do %>
@@ -46,18 +47,79 @@
 	
 		<br>
 
+		<div><strong>Year Built</strong>
+			<select id="as_yearbuilt_comparison" name="yearbuilt_comparison" onchange="OnChangeYearBuilt()"
+			style="width:8em;">
+				<option <%= params[:yearbuilt_comparison] == "Is Equal To" ? "selected" : "" %> >Is Equal To</option>
+				<option <%= params[:yearbuilt_comparison] == "Is Greater Than" ? "selected" : "" %> >Is Greater Than</option>
+				<option <%= params[:yearbuilt_comparison] == "Is Less Than" ? "selected" : "" %> >Is Less Than</option>
+				<option <%= params[:yearbuilt_comparison] == "Is Between" ? "selected" : "" %> >Is Between</option>
+			</select>
+			<input type="number" id="as_yearbuilt_from_year" 
+				name="yearbuilt_from_year" style="width:4em"
+				<%= (!params[:yearbuilt_from_year].nil? && params[:yearbuilt_from_year].length > 0) ? "value=#{params[:yearbuilt_from_year]}" : "" %>
+				>
+			<span id="as_yearbuilt_to_year_container" >
+				and <input type="number" id="as_yearbuilt_to_year" name="yearbuilt_to_year"  style="width:4em"
+				<%= (!params[:yearbuilt_to_year].nil? && params[:yearbuilt_to_year].length > 0) ? "value=#{params[:yearbuilt_to_year]}" : "" %>
+				>
+			</span>
+		</div>
+
+		<strong>Style</strong>
+		<div id="as-styles-container">
+			<select id="as-styles-select2" name="styles[]" multiple="multiple"  style="width: 95%">
+				<option>Any</option>
+	      <% ar_styles = Property.distinct.order(:style).pluck(:style) %>
+	      <% for i in 2..ar_styles.length do %>
+	      	<option 
+	      	<% if (!params[:styles].nil?) && (params[:styles].include? ar_styles[i]) then %>
+	      		selected >
+	      	<% else %>
+	      	  >
+	      	<% end %>
+	      	<%= ar_styles[i] %></option>
+	      <% end %>
+	    </select>
+		</div>
+
+		<strong>Type</strong>
+		<div id="as-types-container">
+			<select id="as-types-select2" name="types[]" multiple="multiple"  style="width: 95%">
+				<option>Any</option>
+	      <% ar_types = Property.distinct.order(:type).pluck(:type) %>
+	      <% for i in 2..ar_types.length do %>
+	      	<option 
+	      	<% if (!params[:types].nil?) && (params[:types].include? ar_types[i]) then %>
+	      		selected >
+	      	<% else %>
+	      	  >
+	      	<% end %>
+	      	<%= ar_types[i] %></option>
+	      <% end %>
+	    </select>
+		</div>
+
+		<br>
+
 		<div id="as-architects-btn-container">
 			<button id="as-search-btn" class="btn-arrow-anim" name="search"
 		    type="submit" value="submit">
 			  <span class="btn-arrow-anim__text">Search </span>
 			</button>
 		</div>
+		
 	</form>
 </div>
 
 <% sql = get_adv_search_sql(params) %>
 <% @properties = Property.paginate_by_sql(sql, page: params[:page], per_page: 30)%>
 <% if @properties.count > 0 then %>
+
+<div class="small-side-margins">
+	<strong>Properties Found Listed Below</strong>
+	<br>
+</div>
 
 	<div class="ui-left-margin">
 	  <%= will_paginate %>

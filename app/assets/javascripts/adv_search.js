@@ -95,4 +95,36 @@ function onLoadEventAdvSearchHelper() {
     allowClear: true,
   });
 
+  $('#as-styles-select2').select2({
+    placeholder: "Select Style",
+    selectOnClose: true,
+    allowClear: true,
+  });
+
+  $('#as-types-select2').select2({
+    placeholder: "Select Type",
+    selectOnClose: true,
+    allowClear: true,
+  });
+
+  // If "Is Between", show the "to date"
+  OnChangeYearBuilt();
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// #OnChangeYearBuilt
+/**
+ * @summary Toggles visibility of "to date" for Year Built, having "to date"
+ *          only be visible when looking at a range between two dates.
+ * 
+ * @author Derek Carlson
+ * @since 1/3/2019
+ * 
+ */
+function OnChangeYearBuilt() {
+	if (document.getElementById("as_yearbuilt_comparison").value === "Is Between") {
+		document.getElementById("as_yearbuilt_to_year_container").style.visibility = "visible";
+	} else {
+		document.getElementById("as_yearbuilt_to_year_container").style.visibility  = "hidden";
+	}
 }
