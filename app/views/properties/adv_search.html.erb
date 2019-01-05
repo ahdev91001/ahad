@@ -11,6 +11,12 @@
 		<strong>Street</strong>
     <%= text_field('', :filter, :value => params[:filter]) %>
 
+		<strong>APN</strong>
+    <%= text_field('', :apn, :value => params[:apn]) %>
+
+		<strong>AHAD ID</strong>
+    <%= text_field('', :ahadid, :value => params[:ahadid]) %>
+
 		<strong>Architect</strong>
 		<div id="as-architects-container">
 			<select id="as-architects-select2" name="architects[]" multiple="multiple"  style="width: 95%">
@@ -48,7 +54,7 @@
 		<br>
 
 		<div><strong>Year Built</strong>
-			<select id="as_yearbuilt_comparison" name="yearbuilt_comparison" onchange="OnChangeYearBuilt()"
+			<select id="as_yearbuilt_comparison" name="yearbuilt_comparison" onchange="onChangeYearBuilt()"
 			style="width:8em;">
 				<option <%= params[:yearbuilt_comparison] == "Is Equal To" ? "selected" : "" %> >Is Equal To</option>
 				<option <%= params[:yearbuilt_comparison] == "Is Greater Than" ? "selected" : "" %> >Is Greater Than</option>
@@ -108,40 +114,53 @@
 			  <span class="btn-arrow-anim__text">Search </span>
 			</button>
 		</div>
-		
 	</form>
+	
+	<button type="button" onClick="resetAllFilters()">Reset All Filters</button>
+	<br><br>
 </div>
 
 <% sql = get_adv_search_sql(params) %>
-<% @properties = Property.paginate_by_sql(sql, page: params[:page], per_page: 30)%>
-<% if @properties.count > 0 then %>
-
-<div class="small-side-margins">
-	<strong>Properties Found Listed Below</strong>
-	<br>
-</div>
-
-	<div class="ui-left-margin">
-	  <%= will_paginate %>
-	</div>
-	
+<% if !params[:apn].nil? && params[:apn].length > 0 %>
+	<% @properties = Property.find_by_sql(sql) %>
+	<% # The above returns the apn id, not property id, so need the below %>
+	<% @properties = Property.where(:address1 => @properties[0].address1) %>
 	<div id="ui-padded-sides">
 	  <ul class="properties">
 	    <%= render @properties %>
 	  </ul>
 	</div>
 	
-	<div class="ui-left-margin">
-	  <%= will_paginate %>
-	</div>
-
 <% else %>
-
-<div class="small-side-margins">
-	<strong>No Properties Found</strong>
-</div>
-
+	<% @properties = Property.paginate_by_sql(sql, page: params[:page], per_page: 30)%>
+	<% if @properties.count > 0 then %>
+	
+	<div class="small-side-margins">
+		<strong>Properties Listed Below</strong>
+		<br>
+	</div>
+	
+		<div class="ui-left-margin">
+		  <%= will_paginate %>
+		</div>
+		
+		<div id="ui-padded-sides">
+		  <ul class="properties">
+		    <%= render @properties %>
+		  </ul>
+		</div>
+		
+		<div class="ui-left-margin">
+		  <%= will_paginate %>
+		</div>
+	
+	<% else %>
+	
+	<div class="small-side-margins">
+		<strong>None Found That Match Criteria</strong>
+	</div>
+	
+	<% end %>
 <% end %>
-
 
 

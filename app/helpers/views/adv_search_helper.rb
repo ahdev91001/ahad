@@ -18,11 +18,35 @@ module Views::AdvSearchHelper
   #
   ###########################################################################
   def get_adv_search_sql(p)
-    s = "SELECT * FROM property "
+    
+    # Note [1]:
+    #s = "SELECT * FROM property LEFT JOIN apn on property.id = apn.propid "
+    # The above causes the following error:
+    # Mysql2::Error: Duplicate column name 'id': SELECT COUNT(*) FROM
+    #  (SELECT * FROM property RIGHT JOIN apn on property.id = apn.propid ) AS count_table
+    # at line:
+    # <% @properties = Property.paginate_by_sql(sql, page: params[:page], per_page: 30)%>
+    
+    if !p[:apn].nil? && p[:apn].length > 0
+      s = "SELECT * FROM property LEFT JOIN apn on property.id = apn.propid "
+    else
+      s = "SELECT * FROM property "
+    end
+    
     where_clause = ""
     
     if !p[:filter].nil? && p[:filter].length > 0 then
       where_clause = "(address1 LIKE \"%#{p[:filter]}%\") AND "
+    end
+    
+    if !p[:apn].nil? && p[:apn].length > 0 then
+      t = "(apn.parcel=\"#{p[:apn]}\") AND "
+      where_clause = where_clause + t
+    end
+
+    if !p[:ahadid].nil? && p[:ahadid].length > 0 then
+      t = "(id=\"#{p[:ahadid]}\") AND "
+      where_clause = where_clause + t
     end
     
     t = get_ab_where("architect", p[:architects])
@@ -133,13 +157,13 @@ module Views::AdvSearchHelper
     return "" if ar_abs.nil?
     
     if ar_abs.count == 1 then
-      return"" if ar_abs[0] == "Any"
+      return "" if ar_abs[0] == "Any"
       return "(#{field} = '" + ar_abs[0] + "')"
     end if
     
     s_out = "("
     ar_abs.each do |a|
-      return"" if a == "Any"
+      return "" if a == "Any"
       s_out = s_out + "#{field} ='" + a + "' OR "
     end
     s_out = s_out[0..-5] + ")" # Remove last " OR "

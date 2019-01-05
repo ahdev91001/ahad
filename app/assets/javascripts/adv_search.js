@@ -22,6 +22,7 @@
 /////////////////////////////////////////////////////////////////////////////
 /* global $ */
 /* global DEBUG */
+/* global location */
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -108,11 +109,11 @@ function onLoadEventAdvSearchHelper() {
   });
 
   // If "Is Between", show the "to date"
-  OnChangeYearBuilt();
+  onChangeYearBuilt();
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// #OnChangeYearBuilt
+// #onChangeYearBuilt
 /**
  * @summary Toggles visibility of "to date" for Year Built, having "to date"
  *          only be visible when looking at a range between two dates.
@@ -121,10 +122,35 @@ function onLoadEventAdvSearchHelper() {
  * @since 1/3/2019
  * 
  */
-function OnChangeYearBuilt() {
+function onChangeYearBuilt() {
 	if (document.getElementById("as_yearbuilt_comparison").value === "Is Between") {
 		document.getElementById("as_yearbuilt_to_year_container").style.visibility = "visible";
 	} else {
 		document.getElementById("as_yearbuilt_to_year_container").style.visibility  = "hidden";
 	}
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// #resetAllFilters
+/**
+ * @summary Clears all search criteria.
+ * 
+ * @author Derek Carlson
+ * @since 1/3/2019
+ * 
+ */
+function resetAllFilters() {
+    if (confirm("Clear all search fields?")) {
+        document.getElementById("_filter").value = "";
+        document.getElementById("_ahadid").value = "";
+        $('#as-architects-select2').val([]).trigger('change')
+        $('#as-builders-select2').val([]).trigger('change')
+        document.getElementById("as_yearbuilt_from_year").value = "";
+        document.getElementById("as_yearbuilt_to_year").value = "";
+        $('#as-styles-select2').val([]).trigger('change')
+        $('#as-types-select2').val([]).trigger('change')
+    }
+	// For some reason this clears the whole page via an automatic reload.
+	// No clue why the above causes a reload, but it does what I need it
+	// to do anyway.  How often do things work out that way for ya?
 }
