@@ -167,7 +167,25 @@ function resetAllFilters() {
 function as_fuzzy_architects_on_click() {
     var b;
     b = document.getElementById("as_fuzzy_architects");
-    console.log("THIS:" + b.value);
+
+    if (b.value == "Separate names with commas, e.g. Bennett,Haskell,Cyril.") {
+        b.value = "";
+    }
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// #as_fuzzy_builders_on_click
+/**
+ * @summary Clears initial placeholder text.
+ * 
+ * @author Derek Carlson
+ * @since 2/5/2019
+ * 
+ */
+function as_fuzzy_builders_on_click() {
+    var b;
+    b = document.getElementById("as_fuzzy_builders");
+
     if (b.value == "Separate names with commas, e.g. Bennett,Haskell,Cyril.") {
         b.value = "";
     }

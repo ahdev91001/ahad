@@ -61,6 +61,9 @@ module Views::AdvSearchHelper
     t = get_fuzzy_architects_where(p)
     where_clause = where_clause + t + " AND " if t != ""
 
+    t = get_fuzzy_builders_where(p)
+    where_clause = where_clause + t + " AND " if t != ""
+
     t = get_ab_where("style", p[:styles])
     where_clause = where_clause + t + " AND " if t != ""
 
@@ -223,6 +226,8 @@ module Views::AdvSearchHelper
   def get_fuzzy_architects_where(p)
 
     return "(TRUE)" if p[:fuzzy_architects].nil?
+    return "(TRUE)" if p[:fuzzy_architects] == ""
+    return "(TRUE)" if p[:fuzzy_architects] == "Separate names with commas, e.g. Bennett,Haskell,Cyril."
     
     names = p[:fuzzy_architects].split(",")
     names.each do |name|
@@ -243,6 +248,60 @@ module Views::AdvSearchHelper
     s = "(" + s[0..-5] + ")"
     
     puts "------------------------------" + s
+    
+    return s
+  end
+
+  ###########################################################################
+  # #get_fuzzy_builders_where
+
+  # Given an array of comma separated names, return the SQL formatted WHERE
+  # clause that limits to those names using LIKE. Does not include 'WHERE'.
+  #
+  # @param p [dict] Standard params hash from adv_search page.
+  #        p[:fuzzy_architects_comparison] [String] Specifies comparison type.  
+  #           "Contains Any" or "Contains All"
+  #        p[:fuzzy_architects] [String] comma separated list of names
+  #
+  # @return [String] WHERE logic string limiting to specific names, using
+  #         AND or OR depending on comparison type, and using LIKE %% to
+  #         make it fuzzy.
+  #
+  # fred,new,ted 
+  # Contains All
+  #
+  #   architect LIKE %fred% AND architect LIKE %new% AND ...
+  #
+  # Contains Any
+  #
+  #   architect LIKE %fred% OR architect LIKE %new% OR ...
+  #
+  ###########################################################################
+  def get_fuzzy_builders_where(p)
+
+    return "(TRUE)" if p[:fuzzy_builders].nil?
+    return "(TRUE)" if p[:fuzzy_builders] == ""
+    return "(TRUE)" if p[:fuzzy_builders] == "Separate names with commas, e.g. Bennett,Haskell,Cyril."
+    
+    names = p[:fuzzy_builders].split(",")
+    names.each do |name|
+      name = name.strip
+    end
+    
+    if p[:fuzzy_builders_comparison] == "Contains Any"
+      cmp = "OR "
+    else  
+      cmp = "AND"
+    end
+    
+    s = ""    
+    names.each do |name|
+      s = s + "builder LIKE '%#{name}%' " + cmp + " "
+    end
+    
+    s = "(" + s[0..-5] + ")"
+    
+    puts "---------------------BUILD-----" + s
     
     return s
   end

@@ -68,6 +68,24 @@
 	      <% end %>
 	    </select>
 		</div>
+
+		<br>
+		<div><strong>Builders</strong>
+			<select id="as_fuzzy_builders_comparison" name="fuzzy_builders_comparison"
+			style="width:8em;">
+				<option <%= params[:fuzzy_builders_comparison] == "Contains Any" ? "selected" : "" %> >Contains Any</option>
+				<option <%= params[:fuzzy_builders_comparison] == "Contains All" ? "selected" : "" %> >Contains All</option>
+			</select>
+			<input type="text" id="as_fuzzy_builders" onClick="as_fuzzy_builders_on_click()"
+				name="fuzzy_builders" style="width:60%" 
+				<% if (!params[:fuzzy_builders].nil? && params[:fuzzy_builders].length > 0) %>
+					value="<%="#{params[:fuzzy_builders]}"%>"
+				<% else %>
+				  value="Separate names with commas, e.g. Bennett,Haskell,Cyril."
+				<% end %>
+				>
+			</span>
+		</div>
 	
 		<br>
 
