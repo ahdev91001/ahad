@@ -43,12 +43,10 @@
       <div id="app-layout-top-spacer"> </div>
     <% end %>
  
- <!--
     <div>
       <%= debug(params) if Rails.env.development? %>
     </div>
- -->
- 
+
     <% if flash.count > 0 %>     
       <% unless request.fullpath == "/login" %>
         <div id="flash-vert-spacer"></div>

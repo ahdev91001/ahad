@@ -154,3 +154,21 @@ function resetAllFilters() {
 	// No clue why the above causes a reload, but it does what I need it
 	// to do anyway.  How often do things work out that way for ya?
 }
+
+/////////////////////////////////////////////////////////////////////////////
+// #as_fuzzy_architects_on_click
+/**
+ * @summary Clears initial placeholder text.
+ * 
+ * @author Derek Carlson
+ * @since 2/5/2019
+ * 
+ */
+function as_fuzzy_architects_on_click() {
+    var b;
+    b = document.getElementById("as_fuzzy_architects");
+    console.log("THIS:" + b.value);
+    if (b.value == "Separate names with commas, e.g. Bennett,Haskell,Cyril.") {
+        b.value = "";
+    }
+}

@@ -33,7 +33,25 @@
 	      <% end %>
 	    </select>
 		</div>
-
+		
+		<br>
+		<div><strong>Architects</strong>
+			<select id="as_fuzzy_architects_comparison" name="fuzzy_architects_comparison"
+			style="width:8em;">
+				<option <%= params[:fuzzy_architects_comparison] == "Contains Any" ? "selected" : "" %> >Contains Any</option>
+				<option <%= params[:fuzzy_architects_comparison] == "Contains All" ? "selected" : "" %> >Contains All</option>
+			</select>
+			<input type="text" id="as_fuzzy_architects" onClick="as_fuzzy_architects_on_click()"
+				name="fuzzy_architects" style="width:60%" 
+				<% if (!params[:fuzzy_architects].nil? && params[:fuzzy_architects].length > 0) %>
+					value="<%="#{params[:fuzzy_architects]}"%>"
+				<% else %>
+				  value="Separate names with commas, e.g. Bennett,Haskell,Cyril."
+				<% end %>
+				>
+			</span>
+		</div>
+		
 		<strong>Builder</strong>
 		<div id="as-builders-container">
 			<select id="as-builders-select2" name="builders[]" multiple="multiple" style="width: 95%">
@@ -71,6 +89,8 @@
 				>
 			</span>
 		</div>
+
+
 
 		<strong>Style</strong>
 		<div id="as-styles-container">
@@ -136,7 +156,7 @@
 	<% if @properties.count > 0 then %>
 	
 	<div class="small-side-margins">
-		<strong>Properties Listed Below</strong>
+		<strong><%= get_prop_count(sql) %> Properties Listed Below</strong>
 		<br>
 	</div>
 	

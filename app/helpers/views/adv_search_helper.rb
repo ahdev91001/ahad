@@ -58,6 +58,9 @@ module Views::AdvSearchHelper
     t = get_yearbuilt_where(p)
     where_clause = where_clause + t + " AND " if t != ""
 
+    t = get_fuzzy_architects_where(p)
+    where_clause = where_clause + t + " AND " if t != ""
+
     t = get_ab_where("style", p[:styles])
     where_clause = where_clause + t + " AND " if t != ""
 
@@ -171,5 +174,79 @@ module Views::AdvSearchHelper
     return s_out
   end
 
+  ###########################################################################
+  # #get_prop_count
+
+  # Given a full SQL string with or without a where clause, return
+  # the number of records in that query.
+  #
+  # @param sql [String] SQL to count records returned from.
+  #
+  # @return [Integer] Number of records
+  #
+  ###########################################################################
+  def get_prop_count(sql)
+  
+    a = sql.split("WHERE")
+    if a[1].nil? 
+      return Property.count
+    else
+      return Property.where(a[1]).count
+    end
+  end
+ 
+  ###########################################################################
+  # #get_fuzzy_architects_where
+
+  # Given an array of comma separated names, return the SQL formatted WHERE
+  # clause that limits to those names using LIKE. Does not include 'WHERE'.
+  #
+  # @param p [dict] Standard params hash from adv_search page.
+  #        p[:fuzzy_architects_comparison] [String] Specifies comparison type.  
+  #           "Contains Any" or "Contains All"
+  #        p[:fuzzy_architects] [String] comma separated list of names
+  #
+  # @return [String] WHERE logic string limiting to specific names, using
+  #         AND or OR depending on comparison type, and using LIKE %% to
+  #         make it fuzzy.
+  #
+  # fred,new,ted 
+  # Contains All
+  #
+  #   architect LIKE %fred% AND architect LIKE %new% AND ...
+  #
+  # Contains Any
+  #
+  #   architect LIKE %fred% OR architect LIKE %new% OR ...
+  #
+  ###########################################################################
+  def get_fuzzy_architects_where(p)
+
+    return "(TRUE)" if p[:fuzzy_architects].nil?
+    
+    names = p[:fuzzy_architects].split(",")
+    names.each do |name|
+      name = name.strip
+    end
+    
+    if p[:fuzzy_architects_comparison] == "Contains Any"
+      cmp = "OR "
+    else  
+      cmp = "AND"
+    end
+    
+    s = ""    
+    names.each do |name|
+      s = s + "architect LIKE '%#{name}%' " + cmp + " "
+    end
+    
+    s = "(" + s[0..-5] + ")"
+    
+    puts "------------------------------" + s
+    
+    return s
+  end
+
 end
 
+  
