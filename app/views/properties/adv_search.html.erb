@@ -46,7 +46,7 @@
 				<% if (!params[:fuzzy_architects].nil? && params[:fuzzy_architects].length > 0) %>
 					value="<%="#{params[:fuzzy_architects]}"%>"
 				<% else %>
-				  value="Separate names with commas, e.g. Bennett,Haskell,Cyril."
+				  value="Separate names with semicolons, e.g. Bennett;Haskell;Cyril."
 				<% end %>
 				>
 			</span>
@@ -81,7 +81,7 @@
 				<% if (!params[:fuzzy_builders].nil? && params[:fuzzy_builders].length > 0) %>
 					value="<%="#{params[:fuzzy_builders]}"%>"
 				<% else %>
-				  value="Separate names with commas, e.g. Bennett,Haskell,Cyril."
+				  value="Separate names with semicolons, e.g. Bennett;Haskell;Cyril."
 				<% end %>
 				>
 			</span>
@@ -195,7 +195,7 @@
 	<% else %>
 	
 	<div class="small-side-margins">
-		<strong>None Found That Match Criteria</strong>
+		 <strong>None Found That Match Criteria</strong>
 	</div>
 	
 	<% end %>

@@ -227,9 +227,9 @@ module Views::AdvSearchHelper
 
     return "(TRUE)" if p[:fuzzy_architects].nil?
     return "(TRUE)" if p[:fuzzy_architects] == ""
-    return "(TRUE)" if p[:fuzzy_architects] == "Separate names with commas, e.g. Bennett,Haskell,Cyril."
+    return "(TRUE)" if p[:fuzzy_architects] == "Separate names with semicolons, e.g. Bennett;Haskell;Cyril."
     
-    names = p[:fuzzy_architects].split(",")
+    names = p[:fuzzy_architects].split(";")
     names.each do |name|
       name = name.strip
     end
@@ -281,9 +281,9 @@ module Views::AdvSearchHelper
 
     return "(TRUE)" if p[:fuzzy_builders].nil?
     return "(TRUE)" if p[:fuzzy_builders] == ""
-    return "(TRUE)" if p[:fuzzy_builders] == "Separate names with commas, e.g. Bennett,Haskell,Cyril."
+    return "(TRUE)" if p[:fuzzy_builders] == "Separate names with semicolons, e.g. Bennett;Haskell;Cyril."
     
-    names = p[:fuzzy_builders].split(",")
+    names = p[:fuzzy_builders].split(";")
     names.each do |name|
       name = name.strip
     end

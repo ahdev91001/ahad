@@ -168,7 +168,7 @@ function as_fuzzy_architects_on_click() {
     var b;
     b = document.getElementById("as_fuzzy_architects");
 
-    if (b.value == "Separate names with commas, e.g. Bennett,Haskell,Cyril.") {
+    if (b.value == "Separate names with semicolons, e.g. Bennett;Haskell;Cyril.") {
         b.value = "";
     }
 }
@@ -186,7 +186,7 @@ function as_fuzzy_builders_on_click() {
     var b;
     b = document.getElementById("as_fuzzy_builders");
 
-    if (b.value == "Separate names with commas, e.g. Bennett,Haskell,Cyril.") {
+    if (b.value == "Separate names with semicolons, e.g. Bennett;Haskell;Cyril.") {
         b.value = "";
     }
 }
