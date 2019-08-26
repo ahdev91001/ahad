@@ -1,14 +1,3 @@
-GIT
-  remote: git://github.com/drapergem/draper.git
-  revision: dd32a4aa2cd16e2682d9e9c2486630ec53383442
-  specs:
-    draper (3.1.0)
-      actionpack (>= 5.0)
-      activemodel (>= 5.0)
-      activemodel-serializers-xml (>= 1.0)
-      activesupport (>= 5.0)
-      request_store (>= 1.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -93,6 +82,12 @@ GEM
     database_cleaner (1.3.0)
     debug_inspector (0.0.3)
     diff-lcs (1.3)
+    draper (3.0.1)
+      actionpack (~> 5.0)
+      activemodel (~> 5.0)
+      activemodel-serializers-xml (~> 1.0)
+      activesupport (~> 5.0)
+      request_store (~> 1.0)
     erubis (2.7.0)
     execjs (2.7.0)
     factory_girl (4.5.0)
@@ -311,7 +306,7 @@ DEPENDENCIES
   cocoon
   coffee-rails (= 4.2.1)
   database_cleaner (= 1.3.0)
-  draper!
+  draper (= 3.0.1)
   factory_girl_rails (~> 4.5.0)
   faker (= 1.7.3)
   fuzzy-string-match
