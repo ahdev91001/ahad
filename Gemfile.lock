@@ -60,7 +60,7 @@ GEM
       public_suffix (>= 2.0.2, < 4.0)
     ansi (1.5.0)
     arel (7.1.4)
-    autoprefixer-rails (9.6.1)
+    autoprefixer-rails (9.6.1.1)
       execjs
     bcrypt (3.1.12)
     bootstrap-sass (3.3.7)
@@ -162,7 +162,7 @@ GEM
     mysql2 (0.4.10)
     nenv (0.3.0)
     nio4r (1.2.1)
-    nokogiri (1.10.4)
+    nokogiri (1.9.1)
       mini_portile2 (~> 2.4.0)
     normalize-scss (4.2.1)
       sass (~> 3.3)
@@ -325,6 +325,7 @@ DEPENDENCIES
   listen (= 3.0.8)
   minitest-reporters (= 1.1.9)
   mysql2 (>= 0.3.18, < 0.5)
+  nokogiri (= 1.9.1)
   normalize-scss (~> 4.0, >= 4.0.3)
   prawn
   prawn-table

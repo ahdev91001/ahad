@@ -26,6 +26,7 @@ gem 'prawn-table'
 gem 'geocoder'
 gem "cocoon"
 gem 'google_maps_service'
+gem 'nokogiri', '1.9.1'
 
 # added by DJR, 8/16/2019
 gem 'ZenTest', '~> 4.11', '>= 4.11.2'
