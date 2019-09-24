@@ -16,10 +16,12 @@
 				</div>
 	
 				<div id="sp-home-srch-btn-container">
+					<input id="ret" name="ret" type="hidden" value="search">
 					<button id="sp-home-search-btn" class="btn-arrow-anim" name="search"
 				    type="submit" value="submit">
 					  <span class="btn-arrow-anim__text">Search </span>
 					</button>
+					<span style="font-size:10pt"> <%= link_to "Advanced Search", property_adv_search_path %> </span>
 				</div>
   			</form>
 		</div>

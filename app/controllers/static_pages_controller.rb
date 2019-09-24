@@ -23,12 +23,12 @@ class StaticPagesController < ApplicationController
   # or will be redirected to a "Property Not Found" page.
   def search
     if (params[:id] =~ /^\d+$/)
-      redirect_to "/properties/" + params[:id]
+      redirect_to "/properties/" + params[:id] + "?ret=" + params[:ret]
     else
       @property = Property.find_by_loose_address(params[:id])
 
       if @property != nil
-        redirect_to "/properties/" + @property.id.to_s
+        redirect_to "/properties/" + @property.id.to_s + "?ret=" + params[:ret]
       else
         @address = params[:id]
         render "properties/search_not_found"        

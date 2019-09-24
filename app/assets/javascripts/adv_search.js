@@ -23,7 +23,7 @@
 /* global $ */
 /* global DEBUG */
 /* global location */
-
+/* global EPPZScrollTo */
 
 /////////////////////////////////////////////////////////////////////////////
 // Code
@@ -110,6 +110,8 @@ function onLoadEventAdvSearchHelper() {
 
   // If "Is Between", show the "to date"
   onChangeYearBuilt();
+  
+  EPPZScrollTo.scrollVerticalToElementById('propertyddd_count', 20);
 }
 
 /////////////////////////////////////////////////////////////////////////////

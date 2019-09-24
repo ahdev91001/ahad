@@ -32,8 +32,9 @@
 /////////////////////////////////////////////////////////////////////////////
 /* global $ */
 /* global DEBUG */
-/* global google*/
-/* global map*/
+/* global google */
+/* global map */
+/* global findGetParameter */
 
 //
 // Globals common to all property pages
@@ -122,7 +123,11 @@ var RWEPS__ADDRESS_TEXT_PADDING = 10;
  * 
  */
 function propertySearchAgainClicked() {
-  window.location.href = "/"
+  if (findGetParameter("ret") == "search") {
+    window.location.href = "/"
+  } else {
+    window.location.href = "/properties/adv_search"
+  }
 }
 
 
