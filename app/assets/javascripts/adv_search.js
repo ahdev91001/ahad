@@ -111,7 +111,9 @@ function onLoadEventAdvSearchHelper() {
   // If "Is Between", show the "to date"
   onChangeYearBuilt();
 
-  if (document.getElementById("_filter").value != "") {
+  console.log ("VAL: " + document.getElementById("flag_search_hit").value);
+  
+  if (document.getElementById("flag_search_hit").value == "True") {
     EPPZScrollTo.scrollVerticalToElementById('adv_search_results_headerpad', 20);
   };
 }

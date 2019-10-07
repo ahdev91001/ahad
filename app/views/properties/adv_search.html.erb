@@ -8,6 +8,18 @@
 
 <div class="small-side-margins">
 	<form action="/properties/adv_search" id="adv-search-form">
+
+		<!-- Use below to tell if we are coming to this page fresh, and don't want
+		     to scroll down to the search results, or whether we just clicked
+		     'Search' and DO want to scroll down to search results.  This
+		     hidden input is used in adv_search.js, at the bottom of 
+		     onLoadEventAdvSearchHelper() -->
+		<% if params.size < 3 then %>
+			<input type="hidden" id="flag_search_hit" value="False">
+		<% else %>
+			<input type="hidden" id="flag_search_hit" value="True">
+		<% end %>
+		
 		<strong>Street</strong>
     <%= text_field('', :filter, :value => params[:filter]) %>
 
@@ -107,8 +119,6 @@
 				>
 			</span>
 		</div>
-
-
 
 		<strong>Style</strong>
 		<div id="as-styles-container">
