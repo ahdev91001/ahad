@@ -301,6 +301,7 @@ var EPPZScrollTo =
      */
     scrollVerticalToElementById: function(id, padding)
     {
+
         var element = document.getElementById(id);
         if (element == null)
         {

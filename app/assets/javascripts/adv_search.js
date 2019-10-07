@@ -110,8 +110,8 @@ function onLoadEventAdvSearchHelper() {
 
   // If "Is Between", show the "to date"
   onChangeYearBuilt();
-  
-  EPPZScrollTo.scrollVerticalToElementById('propertyddd_count', 20);
+
+  EPPZScrollTo.scrollVerticalToElementById('adv_search_results_headerpad', 20);
 }
 
 /////////////////////////////////////////////////////////////////////////////

@@ -5,3 +5,29 @@
   visibility: hidden;
 }
 
+#tbl_adv_search_results {
+  border: 1px solid black;
+  font-size: 10pt;
+  margin: 10px;    
+
+  thead {
+    text-align:center;
+  }
+  
+  tr, td, th {
+    border: 1px solid black;
+    padding: 3px;
+  }
+  
+  tr:nth-child(even) {background: #EEE}
+  tr:nth-child(odd) {background: #FFF}
+
+}
+
+#adv_search_results {
+  font-size: 40px;
+  font-weight: bold;
+  margin-left: 10px;
+  margin-top: 100px;
+}
+

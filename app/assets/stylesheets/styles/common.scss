@@ -23,12 +23,13 @@ body {
 }
 
 a {
-  color: #D6AD52;
+  color: rgb(0, 0, 255); // #D6AD52;
+  text-decoration: underline;
 }
 
 a:hover { 
-  color: #F3CE7D; 
-  text-decoration: none; 
+  color: #75a2ef; // #F3CE7D; 
+  text-decoration: underline; 
 }
 
 // To add minor padding, important on mobile
