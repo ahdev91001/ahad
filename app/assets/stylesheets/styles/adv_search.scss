@@ -22,7 +22,19 @@
   tr:nth-child(even) {background: #EEE}
   tr:nth-child(odd) {background: #FFF}
 
+  a {
+    color: rgb(0, 0, 255);
+    text-decoration: underline;
+  }
+  
+  a:hover { 
+    color: #75a2ef; 
+    text-decoration: underline; 
+  }
+
 }
+
+// Just a comment
 
 #adv_search_results {
   font-size: 40px;
