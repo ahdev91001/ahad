@@ -168,25 +168,50 @@
 	<br><br>
 </div>
 
+<div id="adv_search_results_headerpad"> </div>
+
 <% sql = get_adv_search_sql(params) %>
+
+<% @properties = Property.find_by_sql(sql) %>
+
+<% if @properties.count > 0 then %>
+	<div id="adv_search_results">Search Results
+		<span id="ps-dl-pdf-adv-search"><%= image_tag('pdf-dl-button-65x24.png', :alt => 'Download PDF') %></span>
+	</div>
+<% else %>
+	<div class="small-side-margins">
+		 <div id="adv_search_results_none_found">No Properties Found That Match Your Criteria</div>
+		 <div>(Scroll up to refine your search.)</div>
+	</div>
+	<div id="adv_search_results_footerpad"> </div>
+<% end %>	
+
+
 <% if !params[:apn].nil? && params[:apn].length > 0 %>
-	<% @properties = Property.find_by_sql(sql) %>
+
 	<% # The above returns the apn id, not property id, so need the below %>
 	<% @properties = Property.where(:address1 => @properties[0].address1) %>
-	<div id="ui-padded-sides">
-	  <ul class="properties">
-	    <%= render @properties %>
-	  </ul>
-	</div>
 	
+	<%= render partial: 'search_results_table_header', locals: {properties: @properties} %>
+
 <% else %>
+
 	<% @properties = Property.paginate_by_sql(sql, page: params[:page], per_page: 30)%>
 	<% if @properties.count > 0 then %>
 	
-	<div id="adv_search_results_headerpad"> </div>
-	
-	<div id="adv_search_results">Search Results</div>
+	<!-- 
+	  --Advanced Search results, multiple properties
+	  -->
 
+  <div id="ps-pdf-please-wait-container">
+    <div id="ps-pdf-please-wait">
+      <%= image_tag('ring-alt.svg', :alt => 'Please Wait...') %>
+      <br>
+      <b>Generating PDF file...</b>
+    </div>
+  </div>
+
+	
 	<div id="property_count" class="small-side-margins">
 		<strong><%= get_prop_count(sql) %> Properties Listed Below (shown in groups of 30; scroll up to change search criteria)</strong>
 		<br>
@@ -195,40 +220,12 @@
 		<div class="ui-left-margin">
 		  <%= will_paginate %>
 		</div>
-		
-		<div style="padding: 5px; display: table;">
-			<table id="tbl_adv_search_results">
-				<col width="150">
-				<col width="150">
-				<col width="150">
-				<col width="50">
-				<col width="130">
-				<col width="130">
-				<thead>
-					<tr style="background-color:rgb(214,172,82)">
-						<th>Property</th>
-						<th>Architect</th>
-						<th>Builder</th>
-						<th>Year Built</th>
-						<th>Style</th>
-						<th>Type</th>
-					</tr>
-				</thead>
+	
+		<%= render partial: 'search_results_table_header', locals: {properties: @properties} %>
 
-		    <%= render @properties %>
-
-			</table>
-		</div>					
 		<div class="ui-left-margin">
 		  <%= will_paginate %>
 		</div>
-	
-	<% else %>
-	
-	<div class="small-side-margins">
-		 <strong>None Found That Match Criteria</strong>
-	</div>
-	
 	<% end %>
 <% end %>
 

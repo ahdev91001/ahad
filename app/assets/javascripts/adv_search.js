@@ -52,6 +52,8 @@
 function onLoadEventAdvSearchHelper() {
   if (DEBUG) console.log("Initializing advanced search page javascript...");
 
+  $('#ps-dl-pdf-adv-search').click(as_post_to_pdf_on_click);
+
   $('#as-architects-select2').select2({
     placeholder: "Select Architects",
     tags: true, // This & selectOnBlur & createSearchChoice
@@ -111,10 +113,12 @@ function onLoadEventAdvSearchHelper() {
   // If "Is Between", show the "to date"
   onChangeYearBuilt();
 
-  console.log ("VAL: " + document.getElementById("flag_search_hit").value);
-  
   if (document.getElementById("flag_search_hit").value == "True") {
-    EPPZScrollTo.scrollVerticalToElementById('adv_search_results_headerpad', 20);
+    window.scrollTo({
+      top: 750,
+      left: 0,
+      behavior: 'smooth'
+    });
   };
 }
 
@@ -195,4 +199,46 @@ function as_fuzzy_builders_on_click() {
     if (b.value == "Separate names with semicolons, e.g. Bennett;Haskell;Cyril.") {
         b.value = "";
     }
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// #as_post_to_pdf
+/**
+ * @summary Builds up POST params with all the search criteria and then
+ *   POSTS to adv_search.pdf which uses those params to build up query
+ *   string, use that to pull out all the properties and display them
+ *   in the PDF file.
+ * 
+ * @author Derek Carlson
+ * @since 10/8/2019
+ * 
+ */
+function as_post_to_pdf_on_click() {
+  var form = document.createElement("form");
+  var e;
+
+  form.method = "POST";
+  form.action = "adv_search.pdf";   
+  //form.target = "print_popup"
+  //form.onsubmit="window.open('about:blank','print_popup','width=1000,height=800');">
+  
+  form.appendChild(document.getElementById("_filter"));  
+  form.appendChild(document.getElementById("_apn"));  
+  form.appendChild(document.getElementById("_ahadid"));  
+  form.appendChild(document.getElementById("as-architects-select2"));  
+  form.appendChild(document.getElementById("as_fuzzy_architects_comparison"));  
+  form.appendChild(document.getElementById("as_fuzzy_architects"));  
+  form.appendChild(document.getElementById("as-builders-select2"));  
+  form.appendChild(document.getElementById("as_fuzzy_builders_comparison"));  
+  form.appendChild(document.getElementById("as_fuzzy_builders"));  
+  
+  form.appendChild(document.getElementById("as_yearbuilt_comparison"));  
+  form.appendChild(document.getElementById("as_yearbuilt_from_year"));  
+  form.appendChild(document.getElementById("as_yearbuilt_to_year"));  
+  form.appendChild(document.getElementById("as-styles-select2"));  
+  form.appendChild(document.getElementById("as-types-select2"));  
+
+  document.body.appendChild(form);
+
+  form.submit();
 }

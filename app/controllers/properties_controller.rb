@@ -3,6 +3,10 @@ require 'google_maps_service'
 class PropertiesController < ApplicationController
   respond_to :html, :json
 
+  include ::Views::AdvSearchHelper
+
+  skip_before_action :verify_authenticity_token
+
   # Used by select2 AJAX call to populate its drop-down list.  Upon
   # typing each character, the string currently typed gets sent
   # here for a /.*stuff.*/ match against all the addresses in the database.
@@ -33,7 +37,6 @@ class PropertiesController < ApplicationController
     # 1/21/17 DDC)
   end
   
-  # Does nothing special yet. :)
   def show
     source = Property.find(params[:id])
     @property = PropertyDecorator.new(source)
@@ -113,7 +116,20 @@ class PropertiesController < ApplicationController
   end
 
   def adv_search
-    
+    respond_to do |format|
+      format.html
+      format.pdf do
+        
+        sql = get_adv_search_sql(params)
+  	    @properties = Property.find_by_sql(sql)
+
+        pdf = AdvSearchPdf.new(params, @properties)
+        send_data pdf.render, 
+          filename: "Search-" + Time.now.strftime("%F_%T").gsub(":","-") + ".pdf",
+          type: 'application/pdf',
+          disposition: 'inline'        
+      end
+    end
   end
 
   # Private #################################################################

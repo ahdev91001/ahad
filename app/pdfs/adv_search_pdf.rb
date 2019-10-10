@@ -1,33 +1,39 @@
 #############################################################################
-# property_pdf.rb
+# adv_search_pdf.rb
 #
-# Renders out the property page into a PDF document using Prawn.  
+# Renders out the advanced search criteria and results into a PDF document
+# using Prawn.  
 #
-# Since 10/20/2018 Derek Carlson
+# Since 10/7/2019 Derek Carlson
 #############################################################################
 require "open-uri"
 require "uri"
 include ActionView::Helpers::NumberHelper
 
-class PropertyPdf < Prawn::Document
+class AdvSearchPdf < Prawn::Document
+  
+  include Views::AdvSearchHelper
+  
   ###########################################################################
   # #initialize
 
-  # Create PDF version of Properties page.
+  # Create PDF version of advanced search criteria and results.
   #
-  # @param @property
+  # @param @params - hash of search criteria
+  #
+  # @properties - array of found properties
   #
   # @return Nothing
   #
   ###########################################################################
-  def initialize(property)
+  def initialize(params, properties)
 
-    @property = property
+    old_y = 0
     
     info = {
-     :Title => @property.address1,
+     :Title => "Advanced Search",
      :Author => "Altadena Heritage",
-     :Subject => @property.address1,
+     :Subject => "Search Results",
      :Creator => "Altadena Heritage Architectural Database",
      :Producer => "Prawn",
      :CreationDate => Time.now
@@ -46,9 +52,6 @@ class PropertyPdf < Prawn::Document
           text "\xC2\xA9 #{Time.current.year} <link href='http://altadenaheritage.org/'><color rgb='5555FF'>Altadena Heritage</color></link>",
             :align => :center, :size => 10,  :inline_format => true
           stroke_horizontal_rule
-          move_down 10
-          text "<link href='ahad.altadenaheritagepdb.org/properties/#{@property.id}'>#{@property.address1}</link>", 
-            :align => :center, :size => 25, :color => '770000', :inline_format => true
           stroke_color "770000"
       end
 
@@ -56,346 +59,83 @@ class PropertyPdf < Prawn::Document
       bounding_box [bounds.left, bounds.bottom + 25], :width  => bounds.width do
           font "Helvetica"
           stroke_color "770000"
-          stroke_horizontal_rule
           move_down 5
       end
     end
 
-  bounding_box([bounds.left, bounds.top - 95], :width => bounds.width) do  
-
-  if (photo = @property.photos.first) && photo.filename
-    image open("http://altadenaheritagepdb.org/photo/" + URI.encode(photo.filename)),
-      :position => :center, :height => 200
-  else
-    image Dir.getwd + "/app/assets/images/house-stick-figure-med.png", 
-    :position => :center, :width => 250
-    text "We do not have a picture of this house yet.", :align => :center
-    text "<link href='http://altadenaheritage.org/contact-us/'><color rgb='5555FF'>" +
-          "Let us know</color></link> if you have one!",  :align => :center,  :inline_format => true
-  end
-
-  end
-
-  bounding_box([119, 630], :width => 540-119, :height => 600) do  
-    move_down 210
-    
-    if @property.apn == nil 
-      text "<color rgb='777777'>APN:</color> Not on File", :inline_format => true
-    else  
-      text ps_markup_pdf("APN", (apn = @property.apn) && apn.parcel, false), 
-        :inline_format => true
-    end
-
-    text "<link href='ahad.altadenaheritagepdb.org/properties/#{@property.id}'><color rgb='777777'>AHAD ID:</color> #{@property.id}</link>", 
-            :align => :left, :inline_format => true
-
-    if @property.yearbuilt_qualified != nil
-      text ps_markup_pdf("Year Built", @property.yearbuilt_qualified, false), 
-        :inline_format => true
-    end
-    
-    if @property.yearbuiltassessor != nil
-      text ps_markup_pdf("Year Built (Assessor)", @property.yearbuiltassessor, false), 
-        :inline_format => true
-    end
-
-    if @property.yearbuiltother != nil
-      text ps_markup_pdf("Year Built (Other)", @property.yearbuiltother, false), 
-        :inline_format => true
-    end
-
-    if @property.legaldescription == nil 
-      text "<color rgb='777777'>Legal Description:</color> Not on File", :inline_format => true
-    else
-      text ps_markup_pdf("Legal Description", @property.legaldescription, false), 
-        :inline_format => true
-    end
-
-    if @property.quadrant == nil 
-      text "<color rgb='777777'>Quadrant:</color> Not on File", :inline_format => true
-    else
-      text  ps_markup_pdf("Quadrant", @property.quadrant, false), 
-        :inline_format => true
-    end
-
-    if @property.currentlotsize == nil 
-      text "<color rgb='777777'>Current Lot Size:</color> Not on File", :inline_format => true
-    else
-      text ps_markup_pdf("Current Lot Size", @property.currentlotsize, false), 
-        :inline_format => true
-    end
-
-    if @property.historicname == nil 
-      text "<color rgb='777777'>Historic Name:</color> Not on File", :inline_format => true
-    else
-      text ps_markup_pdf("Historic Name", @property.historicname, false), 
-        :inline_format => true
-    end
-
-    if @property.style == nil 
-      text "<color rgb='777777'>Style:</color> Not on File", :inline_format => true
-    else
-      text ps_markup_pdf("Style", @property.style, false), 
-        :inline_format => true
-    end
-
-    if @property.stories != nil then
-      text ps_markup_pdf("Stories", @property.stories, false), 
-        :inline_format => true
-    end
-
-    if @property.type == nil 
-      text "<color rgb='777777'>Type:</color> Not on File", :inline_format => true
-    else
-      text  ps_markup_pdf("Type", @property.type != nil ? @property.type.capitalize : "", false), 
-        :inline_format => true
-    end
-
-    if @property.chrs == nil 
-      text "<color rgb='777777'>CHRS:</color> Not on File", :inline_format => true
-    else  
-      text ps_markup_pdf("CHRS", @property.chrs, false), 
-        :inline_format => true
-    end
-
-    #
-    # Architects
-    #
-    if cursor < 80.0
-      start_new_page
-    end
-    
-    if @property.additional_architects.count > 0
-      text ps_markup_pdf("Architects", @property.architect_qualified), 
-        :inline_format => true
-    else
-      text ps_markup_pdf("Architect", @property.architect_qualified), 
-        :inline_format => true
-    end
-
-    bounding_box([30, cursor], :width => 390) do  
-      if @property.additional_architects.count > 0
-        @property.additional_architects.each do |a|
-            text a.name + (a.year != nil ? " (" + a.year + ")" : ""),
-              :inline_format => true
-        end
-      end
-    end
-
-    #
-    # Builders
-    #
+    bounding_box([bounds.left, bounds.top - 95], :width => bounds.width) do  
   
-    if cursor < 80.0
-      start_new_page
-    end
- 
-    if @property.additional_builders.count > 0
-      text ps_markup_pdf("Builders", @property.builder_qualified, false, true), 
-        :inline_format => true
-    else
-      text ps_markup_pdf("Builder", @property.builder_qualified), 
-        :inline_format => true
-    end
+      text "Search Criteria", :size => 15
+      move_down 5
+      text "Street: " + params[:filter] if !params[:filter].nil? and params[:filter] != ""
+      text "APN: " + params[:apn] if !params[:apn].nil? and params[:apn] != ""
+      text "AHAD ID: " + params[:ahadid] if !params[:ahadid].nil? and params[:ahadid] != ""
+      
+      #params.each do |key, value|
+      #  text "The hash key is #{key} and the value is [#{value}]"
+      #end
 
-    bounding_box([30, cursor], :width => 390) do  
-      if @property.additional_builders.count > 0
-        @property.additional_builders.each do |a|
-            text a.name + (a.year != nil ? " (" + a.year + ")" : ""),
-              :inline_format => true
+      text pdf_array_criteria_formatter(params[:architects], "Architect")
+
+      if !params[:fuzzy_architects].nil? and params[:fuzzy_architects][0..7] != "Separate" then
+        text "Other Architects (" + params[:fuzzy_architects_comparison] + "): " + params[:fuzzy_architects]
+      end
+
+      text pdf_array_criteria_formatter(params[:builders], "Builder")
+
+      if !params[:fuzzy_builders].nil? and params[:fuzzy_builders][0..7] != "Separate" then
+        text "Other Builders (" + params[:fuzzy_builders_comparison] + "): " + params[:fuzzy_builders]
+      end
+
+      if !params[:yearbuilt_from_year].nil? and params[:yearbuilt_from_year] != "" then
+        if params[:yearbuilt_comparison] != "Is Between" then
+          text "Year Built " + params[:yearbuilt_comparison] + " " + params[:yearbuilt_from_year]
+        else
+          text "Year Built " + params[:yearbuilt_comparison] + " " + params[:yearbuilt_from_year] +
+            " and " + params[:yearbuilt_to_year]
         end
       end
-    end
+      
+      text pdf_array_criteria_formatter(params[:styles], "Style")
 
-    # 
-    # Building Permits
-    #
-    if cursor < 80.0
-      start_new_page
+      text pdf_array_criteria_formatter(params[:types], "Type")
+
+      old_y = y
+
     end
     
-    if @property.building_permits.count > 0
-      text "<color rgb='777777'>Building Permits:</color>", :inline_format => true
-
-      bounding_box([30, cursor], :width => 390) do  
-        data = [["Permit", "Year"]]
-        @property.building_permits.each do |a|
-          data += [[a.permit,
-                    a.year != nil ? a.year : "N/A"]]
-        end
-        table(data, :row_colors => ["C0C0C0", "FFFFFF"])
-        move_down 7
-      end
-    else
-      text "<color rgb='777777'>Building Permits:</color> None on File", :inline_format => true
-    end
-    
-    # 
-    # Alterations
-    #
-    if cursor < 80.0
-      start_new_page
-    end
-    
-    if @property.alterations.count > 0
-      text "<color rgb='777777'>Alterations:</color>", :inline_format => true
-
-      bounding_box([30, cursor], :width => 390) do  
-        data = [["Cost", "Description", "Year"]]
-        @property.alterations.each do |a|
-          data += [[number_to_currency(a.cost, :precision => 0),
-                    a.description != nil ? a.description : "N/A",
-                    a.year != nil ? a.year : "N/A"]]
-        end
-        table(data, :row_colors => ["C0C0C0", "FFFFFF"])
-        move_down 7
-      end
-    else
-      text "<color rgb='777777'>Alterations:</color> None on File", :inline_format => true
-    end
-  
-    if @property.originalowner == nil 
-      text "<color rgb='777777'>Original Owner:</color> Not on File", :inline_format => true
-    else
-      text ps_markup_pdf("Original Owner", @property.originalowner, false), 
-        :inline_format => true
-    end
-
-    if @property.originalownerspouse == nil 
-      text "<color rgb='777777'>Original Owner Spouse:</color> Not on File", :inline_format => true
-    else
-      text ps_markup_pdf("Original Owner Spouse", @property.originalownerspouse, false),
-        :inline_format => true
-    end
-  
-    if @property.originalowneroccupation == nil 
-      text "<color rgb='777777'>Original Owner Occupation:</color> Not on File", :inline_format => true
-    else
-      text  ps_markup_pdf("Original Owner Occupation", @property.originalowneroccupation, false), 
-        :inline_format => true
-    end
-
-    if @property.placeofbusiness == nil 
-      text "<color rgb='777777'>Place of Business:</color> Not on File", :inline_format => true
-    else
-      text  ps_markup_pdf("Place of Business", @property.placeofbusiness, false), 
-        :inline_format => true
-    end
-
-    # 
-    #  Other Owners
-    #
-    if cursor < 80.0
-      start_new_page
-    end
-    
-    if @property.other_owners.count > 0
-      text "<color rgb='777777'>Other Owners:</color>", :inline_format => true
-
-      bounding_box([30, cursor], :width => 390) do  
-        data = [["Address", "Years"]]
-        @property.other_owners.each do |a|
-          data += [[a.name,
-                    a.years != nil ? a.years : "N/A"]]
-        end
-        table(data, :row_colors => ["C0C0C0", "FFFFFF"])
-        move_down 7
-      end
-    else
-      text "<color rgb='777777'>Other Owners:</color> None on File", :inline_format => true
-    end
-    
-    if @property.originalcost == nil 
-      text "<color rgb='777777'>Original Cost:</color> Not on File", :inline_format => true
-    else
-      text  ps_markup_pdf("Original Cost", 
-        number_to_currency(@property.originalcost, :precision => 0), false), 
-        :inline_format => true
-    end
-
-    if @property.originallotsize == nil 
-      text "<color rgb='777777'>Original Lot Size:</color> Not on File", :inline_format => true
-    else
-      text  ps_markup_pdf("Original Lot Size", @property.originallotsize, false), 
-        :inline_format => true
-    end
-
-    if @property.movedontoproperty == nil 
-      text "<color rgb='777777'>Moved on to Property:</color> Not on File", :inline_format => true
-    else
-      text  ps_markup_pdf("Moved on to Property", @property.movedontoproperty, false), 
-        :inline_format => true
-    end
-
-    # 
-    # Former Addresses
-    #
-    if cursor < 40.0
-      start_new_page
-    end
-    
-    if @property.former_addresses.count > 0
-      text "<color rgb='777777'>Former Addresses:</color>", :inline_format => true
-
-      bounding_box([30, cursor], :width => 390) do  
-        data = [["Address", "Years"]]
-        @property.former_addresses.each do |a|
-          data += [[a.address1 + "  " + a.address2,
-                    a.years != nil ? a.years : "N/A"]]
-        end
-        table(data, :row_colors => ["C0C0C0", "FFFFFF"])
-        move_down 7
-      end
-    else
-      text "<color rgb='777777'>Former Addresses:</color> None on File", :inline_format => true
-    end
-
-    if @property.addressnote == nil 
-      text "<color rgb='777777'>Address Notes:</color> Not on File", :inline_format => true
-    else
-      text  ps_markup_pdf("Address Notes", @property.addressnote, false), 
-        :inline_format => true
-    end
-
-    move_down 10
-    
-    if @property.notes_shpo_and_sources != nil
-      text @property.notes_shpo_and_sources.
-        gsub("## Note","<color rgb='777777'>Note:</color>").
-        gsub("## Sources","<color rgb='777777'>Sources:</color>"), 
-        :inline_format => true
-    end 
-
     move_down 20
-
-    # 
-    # CHRS Codes Key
-    #
-    if cursor < 40.0
-      start_new_page
-    end
-
-    bounding_box([-50, cursor], :width => 390) do  
-      text "<color rgb='777777'>California Historical Resource Status (CHRS) Codes Key</color>", :inline_format => true, :size => 9
-
-      data = [["Code", "Description"]]
-      Chrs.all.each do |c|
-        data += [[c.code, c.description]]
+    
+    bounding_box([bounds.left, bounds.top-65], :width => bounds.width, :height => bounds.height-70) do
+      
+      #stroke_bounds
+      
+      data = [["Property", "Architect", "Builder", "Year Built", "Style", "Type"]]
+      
+      properties.each do |p|
+        pd = PropertyDecorator.new(p)
+        data += [[pd.address1, pd.architect_qualified, pd.builder_qualified, pd.yearbuilt_qualified, pd.style, pd.type.capitalize]]
       end
-      table(data, :cell_style => { :size => 9, :padding => 1 }) do
-        column(0).width = 48
-        columns(0).valign = :top
-        rows(0).valign = :center
-        cells.borders = []
+      
+      self.y = old_y - 10 
+      
+      table(data, :row_colors => ["C0C0C0", "FFFFFF"], :header => true, :cell_style => { :size => 9, :padding => 1 }) do
+        row(0).valign = :top
+        row(0).background_color = 'd6ac52'
+        row(0).font_style = :bold
+  
+        column(0).width = 100
+        column(1).width = 100
+        column(2).width = 100
+        column(3).width = 80
+        column(4).width = 80
+        column(5).width = 80
       end
       move_down 27
-
+  
       text "Do you find this property data informative and useful? Consider <link href='http://altadenaheritage.org/donate/'><color rgb='5555FF'>supporting Altadena Heritage.</color></link>",
         :align => :left, :size => 10,  :inline_format => true
-
     end
-  end
-
 
 
   # Page numbering (duh)
@@ -412,35 +152,5 @@ class PropertyPdf < Prawn::Document
 
   end # initialize(property)
 
-  ###########################################################################
-  # #ps_markup_pdf
-
-  # Create PDF version of Properties page.
-  #
-  # @param name [String] The name of the 'property'
-  #
-  # @param value [String] The value of the 'property'
-  #
-  # @param hide [Boolean] Don't return any output at all if value is nil
-  #
-  # @param hide_nof [Boolean] If value is nil, show 'property' anyway, but
-  #  don't show 'Not on File'.
-  #
-  # @return The formatted string, with or without "Not on File", or a
-  #  blank string.
-  #
-  ###########################################################################
-  def ps_markup_pdf(name, value, hide=false, hide_nof=false)
-  
-    if (value != nil) && (value != "") && (value != "$")
-      "<color rgb='777777'>#{name}:</color> #{value}"
-    elsif hide_nof == false
-      "<color rgb='777777'>#{name}:</color> Not on File" unless hide
-    else
-      "<color rgb='777777'>#{name}:</color>" unless hide
-    end
-  
-  end # ps_markup_pdf
-  
-end # PropertyPdf < Prawn::Document
+end # AdvSearchPdf < Prawn::Document
 

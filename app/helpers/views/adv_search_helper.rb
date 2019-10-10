@@ -76,8 +76,6 @@ module Views::AdvSearchHelper
 
     s = s + "WHERE " + where_clause unless where_clause == ""
 
-    puts "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" + s
-
     return s
   end
 
@@ -306,6 +304,43 @@ module Views::AdvSearchHelper
     return s
   end
 
-end
+  ###########################################################################
+  # #pdf_array_criteria_formatter
+
+  # Given an array of 1 or more items, return a formatted string ready
+  # to print.  Knows singular vs. plural for 1 or many.
+  #
+  # @param item [Array] Array of architects, builders, styles, or types
+  #
+  # @param name [String] Base name - "Architect" or "Builder", etc.
+  #
+  # @return [String] Fully formatted string, e.g.
+  #
+  #   Builders: Ackerson, Harry H.; Adams, Fred C.; Arenz, Claude P.
+  #
+  ###########################################################################
+  def pdf_array_criteria_formatter(item, name)
+    s = ""
+    out = ""
+      
+    if !item.nil? then
+      item.each do |p|
+        s = s + p.split.map(&:capitalize).join(' ') + "; "
+      end
+      s = s[0..-3] if s.size > 0
+    end
+
+    if !item.nil? then
+      if item.size > 1 then
+        out = name + "s: " + s
+      else
+        out = name + ": " + s
+      end
+    end
+
+    return out
+  end
+  
+end # module
 
   

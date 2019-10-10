@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get  'properties/new',  to: 'properties#new'
   post 'properties/new',  to: 'properties#create', as: 'property_new'
   get  'properties/adv_search',  to: 'properties#adv_search', as: 'property_adv_search'
+  post  'properties/adv_search',  to: 'properties#adv_search', as: 'property_adv_search_post'
   get 'properties/:id' => 'properties#show', as: 'property'
   get 'properties/:id/edit' => 'properties#edit', as: 'property_edit'
   get 'properties' => 'properties#index', as: 'properties'
