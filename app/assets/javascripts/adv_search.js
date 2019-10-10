@@ -152,7 +152,12 @@ function onChangeYearBuilt() {
 function resetAllFilters() {
     if (confirm("Clear all search fields?")) {
         document.getElementById("_filter").value = "";
+        document.getElementById("_apn").value = "";
         document.getElementById("_ahadid").value = "";
+
+        document.getElementById("as_fuzzy_architects").value = "";
+        document.getElementById("as_fuzzy_builders").value = "";
+
         $('#as-architects-select2').val([]).trigger('change')
         $('#as-builders-select2').val([]).trigger('change')
         document.getElementById("as_yearbuilt_from_year").value = "";
