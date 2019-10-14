@@ -145,13 +145,13 @@ function onLoadEventAdvSearchHelper() {
  * 
  */
 function scrollSearchResultsToTop() {
-    let e = document.getElementById("adv_search_results")
-    let r = e.getBoundingClientRect();
+    var e = document.getElementById("adv_search_results")
+    var r = e.getBoundingClientRect();
 
-    let e2 = document.getElementById("black-bar")
-    let r2 = e2.getBoundingClientRect();
+    var e2 = document.getElementById("black-bar")
+    var r2 = e2.getBoundingClientRect();
 
-    let diff = r.top - r2.bottom
+    var diff = r.top - r2.bottom
 
     // Window is sitting at scrollY.  So now we modify that by adding
     // (or subtracting) the difference betweeen the bottom of the black
