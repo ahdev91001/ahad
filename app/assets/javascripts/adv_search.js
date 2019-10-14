@@ -23,7 +23,7 @@
 /* global $ */
 /* global DEBUG */
 /* global location */
-/* global EPPZScrollTo */
+
 
 /////////////////////////////////////////////////////////////////////////////
 // Code
@@ -113,13 +113,55 @@ function onLoadEventAdvSearchHelper() {
   // If "Is Between", show the "to date"
   onChangeYearBuilt();
 
+  // 
+  // Event: resize
+  //
+  // Below, when the width of the browser is changed, we need to
+  // update the position of the Search Results text.
+  window.addEventListener("resize", function(event) { 
+    scrollSearchResultsToTop();
+  });
+
+  // Once they click Search, flag_search_hit becomes true, and we
+  // scroll the page down to the search results.  flag_search_hit 
+  // is false when we come to this page from the Advanced Search
+  // link on the homepage, and in that case, we don't want to 
+  // scroll down to anything.
+  console.log ("Here");
   if (document.getElementById("flag_search_hit").value == "True") {
+    console.log ("Scrolling to top.");
+    scrollSearchResultsToTop();
+  } 
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// #scrollSearchResultsToTop
+/**
+ * @summary Keeps the top of the "Search Results" div just below the bottom
+ *          of the menu bar div.
+ * 
+ * @author Derek Carlson
+ * @since 10/14/2019
+ * 
+ */
+function scrollSearchResultsToTop() {
+    let e = document.getElementById("adv_search_results")
+    let r = e.getBoundingClientRect();
+
+    let e2 = document.getElementById("black-bar")
+    let r2 = e2.getBoundingClientRect();
+
+    let diff = r.top - r2.bottom
+
+    // Window is sitting at scrollY.  So now we modify that by adding
+    // (or subtracting) the difference betweeen the bottom of the black
+    // menu bar and the top of the Search Results div, so that the
+    // Search Result is always just a little below the black/white bar.
     window.scrollTo({
-      top: 750,
+      top: window.scrollY + diff,
       left: 0,
       behavior: 'smooth'
     });
-  };
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -246,4 +288,12 @@ function as_post_to_pdf_on_click() {
   document.body.appendChild(form);
 
   form.submit();
+}
+
+function get_scroll_height() {
+  return Math.max(
+        document.body.scrollHeight, document.documentElement.scrollHeight,
+        document.body.offsetHeight, document.documentElement.offsetHeight,
+        document.body.clientHeight, document.documentElement.clientHeight
+        );
 }

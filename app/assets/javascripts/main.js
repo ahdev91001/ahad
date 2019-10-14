@@ -179,6 +179,7 @@ $(document).on('turbolinks:load', function (e) {
     $(window).trigger('resize');
   } else if (page.match(/adv_search/)) {
     onLoadEventAdvSearchHelper();
+    $(window).trigger('resize');
   } else if (page == "testform") {
   	onLoadEventTestformHelper();
   } else if (window.location.href.match(/properties\/\d+/)) {

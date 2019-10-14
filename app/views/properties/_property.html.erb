@@ -11,8 +11,8 @@
       <td><%= property.architect_qualified %> </td>
       <td><%= property.builder_qualified %> </td>
       <td><%= property.yearbuilt_qualified %> </td>
-      <td><%= property.style %> </td>
-      <td><%= property.type.capitalize %> </td>
+      <td><%= property.style if !property.style.nil? %> </td>
+      <td><%= property.type.capitalize if !property.type.nil? %> </td>
     </tr>
 
   <% else %>
@@ -21,7 +21,7 @@
       <td><%= property.architect_qualified %> </td>
       <td><%= property.builder_qualified %> </td>
       <td><%= property.yearbuilt_qualified %> </td>
-      <td><%= property.style %> </td>
-      <td><%= property.type.capitalize %> </td>
+      <td><%= property.style if !property.style.nil? %> </td>
+      <td><%= property.type.capitalize if !property.type.nil? %> </td>
     </tr>
   <% end %>

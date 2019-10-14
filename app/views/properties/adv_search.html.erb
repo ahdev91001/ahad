@@ -159,12 +159,12 @@
 		<div id="as-architects-btn-container">
 			<button id="as-search-btn" class="btn-arrow-anim" name="search"
 		    type="submit" value="submit">
-			  <span class="btn-arrow-anim__text">Search </span>
+			  <span class="btn-arrow-anim__text">Search</span>
 			</button>
 		</div>
 	</form>
 	
-	<button type="button" onClick="resetAllFilters()">Reset All Filters</button>
+	<button id="reset-all-filters" type="button" onClick="resetAllFilters()">Reset All Filters</button>
 	<br><br>
 </div>
 
@@ -180,7 +180,7 @@
 	</div>
 <% else %>
 	<div class="small-side-margins">
-		 <div id="adv_search_results_none_found">No Properties Found That Match Your Criteria</div>
+		 <div id="adv_search_results">No Properties Found That Match Your Criteria</div>
 		 <div>(Scroll up to refine your search.)</div>
 	</div>
 	<div id="adv_search_results_footerpad"> </div>
@@ -190,9 +190,15 @@
 <% if !params[:apn].nil? && params[:apn].length > 0 %>
 
 	<% # The above returns the apn id, not property id, so need the below %>
-	<% @properties = Property.where(:address1 => @properties[0].address1) %>
-	
-	<%= render partial: 'search_results_table_header', locals: {properties: @properties} %>
+	<% if !@properties[0].nil? then %>
+		<% @properties = Property.where(:address1 => @properties[0].address1) %>
+		<%= render partial: 'search_results_table_header', locals: {properties: @properties} %>
+	<% else %>
+		<div class="small-side-margins">
+			 <div id="adv_search_results">No Properties Found That Match Your Criteria</div>
+			 <div>(Scroll up to refine your search.)</div>
+		</div>
+	<% end %>
 
 <% else %>
 
