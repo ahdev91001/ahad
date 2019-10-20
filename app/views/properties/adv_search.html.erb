@@ -173,7 +173,7 @@
 <% sql = get_adv_search_sql(params) %>
 
 <% @properties = Property.find_by_sql(sql) %>
-
+<!-- <%= sql %> -->
 <% if @properties.count > 0 then %>
 	<div id="adv_search_results">Search Results
 		<span id="ps-dl-pdf-adv-search"><%= image_tag('pdf-dl-button-65x24.png', :alt => 'Download PDF') %></span>
