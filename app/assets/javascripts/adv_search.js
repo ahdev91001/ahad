@@ -30,7 +30,8 @@
 // So, when we come to this page with search results, it knows it has
 // to scroll this distance to put the "Search Results" element right
 // where it needs to be at the top.
-var giDiff;
+var g_iDiff;
+var g_bPDFClicked;
 
 /////////////////////////////////////////////////////////////////////////////
 // Code
@@ -59,6 +60,8 @@ var giDiff;
 function onLoadEventAdvSearchHelper() {
   if (DEBUG) console.log("Initializing advanced search page javascript...");
 
+  g_bPDFClicked = false;
+  
   $('#ps-dl-pdf-adv-search').click(as_post_to_pdf_on_click);
 
   $('#as-architects-select2').select2({
@@ -139,7 +142,7 @@ function onLoadEventAdvSearchHelper() {
     calcDeltaYForSearchResultsToHeader();
   });
 
-  // Initialize giDiff
+  // Initialize g_iDiff
   calcDeltaYForSearchResultsToHeader();
   
   // Once they click Search, flag_search_hit becomes true, and we
@@ -151,7 +154,18 @@ function onLoadEventAdvSearchHelper() {
   if (document.getElementById("flag_search_hit").value == "True") {
     console.log ("Scrolling to top at start of page refresh.");
     scrollSearchResultsToTop();
-  } 
+  }
+  
+  window.addEventListener("focus", function(event) { 
+    if (g_bPDFClicked == true) {
+      g_bPDFClicked = false;
+      if (window.innerWidth < 570) {
+        location.reload();
+      }
+    }
+    console.log("Window got focus."); 
+  }, false);
+  
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -167,7 +181,7 @@ function onLoadEventAdvSearchHelper() {
 function scrollSearchResultsToTop() {
     console.log("Calling window.scrollTo");
     window.scrollTo({
-      top: window.scrollY + giDiff,
+      top: window.scrollY + g_iDiff,
       left: 0,
       behavior: 'smooth'
     });
@@ -190,7 +204,7 @@ function calcDeltaYForSearchResultsToHeader() {
     var e2 = document.getElementById("black-bar")
     var r2 = e2.getBoundingClientRect();
 
-    giDiff = r.top - r2.bottom
+    g_iDiff = r.top - r2.bottom
 
     // Window is sitting at scrollY.  So now we modify that by adding
     // (or subtracting) the difference betweeen the bottom of the black
@@ -226,21 +240,21 @@ function onChangeYearBuilt() {
  * 
  */
 function resetAllFilters() {
-    if (confirm("Clear all search fields?")) {
-        document.getElementById("_filter").value = "";
-        document.getElementById("_apn").value = "";
-        document.getElementById("_ahadid").value = "";
+  if (confirm("Clear all search fields?")) {
+      document.getElementById("_filter").value = "";
+      document.getElementById("_apn").value = "";
+      document.getElementById("_ahadid").value = "";
 
-        document.getElementById("as_fuzzy_architects").value = "";
-        document.getElementById("as_fuzzy_builders").value = "";
+      document.getElementById("as_fuzzy_architects").value = "";
+      document.getElementById("as_fuzzy_builders").value = "";
 
-        $('#as-architects-select2').val([]).trigger('change')
-        $('#as-builders-select2').val([]).trigger('change')
-        document.getElementById("as_yearbuilt_from_year").value = "";
-        document.getElementById("as_yearbuilt_to_year").value = "";
-        $('#as-styles-select2').val([]).trigger('change')
-        $('#as-types-select2').val([]).trigger('change')
-    }
+      $('#as-architects-select2').val([]).trigger('change')
+      $('#as-builders-select2').val([]).trigger('change')
+      document.getElementById("as_yearbuilt_from_year").value = "";
+      document.getElementById("as_yearbuilt_to_year").value = "";
+      $('#as-styles-select2').val([]).trigger('change')
+      $('#as-types-select2').val([]).trigger('change')
+  }
 	// For some reason this clears the whole page via an automatic reload.
 	// No clue why the above causes a reload, but it does what I need it
 	// to do anyway.  How often do things work out that way for ya?
@@ -298,6 +312,8 @@ function as_post_to_pdf_on_click() {
   var form = document.createElement("form");
   var e;
 
+  g_bPDFClicked = true;
+  
   form.method = "POST";
   form.action = "adv_search.pdf";   
   //form.target = "print_popup"
