@@ -118,7 +118,8 @@ function onLoadEventAdvSearchHelper() {
   //
   // Below, when the width of the browser is changed, we need to
   // update the position of the Search Results text.
-  window.addEventListener("resize", function(event) { 
+  window.addEventListener("resize", function(event) {
+    console.log("Adding resize event listener.");
     scrollSearchResultsToTop();
   });
 
@@ -127,9 +128,9 @@ function onLoadEventAdvSearchHelper() {
   // is false when we come to this page from the Advanced Search
   // link on the homepage, and in that case, we don't want to 
   // scroll down to anything.
-  console.log ("Here");
+  console.log ("Near end of page init routine.");
   if (document.getElementById("flag_search_hit").value == "True") {
-    console.log ("Scrolling to top.");
+    console.log ("Scrolling to top at start of page refresh.");
     scrollSearchResultsToTop();
   } 
 }
@@ -157,6 +158,7 @@ function scrollSearchResultsToTop() {
     // (or subtracting) the difference betweeen the bottom of the black
     // menu bar and the top of the Search Results div, so that the
     // Search Result is always just a little below the black/white bar.
+    console.log("Calling window.scrollTo");
     window.scrollTo({
       top: window.scrollY + diff,
       left: 0,
