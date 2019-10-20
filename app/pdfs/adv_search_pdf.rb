@@ -66,7 +66,7 @@ class AdvSearchPdf < Prawn::Document
     bounding_box([bounds.left, bounds.top - 80], :width => bounds.width) do  
   
       text "Search Results", :size => 20, :align => :center
-      
+      text "# of properties: " + properties.count.to_s, :size => 12, :align => :center
       move_down 5
       text "Search Criteria", :size => 15
       move_down 5
@@ -117,7 +117,9 @@ class AdvSearchPdf < Prawn::Document
       
       properties.each do |p|
         pd = PropertyDecorator.new(p)
-        data += [[pd.address1, pd.architect_qualified, pd.builder_qualified, pd.yearbuilt_qualified, pd.style, pd.type.capitalize]]
+        data += [[pd.address1, pd.architect_qualified, pd.builder_qualified, 
+                  pd.yearbuilt_qualified, pd.style, 
+                  pd.type.nil? ? " " : pd.type.capitalize]]
       end
       
       self.y = old_y - 10 
