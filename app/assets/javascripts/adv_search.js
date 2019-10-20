@@ -24,6 +24,13 @@
 /* global DEBUG */
 /* global location */
 
+// The difference between where the "No Properties Found" element, or the
+// "Search Results" element is currently sitting on the screen vertically,
+// and the position where it will rest directly under the screen header.
+// So, when we come to this page with search results, it knows it has
+// to scroll this distance to put the "Search Results" element right
+// where it needs to be at the top.
+var giDiff;
 
 /////////////////////////////////////////////////////////////////////////////
 // Code
@@ -116,13 +123,25 @@ function onLoadEventAdvSearchHelper() {
   // 
   // Event: resize
   //
+  // Note: On a phone, most vertical scrolls will either hide or
+  // show the URL bar on Chrome, and this triggers a resize
+  // event because the Y size of the screen changed.
+  //
   // Below, when the width of the browser is changed, we need to
-  // update the position of the Search Results text.
+  // update the position of the Search Results text.  This is
+  // because the height of the header starts to shrink when the
+  // width gets below 570 pixels, and also because the length
+  // of the entire document changes when the window shrinks
+  // and that starts to cause elements to wrap, which causes
+  // the document to lengthen and the positions of items
+  // to change vertically.
   window.addEventListener("resize", function(event) {
-    console.log("Adding resize event listener.");
-    scrollSearchResultsToTop();
+    calcDeltaYForSearchResultsToHeader();
   });
 
+  // Initialize giDiff
+  calcDeltaYForSearchResultsToHeader();
+  
   // Once they click Search, flag_search_hit becomes true, and we
   // scroll the page down to the search results.  flag_search_hit 
   // is false when we come to this page from the Advanced Search
@@ -146,24 +165,37 @@ function onLoadEventAdvSearchHelper() {
  * 
  */
 function scrollSearchResultsToTop() {
+    console.log("Calling window.scrollTo");
+    window.scrollTo({
+      top: window.scrollY + giDiff,
+      left: 0,
+      behavior: 'smooth'
+    });
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// # calcDeltaYForSearchResultsToHeader
+/**
+ * @summary Calculates the vertical pixel distance between the top of the 
+ *   "Search Results" element and the bottom of the top header bar.
+ *          
+ * @author Derek Carlson
+ * @since 10/20/2019
+ * 
+ */
+function calcDeltaYForSearchResultsToHeader() {
     var e = document.getElementById("adv_search_results")
     var r = e.getBoundingClientRect();
 
     var e2 = document.getElementById("black-bar")
     var r2 = e2.getBoundingClientRect();
 
-    var diff = r.top - r2.bottom
+    giDiff = r.top - r2.bottom
 
     // Window is sitting at scrollY.  So now we modify that by adding
     // (or subtracting) the difference betweeen the bottom of the black
     // menu bar and the top of the Search Results div, so that the
     // Search Result is always just a little below the black/white bar.
-    console.log("Calling window.scrollTo");
-    window.scrollTo({
-      top: window.scrollY + diff,
-      left: 0,
-      behavior: 'smooth'
-    });
 }
 
 /////////////////////////////////////////////////////////////////////////////
