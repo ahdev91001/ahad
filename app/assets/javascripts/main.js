@@ -40,6 +40,7 @@
 // From static_pages.js
 /* global onLoadEventRootHomeHelper */
 /* global onLoadEventTestformHelper */
+/* global resizeBGImgRootHome */
 
 /* global location */
 
@@ -73,7 +74,6 @@ var DEBUG = true;  // "const" doesn't work in IE 8, 9, 10
 $(document).on('ready', function (e) {
   if (DEBUG) console.log("Event: ready() at: " + e.timeStamp);
 
-
 });
 
 $(document).on('turbolinks:before-cache', function() {  
@@ -84,25 +84,6 @@ $(document).on('turbolinks:before-cache', function() {
   $('#as-styles-select2').select2('destroy');
   $('#as-types-select2').select2('destroy');
 } );
-
-/////////////////////////////////////////////////////////////////////////////
-// #window.load
-/**
- * @function window.load
- * 
- * @desc Used to load Google Map init script.
- * 
- * @todo Uncomment the call, or remove this function entirely. DDC 12/8/16
- * 
- * @author Derek Carlson
- * @since 12/7/2016
- * 
- */
-$(window).on('load', function (e) {
-
-
-});
-
 
 /////////////////////////////////////////////////////////////////////////////
 // #turbolinks:load
@@ -164,11 +145,17 @@ $(document).on('turbolinks:load', function (e) {
   // if the event persists across turbolinks page loads,
   // but playing it safe here.
   $(window).off('scroll');
+
+  console.log("Turning off resize event.");
+  $(window).off("resize");
   
   // Delegate to code that runs specific to each page loaded
   if (page == "root") {
     // Home page with search box -- root 'static_pages#home'
     onLoadEventRootHomeHelper();
+    console.log("Turning ON resize event.");
+    $(window).resize(resizeBGImgRootHome); 
+    
     // Select2, when rails linked to it, would get squished.
     // However, when I resized the window, I would notice that
     // all the resize events got called (like scale the BG image)

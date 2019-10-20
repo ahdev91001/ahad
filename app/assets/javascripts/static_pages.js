@@ -150,7 +150,11 @@ function onLoadEventRootHomeHelper() {
   // --- but intermittently doesn't work on Chrome Win 10
   //     so trying the line below instead
   $(window).load(loadBGImgHandler);
-  $(window).resize(resizeBGImgRootHome); 
+  
+  // Commented out below, and moved it to main.js... for some reason
+  // even after switching pages, like to adv_search, this resize
+  // event keeps triggering.
+  // $(window).resize(resizeBGImgRootHome); 
   // set callback for whenever browser size changes
   
   $('#sp-home-search-btn').click(rootHomeSearchClicked);
