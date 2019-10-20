@@ -23,6 +23,7 @@
 /* global $ */
 /* global DEBUG */
 /* global location */
+/* global gb_IsMobile */
 
 // The difference between where the "No Properties Found" element, or the
 // "Search Results" element is currently sitting on the screen vertically,
@@ -63,6 +64,11 @@ function onLoadEventAdvSearchHelper() {
   g_bPDFClicked = false;
   
   $('#ps-dl-pdf-adv-search').click(as_post_to_pdf_on_click);
+
+  $('#as-search-btn2').click(as_scroll_to_top);
+  $('#as-search-btn3').click(as_scroll_to_top);
+  $('#as-search-btn4').click(as_scroll_to_top);
+
 
   $('#as-architects-select2').select2({
     placeholder: "Select Architects",
@@ -159,7 +165,7 @@ function onLoadEventAdvSearchHelper() {
   window.addEventListener("focus", function(event) { 
     if (g_bPDFClicked == true) {
       g_bPDFClicked = false;
-      if (window.innerWidth < 570) {
+      if (true) {
         location.reload();
       }
     }
@@ -168,6 +174,13 @@ function onLoadEventAdvSearchHelper() {
   
 }
 
+function as_scroll_to_top() {
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: 'smooth'
+  });
+}
 /////////////////////////////////////////////////////////////////////////////
 // #scrollSearchResultsToTop
 /**
@@ -314,10 +327,12 @@ function as_post_to_pdf_on_click() {
 
   g_bPDFClicked = true;
   
+  console.log("Browser width: " + window.innerWidth);
+  
   form.method = "POST";
   form.action = "adv_search.pdf";   
-  //form.target = "print_popup"
-  //form.onsubmit="window.open('about:blank','print_popup','width=1000,height=800');">
+  form.target = "print_popup"
+  form.onsubmit="window.open('about:blank','print_popup','width=1000,height=800');">
   
   form.appendChild(document.getElementById("_filter"));  
   form.appendChild(document.getElementById("_apn"));  

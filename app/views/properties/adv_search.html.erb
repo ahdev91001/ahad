@@ -158,13 +158,16 @@
 
 		<div id="as-architects-btn-container">
 			<button id="as-search-btn" class="btn-arrow-anim" name="search"
-		    type="submit" value="submit">
-			  <span class="btn-arrow-anim__text">Search</span>
+		    	type="submit" value="submit">
+			  	<span class="btn-arrow-anim__text">Search</span>
 			</button>
 		</div>
 	</form>
+	<button id="reset-all-filters" class="btn-arrow-anim btn-arrow-anim--wide btn-arrow-anim--tan" 
+	  type="button" onClick="resetAllFilters()">
+		<span class="btn-arrow-anim__text">Reset All Filters</span>
+	</button>
 	
-	<button id="reset-all-filters" type="button" onClick="resetAllFilters()">Reset All Filters</button>
 	<br><br>
 </div>
 
@@ -180,8 +183,14 @@
 	</div>
 <% else %>
 	<div class="small-side-margins">
-		 <div id="adv_search_results">No Properties Found That Match Your Criteria</div>
-		 <div>(Scroll up to refine your search.)</div>
+		<div id="adv_search_results">No Properties Found That Match Your Criteria</div>
+ 	 	<br>
+ 	 	<div id="as-architects-btn-container">
+			<button id="as-search-btn2" class="btn-arrow-anim btn-arrow-anim--wide" name="refine-search"
+		    type="submit" value="submit">
+			  <span class="btn-arrow-anim__text">Refine Search</span>
+			</button>
+		</div>
 	</div>
 	<div id="adv_search_results_footerpad"> </div>
 <% end %>	
@@ -195,8 +204,13 @@
 		<%= render partial: 'search_results_table_header', locals: {properties: @properties} %>
 	<% else %>
 		<div class="small-side-margins">
-			 <div id="adv_search_results">No Properties Found That Match Your Criteria</div>
-			 <div>(Scroll up to refine your search.)</div>
+		  <br>
+	 		<div id="as-architects-btn-container">
+				<button id="as-search-btn3" class="btn-arrow-anim btn-arrow-anim--wide" name="refine-search"
+			    type="submit" value="submit">
+				  <span class="btn-arrow-anim__text">Refine Search</span>
+				</button>
+			</div>
 		</div>
 	<% end %>
 
@@ -219,8 +233,14 @@
 
 	
 	<div id="property_count" class="small-side-margins">
-		<strong><%= get_prop_count(sql) %> Properties Listed Below (shown in groups of 30; scroll up to change search criteria)</strong>
-		<br>
+		<strong><%= get_prop_count(sql) %> Properties Listed Below (shown in groups of 30)</strong>
+		<br><br>
+ 		<div id="as-architects-btn-container">
+			<button id="as-search-btn4" class="btn-arrow-anim btn-arrow-anim--wide" name="refine-search"
+		    type="submit" value="submit">
+			  <span class="btn-arrow-anim__text">Refine Search</span>
+			</button>
+		</div>
 	</div>
 	
 		<div class="ui-left-margin">

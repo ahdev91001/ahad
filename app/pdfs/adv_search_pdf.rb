@@ -63,8 +63,11 @@ class AdvSearchPdf < Prawn::Document
       end
     end
 
-    bounding_box([bounds.left, bounds.top - 95], :width => bounds.width) do  
+    bounding_box([bounds.left, bounds.top - 80], :width => bounds.width) do  
   
+      text "Search Results", :size => 20, :align => :center
+      
+      move_down 5
       text "Search Criteria", :size => 15
       move_down 5
       text "Street: " + params[:filter] if !params[:filter].nil? and params[:filter] != ""

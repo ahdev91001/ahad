@@ -53,6 +53,7 @@
  */
 var DEBUG = true;  // "const" doesn't work in IE 8, 9, 10
 
+var g_bIsMobile;
 
 /////////////////////////////////////////////////////////////////////////////
 // Code
@@ -148,6 +149,8 @@ $(document).on('turbolinks:load', function (e) {
 
   console.log("Turning off resize event.");
   $(window).off("resize");
+  
+  g_bIsMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
   
   // Delegate to code that runs specific to each page loaded
   if (page == "root") {
