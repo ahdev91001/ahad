@@ -176,7 +176,7 @@
 <% sql = get_adv_search_sql(params) %>
 
 <% @properties = Property.find_by_sql(sql) %>
-<!-- <%= sql %> -->
+
 <% if @properties.count > 0 then %>
 	<div id="adv_search_results">Search Results
 		<span id="ps-dl-pdf-adv-search"><%= image_tag('pdf-dl-button-65x24.png', :alt => 'Download PDF') %></span>
@@ -216,13 +216,13 @@
 
 <% else %>
 
-	<% @properties = Property.paginate_by_sql(sql, page: params[:page], per_page: 30)%>
-	<% if @properties.count > 0 then %>
-	
 	<!-- 
 	  --Advanced Search results, multiple properties
 	  -->
 
+	<% @properties = Property.paginate_by_sql(sql, page: params[:page], per_page: 30)%>
+	<% if @properties.count > 0 then %>
+	
   <div id="ps-pdf-please-wait-container">
     <div id="ps-pdf-please-wait">
       <%= image_tag('ring-alt.svg', :alt => 'Please Wait...') %>
@@ -233,7 +233,7 @@
 
 	
 	<div id="property_count" class="small-side-margins">
-		<strong><%= get_prop_count(sql) %> Properties Listed Below (shown in groups of 30)</strong>
+		<strong><%= get_prop_count(sql) %> Properties Listed Below <%= get_prop_count(sql) > 30 ? "(shown in groups of 30)" : "" %></strong>
 		<br><br>
  		<div id="as-architects-btn-container">
 			<button id="as-search-btn4" class="btn-arrow-anim btn-arrow-anim--wide" name="refine-search"

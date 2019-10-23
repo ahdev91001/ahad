@@ -23,7 +23,7 @@
 
 <div id="ui-padded-sides">
   <ul class="properties">
-    <%= render @properties %>
+    <%= render partial: 'search_results_table_header', locals: {properties: @properties} %>
   </ul>
 </div>
 

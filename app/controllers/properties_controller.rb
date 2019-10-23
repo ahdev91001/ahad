@@ -121,7 +121,6 @@ class PropertiesController < ApplicationController
       format.pdf do
         
         sql = get_adv_search_sql(params)
-        print "           SQL: " + sql
   	    @properties = Property.find_by_sql(sql)
 
         pdf = AdvSearchPdf.new(params, @properties)

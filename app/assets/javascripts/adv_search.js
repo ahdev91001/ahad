@@ -69,7 +69,6 @@ function onLoadEventAdvSearchHelper() {
   $('#as-search-btn3').click(as_scroll_to_top);
   $('#as-search-btn4').click(as_scroll_to_top);
 
-
   $('#as-architects-select2').select2({
     placeholder: "Select Architects",
     tags: true, // This & selectOnBlur & createSearchChoice
@@ -156,22 +155,20 @@ function onLoadEventAdvSearchHelper() {
   // is false when we come to this page from the Advanced Search
   // link on the homepage, and in that case, we don't want to 
   // scroll down to anything.
-  console.log ("Near end of page init routine.");
   if (document.getElementById("flag_search_hit").value == "True") {
-    console.log ("Scrolling to top at start of page refresh.");
     scrollSearchResultsToTop();
   }
   
   window.addEventListener("focus", function(event) { 
     if (g_bPDFClicked == true) {
       g_bPDFClicked = false;
-      if (true) {
-        location.reload();
-      }
+      // Both on desktop and mobile, after the PDF comes up in a new viewer
+      // then as soon as you go look at the adv_search webpage the controls
+      // are all half-disappeared and screwed up.  So we force a reload
+      // to fix them.
+      location.reload();
     }
-    console.log("Window got focus."); 
   }, false);
-  
 }
 
 function as_scroll_to_top() {
@@ -192,7 +189,6 @@ function as_scroll_to_top() {
  * 
  */
 function scrollSearchResultsToTop() {
-    console.log("Calling window.scrollTo");
     window.scrollTo({
       top: window.scrollY + g_iDiff,
       left: 0,
@@ -326,8 +322,6 @@ function as_post_to_pdf_on_click() {
   var e;
 
   g_bPDFClicked = true;
-  
-  console.log("Browser width: " + window.innerWidth);
   
   form.method = "POST";
   form.action = "adv_search.pdf";   

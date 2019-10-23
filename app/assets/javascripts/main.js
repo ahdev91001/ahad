@@ -121,6 +121,7 @@ $(document).on('turbolinks:load', function (e) {
   if (DEBUG) {
     console.log("Got to turbolinks:load at " + e.timeStamp);
     console.log("URL: " + window.location.href);
+    console.log("Browser width: " + window.innerWidth);
   }
   
   var page = "";
@@ -147,16 +148,15 @@ $(document).on('turbolinks:load', function (e) {
   // but playing it safe here.
   $(window).off('scroll');
 
-  console.log("Turning off resize event.");
   $(window).off("resize");
-  
+
+  // Below has not been tested 10/20/19 DDC  
   g_bIsMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
   
   // Delegate to code that runs specific to each page loaded
   if (page == "root") {
     // Home page with search box -- root 'static_pages#home'
     onLoadEventRootHomeHelper();
-    console.log("Turning ON resize event.");
     $(window).resize(resizeBGImgRootHome); 
     
     // Select2, when rails linked to it, would get squished.
@@ -180,7 +180,6 @@ $(document).on('turbolinks:load', function (e) {
     onLoadEventPropertyNotFoundHelper(); // properties.js
   } 
   
-
 });
 
 /////////////////////////////////////////////////////////////////////////////
