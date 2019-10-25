@@ -399,4 +399,55 @@ module PropertiesHelper
     ar_h_close_addresses 
   end # neighbors
   
+  ###########################################################################
+  # #confirmed?
+  
+  # Used by PropArchitect and PropBuilder decorators.
+  #
+  # @param Field [String] Field contents to be confirmed/qualified.
+  #
+  # @param conf_field [String] The confirming field (contains Y, N, etc.)
+  #
+  # @param conf_val [String] The value for confirmation (e.g. Y)
+  #
+  # @return [Boolean] True if confirmed; False otherwise.
+  #
+  # @author Derek Carlson <carlson.derek@gmail.com
+  def confirmed?(field, conf_field, conf_val)
+    if field && conf_field
+      conf_field.upcase == conf_val
+    else
+      false
+    end
+  end
+
+  ###########################################################################
+  # #add_addnl_confirmation_info
+  
+  # Used by PropArchitect and PropBuilder decorators.
+  #
+  # @param field [String] Field to be confirmed/qualified.
+  #
+  # @param conf_field [String] The confirming field (contains Y, N, etc.)
+  #
+  # @param conf_val [String] The value for confirmation (e.g. Y)
+  #
+  # @param affirmed [String] The string to display if it's affirmed.
+  #
+  # @param unaffirmed [String] The string to display if it's unaffirmed.
+  #
+  # @return [String] Nothing if field is blank; otherwise the
+  #   contents of the field followed by the affirmation string in parentheses
+  #
+  # @author Derek Carlson <carlson.derek@gmail.com
+  def add_addnl_confirmation_info(field, conf_field, val, affirmed, unaffirmed)
+    
+    if !field || field == ""
+      field
+    else
+      field + " " + (confirmed?(field, conf_field, val) ? affirmed : unaffirmed)
+    end
+  end
+  
+  
 end # PropertiesHelper

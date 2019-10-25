@@ -14,12 +14,19 @@ default: &default
   encoding: utf8
   port: 3306
 
+#development:
+#  <<: *default
+#  database: altaheri_djrdev
+#  username: altaheri_12
+#  password: jyyUSStR
+#  host: db77a.pair.com
+
 development:
   <<: *default
-  database: altaheri_djrdev
-  username: altaheri_12
-  password: jyyUSStR
-  host: db77a.pair.com
+  database: altaheri_ahadnorm1
+  username: altaheri_17
+  password: ytqvnuSYEHSsr2yd
+  host: db104b.pair.com
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".

@@ -1,19 +1,22 @@
 class Property < ActiveRecord::Base
 
-  has_many :photos, foreign_key: :propid
-  has_many :additional_architects, foreign_key: :propid, dependent: :destroy, inverse_of: :property
-  has_many :additional_builders, foreign_key: :propid, dependent: :destroy, inverse_of: :property
+  has_many :prop_architects, foreign_key: :propid, dependent: :destroy, inverse_of: :property
+  has_many :prop_builders, foreign_key: :propid, dependent: :destroy, inverse_of: :property
+  has_many :prop_owners, foreign_key: :propid, dependent: :destroy, inverse_of: :property
+  has_many :prop_resources, foreign_key: :propid, dependent: :destroy, inverse_of: :property
+  has_many :prop_chrs, foreign_key: :propid, dependent: :destroy, inverse_of: :property, primary_key: :id
   has_many :building_permits, foreign_key: :propid, dependent: :destroy, inverse_of: :property
   has_many :alterations, foreign_key: :propid, dependent: :destroy, inverse_of: :property
-  has_many :other_owners, foreign_key: :propid, dependent: :destroy, inverse_of: :property
   has_many :former_addresses, foreign_key: :propid, dependent: :destroy, inverse_of: :property
   has_one :apn, foreign_key: :propid, dependent: :destroy, inverse_of: :property
   
-  accepts_nested_attributes_for :additional_architects, :allow_destroy => true
-  accepts_nested_attributes_for :additional_builders, :allow_destroy => true
+  accepts_nested_attributes_for :prop_architects, :allow_destroy => true
+  accepts_nested_attributes_for :prop_builders, :allow_destroy => true
+  accepts_nested_attributes_for :prop_owners, :allow_destroy => true
+  accepts_nested_attributes_for :prop_resources, :allow_destroy => true
+  accepts_nested_attributes_for :prop_chrs, :allow_destroy => true
   accepts_nested_attributes_for :building_permits, :allow_destroy => true
   accepts_nested_attributes_for :alterations, :allow_destroy => true
-  accepts_nested_attributes_for :other_owners, :allow_destroy => true
   accepts_nested_attributes_for :former_addresses, :allow_destroy => true
   accepts_nested_attributes_for :apn, :allow_destroy => true
   
@@ -79,7 +82,7 @@ class Property < ActiveRecord::Base
   # @return [String] a valid image filename, either of the property, or
   #   of a cartoon placeholder image.
   def get_photo_filename()
-    s = self.photos.first;
+    s = self.primary_image
     if s == nil
       "house-stick-figure-med.png" # perhaps make this non-hard-coded somehow
     else
@@ -87,4 +90,53 @@ class Property < ActiveRecord::Base
     end
   end
   
+  def primary_image
+    i = PropResource.where("propid = ? AND resource_type='photo' AND primary_image='Y'", self.id)
+    return i[0] # in case multiple primary_images with "Y" for some reason
+  end
+
+  def first_architect
+    a = PropArchitect.where("propid = ? AND first_architect='Y'", self.id)
+    return a[0] # in case multiple architects with "Y" for some reason
+  end
+  
+  def other_architects
+    PropArchitect.where("propid = ? AND (first_architect='N' OR " +
+      "first_architect='' OR first_architect IS NULL)", self.id)
+  end
+
+  def first_builder
+    b = PropBuilder.where("propid = ? AND first_builder='Y'", self.id)
+    return b[0] # in case multiple builders with "Y" for some reason
+  end
+  
+  def other_builders
+    PropBuilder.where("propid = ? AND (first_builder='N' OR " +
+      "first_builder='' OR first_builder IS NULL)", self.id)
+  end
+
+  def original_owner
+    o = PropOwner.where("propid = ? AND original_owner='Y'", self.id)
+    return o[0] # in case multiple owners with "Y" for some reason
+  end
+  
+  def other_owners
+    PropOwner.where("propid = ? AND (original_owner='N' OR " +
+      "original_owner='' OR original_owner IS NULL)", self.id)
+  end
+
+  def chrs_codes
+    code_string = ""
+    pca = PropChrs.where("propid = ?", self.id)
+    if !pca.nil?
+      pca.each do |pc|
+        code_string += pc.chrs_code + ", "
+      end
+      if code_string.length > 0
+        code_string = code_string[0..-3]
+      end
+    end
+    return code_string
+  end
+
 end

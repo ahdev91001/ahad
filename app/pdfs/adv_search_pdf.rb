@@ -63,6 +63,7 @@ class AdvSearchPdf < Prawn::Document
       end
     end
 
+    # Search criteria
     bounding_box([bounds.left, bounds.top - 80], :width => bounds.width) do  
   
       text "Search Results", :size => 20, :align => :center
@@ -105,19 +106,24 @@ class AdvSearchPdf < Prawn::Document
 
       old_y = y
 
-    end
+    end # Search criteria
     
     move_down 20
     
+    # Results 
     bounding_box([bounds.left, bounds.top-65], :width => bounds.width, :height => bounds.height-70) do
-      
-      #stroke_bounds
       
       data = [["Property", "Architect", "Builder", "Year Built", "Style", "Type"]]
       
       properties.each do |p|
         pd = PropertyDecorator.new(p)
-        data += [[pd.address1, pd.architect_qualified, pd.builder_qualified, 
+        # Note, these 2 separate queries below are run for each property and really
+        # slow things down.  DDC
+        a = PropArchitectDecorator.new(p.first_architect)
+        b = PropBuilderDecorator.new(p.first_builder)
+
+        data += [[pd.address1, p.first_architect.nil? ? "" : a.architect_qualified, 
+                  p.first_builder.nil? ? "" : b.builder_qualified, 
                   pd.yearbuilt_qualified, pd.style, 
                   pd.type.nil? ? " " : pd.type.capitalize]]
       end
@@ -140,7 +146,7 @@ class AdvSearchPdf < Prawn::Document
   
       text "Do you find this property data informative and useful? Consider <link href='http://altadenaheritage.org/donate/'><color rgb='5555FF'>supporting Altadena Heritage.</color></link>",
         :align => :left, :size => 10,  :inline_format => true
-    end
+    end # Results 
 
 
   # Page numbering (duh)

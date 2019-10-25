@@ -39,7 +39,11 @@ class PropertiesController < ApplicationController
   
   def show
     source = Property.find(params[:id])
+    
     @property = PropertyDecorator.new(source)
+    @property = PropArchitectDecorator.new(@property)
+    @property = PropBuilderDecorator.new(@property)
+    
     gmaps = GoogleMapsService::Client.new(key: 'AIzaSyBgnPpkjO__fzAjoyCUMGyoQgegorqv5rY')
     results = gmaps.geocode("#{@property.address1} #{@property.address2}")
     if results[0] == nil
@@ -148,11 +152,13 @@ class PropertiesController < ApplicationController
         :streetnumberbegin, :streetnumberend, :style, :type,
         :yearbuilt, :yearbuiltassessor, :yearbuiltassessorflag,
         :yearbuiltflag, :yearbuiltother, :yearbuiltotherflag,
-        additional_architects_attributes: [:id, :name, :year, :_destroy],
-        additional_builders_attributes: [:id, :name, :year, :_destroy],
+        prop_architects_attributes: [:id, :name, :first_architect, :confirmed, :year, :yearflag, :_destroy],
+        prop_builders_attributes: [:id, :name, :first_builder, :confirmed, :year, :yearflag, :_destroy],
+        prop_chrs_attributes: [:id, :chrs_code, :_destroy],
         building_permits_attributes: [:id, :permit, :year, :_destroy],
         alterations_attributes: [:id, :cost, :description, :year, :_destroy],
-        other_owners_attributes: [:id, :name, :years, :_destroy],
+        prop_owners_attributes: [:id, :name, :years, :yearflag, :original_owner, :comment, :_destroy],
+        prop_resources_attributes: [:id, :filename, :resource_type, :file_format, :description, :date, :credit, :primary_image, :_destroy],
         former_addresses_attributes: [:id, :address1, :address2, :years, :yearflag, :_destroy],
         apn_attributes: [:id, :parcel, :_destroy])
     end
