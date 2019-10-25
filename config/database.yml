@@ -78,14 +78,21 @@ test:                           # :testsqlite
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 
-# Below is read-only credentials
 production:
   <<: *default
-  #url: <%= ENV['DATABASE_URL'] %>
-  database: altaheri_djr
-  username: altaheri_3_r
-  password: Wj89Rc6T
-  host: db154.pair.com
+  database: altaheri_ahadnorm1
+  username: altaheri_17
+  password: ytqvnuSYEHSsr2yd
+  host: db104b.pair.com
+
+# Below is read-only credentials
+#production:
+#  <<: *default
+#  #url: <%= ENV['DATABASE_URL'] %>
+#  database: altaheri_djr
+#  username: altaheri_3_r
+#  password: Wj89Rc6T
+#  host: db154.pair.com
 
 # Below is full R/W credentials
 #production:
