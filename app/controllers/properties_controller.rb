@@ -89,9 +89,21 @@ class PropertiesController < ApplicationController
   # to be used with AJAX and select2.
   def index2
     if params[:filter] != nil && params[:filter].length > 0 then
-      @properties = Property.where("address1 LIKE ?", "%#{params[:filter]}%").paginate(page: params[:page], per_page: 30)
+      #@properties = Property.where("address1 LIKE ?", "%#{params[:filter]}%").paginate(page: params[:page], per_page: 30)
+      @properties = Property.joins(:prop_builders, :prop_architects, :apn)
+            .select("property.*, prop_architect.name as arch_name, " +
+                    "prop_architect.confirmed as arch_confirmed, " +
+                    "prop_builder.name as build_name, " +
+                    "prop_builder.confirmed as build_confirmed")
+            .where("address1 LIKE ?", "%#{params[:filter]}%").paginate(page: params[:page], per_page: 30)
+
     else  
-      @properties = Property.paginate(page: params[:page], per_page: 30)
+#      @properties = Property.paginate(page: params[:page], per_page: 30)
+      @properties = Property.joins(:prop_builders, :prop_architects, :apn)
+            .select("property.*, prop_architect.name as arch_name, " +
+                    "prop_architect.confirmed as arch_confirmed, " +
+                    "prop_builder.name as build_name, " +
+                    "prop_builder.confirmed as build_confirmed").paginate(page: params[:page], per_page: 30)
     end
   end
   
