@@ -19,7 +19,7 @@ class PropertiesController < ApplicationController
   # @return @properties [JSON] an array of hashes with keys :id & :address1
   def index
     @properties = Property.select(:id, :address1).where(
-      "address1 LIKE '%#{params[:term]}%'")
+      "address1 LIKE ?", "%#{params[:term]}%")
     if @properties.length == 0
       @properties = [] # [{:id => 0, 
                        #   :address1 => "Not found in our database yet." }]
@@ -120,12 +120,18 @@ class PropertiesController < ApplicationController
   end
 
   def adv_search
+    sql_just_where = get_adv_search_where_sql(params)
+
+    @properties = Property.joins(:prop_builders, :prop_architects, :apn)
+            .select("property.*, prop_architect.name as arch_name, " +
+                    "prop_architect.confirmed as arch_confirmed, " +
+                    "prop_builder.name as build_name, " +
+                    "prop_builder.confirmed as build_confirmed")
+            .where(sql_just_where) # + " AND (first_architect='Y' AND first_builder='Y')")
+
     respond_to do |format|
       format.html
       format.pdf do
-        
-        sql = get_adv_search_sql(params)
-  	    @properties = Property.find_by_sql(sql)
 
         pdf = AdvSearchPdf.new(params, @properties)
         send_data pdf.render, 

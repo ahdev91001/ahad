@@ -76,7 +76,7 @@ class Property < ActiveRecord::Base
   ###########################################################################
   # #Property.get_photo_filename
   
-  # Return filename of first photos, or return filename of placeholder 
+  # Return filename of first photo, or return filename of placeholder 
   # cartoon image if nil.
   #
   # @return [String] a valid image filename, either of the property, or

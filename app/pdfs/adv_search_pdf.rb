@@ -13,6 +13,7 @@ include ActionView::Helpers::NumberHelper
 class AdvSearchPdf < Prawn::Document
   
   include Views::AdvSearchHelper
+  include PropertiesHelper
   
   ###########################################################################
   # #initialize
@@ -29,7 +30,7 @@ class AdvSearchPdf < Prawn::Document
   def initialize(params, properties)
 
     old_y = 0
-    
+
     info = {
      :Title => "Advanced Search",
      :Author => "Altadena Heritage",
@@ -67,7 +68,7 @@ class AdvSearchPdf < Prawn::Document
     bounding_box([bounds.left, bounds.top - 80], :width => bounds.width) do  
   
       text "Search Results", :size => 20, :align => :center
-      text "# of properties: " + properties.count.to_s, :size => 12, :align => :center
+      text "# of properties: " + properties.size.to_s, :size => 12, :align => :center
       move_down 5
       text "Search Criteria", :size => 15
       move_down 5
@@ -117,13 +118,9 @@ class AdvSearchPdf < Prawn::Document
       
       properties.each do |p|
         pd = PropertyDecorator.new(p)
-        # Note, these 2 separate queries below are run for each property and really
-        # slow things down.  DDC
-        a = PropArchitectDecorator.new(p.first_architect)
-        b = PropBuilderDecorator.new(p.first_builder)
 
-        data += [[pd.address1, p.first_architect.nil? ? "" : a.architect_qualified, 
-                  p.first_builder.nil? ? "" : b.builder_qualified, 
+        data += [[pd.address1, p.arch_name.nil? ? "" : architect_qualified(p.arch_name, p.arch_confirmed), 
+                  p.build_name.nil? ? "" : builder_qualified(p.build_name, p.build_confirmed), 
                   pd.yearbuilt_qualified, pd.style, 
                   pd.type.nil? ? " " : pd.type.capitalize]]
       end

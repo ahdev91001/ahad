@@ -108,7 +108,7 @@
       </div>
 
       <!-- Architects -->
-      <%= f.label :proparchitects, "Prop Architects" %>
+      <%= f.label :proparchitects, "Architects" %>
       <div style="margin-left:100px">
       <%= f.fields_for :prop_architects do |aa| %>
          <%= render 'prop_architect_fields', f: aa %>
@@ -119,7 +119,7 @@
       </div>
 
       <!-- Builders -->
-      <%= f.label :propbuilders, "Prop Builders" %>
+      <%= f.label :propbuilders, "Builders" %>
       <div style="margin-left:100px">
       <%= f.fields_for :prop_builders do |bb| %>
          <%= render 'prop_builder_fields', f: bb %>

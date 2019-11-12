@@ -351,7 +351,7 @@ module PropertiesHelper
     
     # If addr doesn't match this pattern, everything else
     # fails below, so [f|b]ail fast and just return []
-    if addr !~ /^(\d+) (.*) (.*)$/
+    if addr !~ /^(\d+) (.*)$/
       return []
     end
     
@@ -449,5 +449,14 @@ module PropertiesHelper
     end
   end
   
+  def architect_qualified(name, confirmed)
+    add_addnl_confirmation_info name, confirmed,
+      "Y", "(confirmed)", "(attributed to)"
+  end
+
+  def builder_qualified(name, confirmed)
+    add_addnl_confirmation_info name, confirmed,
+      "Y", "(confirmed)", "(attributed to)"
+  end
   
 end # PropertiesHelper

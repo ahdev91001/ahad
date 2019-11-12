@@ -78,12 +78,13 @@ test:                           # :testsqlite
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 
+# NOTE: On heroku, the database credentials are stored in the DATABASE_URL env variable.
+# heroku config --remote staging
+# DATABASE_URL: ...
+
 production:
   <<: *default
-  database: altaheri_ahadnorm1
-  username: altaheri_17
-  password: ytqvnuSYEHSsr2yd
-  host: db104b.pair.com
+  url: <%= ENV['DATABASE_URL'] %>
 
 # Below is read-only credentials
 #production:

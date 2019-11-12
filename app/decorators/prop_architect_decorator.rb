@@ -3,9 +3,8 @@ class PropArchitectDecorator < Draper::Decorator
   
   delegate_all
 
-  def architect_qualified
-    add_addnl_confirmation_info object.name, object.confirmed,
-      "Y", "(confirmed)", "(attributed to)"
+  def qualified
+    architect_qualified(object.name, object.confirmed)
   end
 
 end 

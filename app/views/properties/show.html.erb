@@ -13,11 +13,17 @@
     <a href="http://altadenaheritage.org/">Altadena Heritage</a>
     </div>
     
+    <!-- Photo of property -->
     <div id="ps-photo-main-container">
       <% if !@property.primary_image.nil? && @property.primary_image.filename %>
         <%= image_tag("http://altadenaheritagepdb.org/photo/" + 
               @property.primary_image.filename, 
               :id => "ps-photo-main", :alt => "Photo of Property") %>
+  
+        <%= @property.primary_image.description.nil? ? "" : @property.primary_image.description %>
+        <%= @property.primary_image.date.nil? ? "" : "(" + @property.primary_image.date + ")" %>
+        <%= @property.primary_image.credit.nil? || @property.primary_image.credit = ""  ? "" : "Credit: " + @property.primary_image.credit %>
+
       <% else %>
         <div id='ps-photo-main-no-photo'>
           <%= image_tag('house-stick-figure-med.png',
@@ -30,10 +36,11 @@
       <% end %>
 
     </div>
+
     
     <div id="ps-addr-title-fader"><%= @property.address1 %></div>
-    
 
+    <!-- Download PDF Link -->
     <!-- JS onClickEvent added to #ps-dl-pdf-img to pop up wait spinner -->    
     <div id="ps-dl-pdf-img">
     <%= link_to image_tag('pdf-dl-button-65x24.png', :alt => 'Download PDF'), 
@@ -80,9 +87,9 @@
       <% if !@property.first_architect.nil? %>
         <% a = PropArchitectDecorator.new(@property.first_architect) %>
         <% if @property.prop_architects.count > 1 %>
-          <%= ps_markup("Architects", a.architect_qualified + (a.year != nil ? " (" + a.year + ")" : "")) %>
+          <%= ps_markup("Architects", a.qualified + (a.year != nil ? " (" + a.year + ")" : "")) %>
         <% else %>
-          <%= ps_markup("Architect", a.architect_qualified + (a.year != nil ? " (" + a.year + ")" : "")) %>
+          <%= ps_markup("Architect", a.qualified + (a.year != nil ? " (" + a.year + ")" : "")) %>
         <% end %>
       <% end %>
 
@@ -90,7 +97,7 @@
         <div class="ps-list-padded accordion-content__indent">
           <% @property.other_architects.each do |a| %>
             <% a = PropArchitectDecorator.new(a) %>
-            <%= a.architect_qualified + (a.year != nil ? " (" + a.year + ")" : "") %><br>
+            <%= a.qualified + (a.year != nil ? " (" + a.year + ")" : "") %><br>
           <% end %>
         </div>      
       <% end %>
@@ -102,9 +109,9 @@
       <% if !@property.first_builder.nil? %>
         <% b = PropBuilderDecorator.new(@property.first_builder) %>
         <% if @property.prop_builders.count > 1 %>
-          <%= ps_markup("Builders", b.builder_qualified + (b.year != nil ? " (" + b.year + ")" : "")) %>
+          <%= ps_markup("Builders", b.qualified + (b.year != nil ? " (" + b.year + ")" : "")) %>
         <% else %>
-          <%= ps_markup("Builder", b.builder_qualified + (b.year != nil ? " (" + b.year + ")" : "")) %>
+          <%= ps_markup("Builder", b.qualified + (b.year != nil ? " (" + b.year + ")" : "")) %>
         <% end %>
       <% end %>
 
@@ -112,7 +119,7 @@
         <div class="ps-list-padded accordion-content__indent">
           <% @property.other_builders.each do |b| %>
             <% b = PropBuilderDecorator.new(b) %>
-            <%= b.builder_qualified + (b.year != nil ? " (" + b.year + ")" : "") %><br>
+            <%= b.qualified + (b.year != nil ? " (" + b.year + ")" : "") %><br>
           <% end %>
         </div>      
       <% end %>

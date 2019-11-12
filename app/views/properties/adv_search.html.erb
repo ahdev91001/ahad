@@ -33,8 +33,8 @@
 		<div id="as-architects-container">
 			<select id="as-architects-select2" name="architects[]" multiple="multiple"  style="width: 95%">
 				<option>Any</option>
-	      <% ar_architects = Property.distinct.order(:architect).pluck(:architect) %>
-	      <% for i in 2..ar_architects.length do %>
+	      <% ar_architects = PropArchitect.distinct.order(:name).pluck(:name) %>
+	      <% for i in 0..ar_architects.length do %>
 	      	<option 
 	      	<% if (!params[:architects].nil?) && (params[:architects].include? ar_architects[i]) then %>
 	      		selected >
@@ -68,7 +68,7 @@
 		<div id="as-builders-container">
 			<select id="as-builders-select2" name="builders[]" multiple="multiple" style="width: 95%">
 				<option>Any</option>
-	      <% ar_builders = Property.distinct.order(:builder).pluck(:builder) %>
+	      <% ar_builders = PropBuilder.distinct.order(:name).pluck(:name) %>
 	      <% for i in 0..ar_builders.length do %>
 	      	<option 
 	      	<% if (!params[:builders].nil?) && (params[:builders].include? ar_builders[i]) then %>
@@ -173,11 +173,7 @@
 
 <div id="adv_search_results_headerpad"> </div>
 
-<% sql = get_adv_search_sql(params) %>
-
-<% @properties = Property.find_by_sql(sql) %>
-
-<% if @properties.count > 0 then %>
+<% if @properties.size > 0 then %>
 	<div id="adv_search_results">Search Results
 		<span id="ps-dl-pdf-adv-search"><%= image_tag('pdf-dl-button-65x24.png', :alt => 'Download PDF') %></span>
 	</div>
@@ -220,8 +216,9 @@
 	  --Advanced Search results, multiple properties
 	  -->
 
-	<% @properties = Property.paginate_by_sql(sql, page: params[:page], per_page: 30)%>
-	<% if @properties.count > 0 then %>
+	<% num_props_found = @properties.size %> 
+	<% @properties = Property.paginate_by_sql(@properties.to_sql, page: params[:page], per_page: 30)%>
+	<% if @properties.size > 0 then %>
 	
   <div id="ps-pdf-please-wait-container">
     <div id="ps-pdf-please-wait">
@@ -233,7 +230,7 @@
 
 	
 	<div id="property_count" class="small-side-margins">
-		<strong><%= get_prop_count(sql) %> Properties Listed Below <%= get_prop_count(sql) > 30 ? "(shown in groups of 30)" : "" %></strong>
+		<strong><%= num_props_found %> Properties Found <%= num_props_found > 30 ? "(shown in groups of 30)" : "" %></strong>
 		<br><br>
  		<div id="as-architects-btn-container">
 			<button id="as-search-btn4" class="btn-arrow-anim btn-arrow-anim--wide" name="refine-search"

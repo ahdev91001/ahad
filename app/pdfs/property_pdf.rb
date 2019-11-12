@@ -69,6 +69,12 @@ class PropertyPdf < Prawn::Document
     if !@property.primary_image.nil? && @property.primary_image.filename
       image open("http://altadenaheritagepdb.org/photo/" + URI.encode(@property.primary_image.filename)),
         :position => :center, :height => 200
+      move_down 4
+      text  (@property.primary_image.description.nil? ? "" : @property.primary_image.description + " ") +
+            (@property.primary_image.date.nil? ? "" : "(" + @property.primary_image.date + ") ") +
+            (@property.primary_image.credit.nil? || @property.primary_image.credit == ""  ? "" : "Credit: " + @property.primary_image.credit), 
+            :size => 9, :align => :center,  :inline_format => true
+            
     else
       image Dir.getwd + "/app/assets/images/house-stick-figure-med.png", 
       :position => :center, :width => 250
@@ -171,10 +177,10 @@ class PropertyPdf < Prawn::Document
     if !@property.first_architect.nil?
       a = PropArchitectDecorator.new(@property.first_architect)
       if @property.prop_architects.count > 1
-        text ps_markup_pdf("Architects", a.architect_qualified + (a.year != nil ? " (" + a.year + ")" : "")), 
+        text ps_markup_pdf("Architects", a.qualified + (a.year != nil ? " (" + a.year + ")" : "")), 
           :inline_format => true
       else
-        text ps_markup_pdf("Architect", a.architect_qualified + (a.year != nil ? " (" + a.year + ")" : "")), 
+        text ps_markup_pdf("Architect", a.qualified + (a.year != nil ? " (" + a.year + ")" : "")), 
           :inline_format => true
       end
     end
@@ -183,7 +189,7 @@ class PropertyPdf < Prawn::Document
       if @property.other_architects.count > 0
         @property.other_architects.each do |aa|
             aa = PropArchitectDecorator.new(aa)
-            text aa.architect_qualified + (aa.year != nil ? " (" + aa.year + ")" : ""),
+            text aa.qualified + (aa.year != nil ? " (" + aa.year + ")" : ""),
               :inline_format => true
         end
       end
@@ -200,10 +206,10 @@ class PropertyPdf < Prawn::Document
     if !@property.first_builder.nil?
       b = PropBuilderDecorator.new(@property.first_builder)
       if @property.prop_builders.count > 1
-        text ps_markup_pdf("Builders", b.builder_qualified + (b.year != nil ? " (" + b.year + ")" : ""), false, true), 
+        text ps_markup_pdf("Builders", b.qualified + (b.year != nil ? " (" + b.year + ")" : ""), false, true), 
           :inline_format => true
       else
-        text ps_markup_pdf("Builder", b.builder_qualified + (b.year != nil ? " (" + b.year + ")" : "")), 
+        text ps_markup_pdf("Builder", b.qualified + (b.year != nil ? " (" + b.year + ")" : "")), 
           :inline_format => true
       end
     end
@@ -212,7 +218,7 @@ class PropertyPdf < Prawn::Document
       if @property.other_builders.count > 0
         @property.other_builders.each do |bb|
             bb= PropBuilderDecorator.new(bb)
-            text bb.builder_qualified + (bb.year != nil ? " (" + bb.year + ")" : ""),
+            text bb.qualified + (bb.year != nil ? " (" + bb.year + ")" : ""),
               :inline_format => true
         end
       end
