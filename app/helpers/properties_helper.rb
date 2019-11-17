@@ -459,4 +459,32 @@ module PropertiesHelper
       "Y", "(confirmed)", "(attributed to)"
   end
   
+  def arch_all_html(prop)
+    s = ""
+    archs = prop.all_architects
+    archs.each do |a|
+      aq = PropArchitectDecorator.new(a)
+      s = s + aq.qualified + (aq.year != nil && aq.year != "" ? " (" + aq.year + ")" : "") + "<br>".html_safe
+    end
+    if s.size > 4
+      s = s[0..-5]  
+    end
+
+    return s
+  end
+  
+  def bldr_all_html(prop)
+    s = ""
+    bldrs = prop.all_builders
+    bldrs.each do |b|
+      bq = PropBuilderDecorator.new(b)
+      s = s + bq.qualified + (bq.year != nil && bq.year != "" ? " (" + bq.year + ")" : "") + "<br>".html_safe
+    end
+    if s.size > 4
+      s = s[0..-5]  
+    end
+
+    return s
+  end
+  
 end # PropertiesHelper

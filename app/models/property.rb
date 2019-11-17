@@ -105,6 +105,10 @@ class Property < ActiveRecord::Base
       "first_architect='' OR first_architect IS NULL)", self.id)
   end
 
+  def all_architects
+    PropArchitect.where("propid = ?", self.id)
+  end
+
   def first_builder
     b = PropBuilder.where("propid = ? AND first_builder='Y'", self.id)
     return b[0] # in case multiple builders with "Y" for some reason
@@ -113,6 +117,10 @@ class Property < ActiveRecord::Base
   def other_builders
     PropBuilder.where("propid = ? AND (first_builder='N' OR " +
       "first_builder='' OR first_builder IS NULL)", self.id)
+  end
+
+  def all_builders
+    PropBuilder.where("propid = ?", self.id)
   end
 
   def original_owner

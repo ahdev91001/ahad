@@ -87,9 +87,9 @@
       <% if !@property.first_architect.nil? %>
         <% a = PropArchitectDecorator.new(@property.first_architect) %>
         <% if @property.prop_architects.count > 1 %>
-          <%= ps_markup("Architects", a.qualified + (a.year != nil ? " (" + a.year + ")" : "")) %>
+          <%= ps_markup("Architects", a.qualified + (a.year != nil && a.year != "" ? " (" + a.year + ")" : "")) %>
         <% else %>
-          <%= ps_markup("Architect", a.qualified + (a.year != nil ? " (" + a.year + ")" : "")) %>
+          <%= ps_markup("Architect", a.qualified + (a.year != nil  && a.year != "" ? " (" + a.year + ")" : "")) %>
         <% end %>
       <% end %>
 
@@ -97,7 +97,7 @@
         <div class="ps-list-padded accordion-content__indent">
           <% @property.other_architects.each do |a| %>
             <% a = PropArchitectDecorator.new(a) %>
-            <%= a.qualified + (a.year != nil ? " (" + a.year + ")" : "") %><br>
+            <%= a.qualified + (a.year != nil  && a.year != "" ? " (" + a.year + ")" : "") %><br>
           <% end %>
         </div>      
       <% end %>
@@ -109,9 +109,9 @@
       <% if !@property.first_builder.nil? %>
         <% b = PropBuilderDecorator.new(@property.first_builder) %>
         <% if @property.prop_builders.count > 1 %>
-          <%= ps_markup("Builders", b.qualified + (b.year != nil ? " (" + b.year + ")" : "")) %>
+          <%= ps_markup("Builders", b.qualified + (b.year != nil  && b.year != "" ? " (" + b.year + ")" : "")) %>
         <% else %>
-          <%= ps_markup("Builder", b.qualified + (b.year != nil ? " (" + b.year + ")" : "")) %>
+          <%= ps_markup("Builder", b.qualified + (b.year != nil  && b.year != "" ? " (" + b.year + ")" : "")) %>
         <% end %>
       <% end %>
 
@@ -119,7 +119,7 @@
         <div class="ps-list-padded accordion-content__indent">
           <% @property.other_builders.each do |b| %>
             <% b = PropBuilderDecorator.new(b) %>
-            <%= b.qualified + (b.year != nil ? " (" + b.year + ")" : "") %><br>
+            <%= b.qualified + (b.year != nil && b.year != "" ? " (" + b.year + ")" : "") %><br>
           <% end %>
         </div>      
       <% end %>

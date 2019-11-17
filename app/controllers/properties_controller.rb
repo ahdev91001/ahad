@@ -134,13 +134,23 @@ class PropertiesController < ApplicationController
   def adv_search
     sql_just_where = get_adv_search_where_sql(params)
 
-    @properties = Property.joins(:prop_builders, :prop_architects, :apn)
-            .select("property.*, prop_architect.name as arch_name, " +
-                    "prop_architect.confirmed as arch_confirmed, " +
-                    "prop_builder.name as build_name, " +
-                    "prop_builder.confirmed as build_confirmed")
-            .where(sql_just_where) # + " AND (first_architect='Y' AND first_builder='Y')")
+    print "JJJJJJJJJJJJJJJJJJJJJUST" + sql_just_where
+    #@properties = Property.joins(:prop_builders, :prop_architects, :apn)
+    #        .select("property.*, prop_architect.name as arch_name, " +
+    #                "prop_architect.confirmed as arch_confirmed, " +
+    #                "prop_builder.name as build_name, " +
+    #                "prop_builder.confirmed as build_confirmed")
+    #        .where(sql_just_where) # + " AND (first_architect='Y' AND first_builder='Y')")
 
+    if sql_just_where == "(TRUE) AND (TRUE)"
+      @properties = Property.where(sql_just_where) 
+    else
+      @properties = Property.left_joins(:prop_builders, :prop_architects, :apn)
+              .select("property.*").distinct
+              .where(sql_just_where) # + " AND (first_architect='Y' AND first_builder='Y')")
+    end
+    #@properties = Property.where(sql_just_where) 
+    
     respond_to do |format|
       format.html
       format.pdf do
