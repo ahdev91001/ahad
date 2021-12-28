@@ -44,15 +44,17 @@ class PropertiesController < ApplicationController
     @property = PropArchitectDecorator.new(@property)
     @property = PropBuilderDecorator.new(@property)
     
-    gmaps = GoogleMapsService::Client.new(key: 'AIzaSyBgnPpkjO__fzAjoyCUMGyoQgegorqv5rY')
-    results = gmaps.geocode("#{@property.address1} #{@property.address2}")
-    if results[0] == nil
-      @lat = 0 # 34.200503
-      @lng = 0 # 118.128852
-    else
-      @lat = results[0][:geometry][:location][:lat]
-      @lng = results[0][:geometry][:location][:lng]
-    end
+    # following commented out DJR 12/20/2021 -- GoogleMapsService needs a payment method and now causes
+    #    a fatal error without one.
+    # gmaps = GoogleMapsService::Client.new(key: 'AIzaSyBgnPpkjO__fzAjoyCUMGyoQgegorqv5rY')
+    # results = gmaps.geocode("#{@property.address1} #{@property.address2}")
+    # if results[0] == nil
+    #   @lat = 0 # 34.200503
+    #   @lng = 0 # 118.128852
+    # else
+    #   @lat = results[0][:geometry][:location][:lat]
+    #   @lng = results[0][:geometry][:location][:lng]
+    # end
     
     respond_to do |format|
       format.html
