@@ -118,6 +118,11 @@ class AdvSearchPdf < Prawn::Document
       
       properties.each do |p|
         pd = PropertyDecorator.new(p)
+        
+        # DJR 12/31/2021, look at p
+        logger = Rails.logger 
+        logger.debug "p = #{p.inspect()}"
+        logger.debug "p.arch_name = #{p.arch_name}"
 
         data += [[pd.address1, p.arch_name.nil? ? "" : architect_qualified(p.arch_name, p.arch_confirmed), 
                   p.build_name.nil? ? "" : builder_qualified(p.build_name, p.build_confirmed), 

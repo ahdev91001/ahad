@@ -304,7 +304,7 @@ class PropertyPdf < Prawn::Document
       text "<color rgb='777777'>Other Owners:</color>", :inline_format => true
 
       bounding_box([30, cursor], :width => 390) do  
-        data = [["Address", "Years", "Comment"]]
+        data = [["Name", "Years", "Comment"]]
         @property.other_owners.each do |a|
           data += [[a.name,
                     a.years != nil ? a.years : "N/A",

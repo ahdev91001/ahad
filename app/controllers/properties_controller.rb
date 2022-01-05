@@ -1,4 +1,5 @@
-require 'google_maps_service'
+# DRJ 12/31/2021, not using this
+# require 'google_maps_service'
 
 class PropertiesController < ApplicationController
   respond_to :html, :json
@@ -44,17 +45,20 @@ class PropertiesController < ApplicationController
     @property = PropArchitectDecorator.new(@property)
     @property = PropBuilderDecorator.new(@property)
     
-    # following commented out DJR 12/20/2021 -- GoogleMapsService needs a payment method and now causes
-    #    a fatal error without one.
-    # gmaps = GoogleMapsService::Client.new(key: 'AIzaSyBgnPpkjO__fzAjoyCUMGyoQgegorqv5rY')
-    # results = gmaps.geocode("#{@property.address1} #{@property.address2}")
-    # if results[0] == nil
-    #   @lat = 0 # 34.200503
-    #   @lng = 0 # 118.128852
-    # else
-    #   @lat = results[0][:geometry][:location][:lat]
-    #   @lng = results[0][:geometry][:location][:lng]
-    # end
+    # following commented out DJR 12/20/2021
+    # 01/03/2022 -- Uhh, no. We NEED this API to get the latitude and longitude
+    #   of the selected property
+    #   Generated a new API key using my Google Platform account, which does have a 
+    #   billing method configured.
+    gmaps = GoogleMapsService::Client.new(key: 'AIzaSyD2lPY_emV1xcbcb_DzuoJhzpdASHXir4g')
+    results = gmaps.geocode("#{@property.address1} #{@property.address2}")
+    if results[0] == nil
+      @lat = 0 # 34.200503
+      @lng = 0 # 118.128852
+    else
+      @lat = results[0][:geometry][:location][:lat]
+      @lng = results[0][:geometry][:location][:lng]
+    end
     
     respond_to do |format|
       format.html
@@ -152,6 +156,9 @@ class PropertiesController < ApplicationController
               .where(sql_just_where) # + " AND (first_architect='Y' AND first_builder='Y')")
     end
     #@properties = Property.where(sql_just_where) 
+    
+    # DJR 12/31/2020, try to see this data object
+    logger.debug "@properties = #{@properties.inspect()}"
     
     respond_to do |format|
       format.html

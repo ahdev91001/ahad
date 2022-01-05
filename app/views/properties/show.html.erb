@@ -252,17 +252,30 @@
     
     <div id="no-map-found">We're sorry, but we didn't find this address on a map.</div>
     
+        <!-- 01/03/2022 DJR, replaced this mapbox key: pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw -->
+        <!-- with the one below -->  
+        <!-- sk.eyJ1IjoiZHJ1YmluIiwiYSI6ImNreHpidTJwZzZyYnozMG80NW1kMjg4Mm0ifQ.BYK9HMEeVxydZWtkXu2ErQ -->
+        
     <script>
       if (<%=@lat%> != 0 && <%=@lng%> != 0) {
         var mymap = L.map('mapid').setView([<%=@lat%>, <%=@lng%>], 17);
+ 
+      // 	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw' {
+      // 		maxZoom: 18,
+      // 		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+      // 			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+      // 			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+      // 		id: 'mapbox.streets'
+      // 	}).addTo(mymap);
       
-      	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-      		maxZoom: 18,
-      		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-      			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-      			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-      		id: 'mapbox.streets'
-      	}).addTo(mymap);
+        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+          attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+          maxZoom: 18,
+          id: 'mapbox/streets-v11',
+          tileSize: 512,
+          zoomOffset: -1,
+          accessToken: 'sk.eyJ1IjoiZHJ1YmluIiwiYSI6ImNreHpidTJwZzZyYnozMG80NW1kMjg4Mm0ifQ.BYK9HMEeVxydZWtkXu2ErQ'
+        }).addTo(mymap);
       	
       	var marker = L.marker([<%=@lat%>, <%=@lng%>]).addTo(mymap);
       } else {
