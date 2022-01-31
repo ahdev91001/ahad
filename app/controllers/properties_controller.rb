@@ -140,7 +140,7 @@ class PropertiesController < ApplicationController
   def adv_search
     sql_just_where = get_adv_search_where_sql(params)
 
-    print "JJJJJJJJJJJJJJJJJJJJJUST" + sql_just_where
+    print "KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK JUST" + sql_just_where
     #@properties = Property.joins(:prop_builders, :prop_architects, :apn)
     #        .select("property.*, prop_architect.name as arch_name, " +
     #                "prop_architect.confirmed as arch_confirmed, " +
@@ -149,10 +149,25 @@ class PropertiesController < ApplicationController
     #        .where(sql_just_where) # + " AND (first_architect='Y' AND first_builder='Y')")
 
     if sql_just_where == "(TRUE) AND (TRUE)"
-      @properties = Property.where(sql_just_where) 
+      
+      #@properties = Property.where(sql_just_where)
+      
+      # Below should make print to PDF work, but it's so slow it times out
+      # the app.  The above is fast enough to return results, but you
+      # can't create a PDF from them.  DDC 1/30/22
+      
+      @properties = Property.left_joins(:prop_builders, :prop_architects, :apn)
+              .select("property.*, prop_architect.name as arch_name, " +
+                      "prop_architect.confirmed as arch_confirmed, " + 
+                      "prop_builder.name as build_name, " + 
+                      "prop_builder.confirmed as build_confirmed").distinct
+              .where(sql_just_where) 
     else
       @properties = Property.left_joins(:prop_builders, :prop_architects, :apn)
-              .select("property.*").distinct
+              .select("property.*, prop_architect.name as arch_name, " +
+                      "prop_architect.confirmed as arch_confirmed, " + 
+                      "prop_builder.name as build_name, " + 
+                      "prop_builder.confirmed as build_confirmed").distinct
               .where(sql_just_where) # + " AND (first_architect='Y' AND first_builder='Y')")
     end
     #@properties = Property.where(sql_just_where) 
@@ -166,7 +181,7 @@ class PropertiesController < ApplicationController
 
         pdf = AdvSearchPdf.new(params, @properties)
         send_data pdf.render, 
-          filename: "Search-" + Time.now.strftime("%F_%T").gsub(":","-") + ".pdf",
+          filename: "Advanced-Search-" + Time.now.strftime("%F_%T").gsub(":","-") + ".pdf",
           type: 'application/pdf',
           disposition: 'inline'        
       end
