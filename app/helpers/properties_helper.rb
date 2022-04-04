@@ -351,7 +351,7 @@ module PropertiesHelper
     
     # If addr doesn't match this pattern, everything else
     # fails below, so [f|b]ail fast and just return []
-    if addr !~ /^(\d+) (.*) (.*)$/
+    if addr !~ /^(\d+) (.*)$/
       return []
     end
     
@@ -398,5 +398,93 @@ module PropertiesHelper
     end
     ar_h_close_addresses 
   end # neighbors
+  
+  ###########################################################################
+  # #confirmed?
+  
+  # Used by PropArchitect and PropBuilder decorators.
+  #
+  # @param Field [String] Field contents to be confirmed/qualified.
+  #
+  # @param conf_field [String] The confirming field (contains Y, N, etc.)
+  #
+  # @param conf_val [String] The value for confirmation (e.g. Y)
+  #
+  # @return [Boolean] True if confirmed; False otherwise.
+  #
+  # @author Derek Carlson <carlson.derek@gmail.com
+  def confirmed?(field, conf_field, conf_val)
+    if field && conf_field
+      conf_field.upcase == conf_val
+    else
+      false
+    end
+  end
+
+  ###########################################################################
+  # #add_addnl_confirmation_info
+  
+  # Used by PropArchitect and PropBuilder decorators.
+  #
+  # @param field [String] Field to be confirmed/qualified.
+  #
+  # @param conf_field [String] The confirming field (contains Y, N, etc.)
+  #
+  # @param conf_val [String] The value for confirmation (e.g. Y)
+  #
+  # @param affirmed [String] The string to display if it's affirmed.
+  #
+  # @param unaffirmed [String] The string to display if it's unaffirmed.
+  #
+  # @return [String] Nothing if field is blank; otherwise the
+  #   contents of the field followed by the affirmation string in parentheses
+  #
+  # @author Derek Carlson <carlson.derek@gmail.com
+  def add_addnl_confirmation_info(field, conf_field, val, affirmed, unaffirmed)
+    
+    if !field || field == ""
+      field
+    else
+      field + " " + (confirmed?(field, conf_field, val) ? affirmed : unaffirmed)
+    end
+  end
+  
+  def architect_qualified(name, confirmed)
+    add_addnl_confirmation_info name, confirmed,
+      "Y", "(confirmed)", "(attributed to)"
+  end
+
+  def builder_qualified(name, confirmed)
+    add_addnl_confirmation_info name, confirmed,
+      "Y", "(confirmed)", "(attributed to)"
+  end
+  
+  def arch_all_html(prop)
+    s = ""
+    archs = prop.all_architects
+    archs.each do |a|
+      aq = PropArchitectDecorator.new(a)
+      s = s + aq.qualified + (aq.year != nil && aq.year != "" ? " (" + aq.year + ")" : "") + "<br>".html_safe
+    end
+    if s.size > 4
+      s = s[0..-5]  
+    end
+
+    return s
+  end
+  
+  def bldr_all_html(prop)
+    s = ""
+    bldrs = prop.all_builders
+    bldrs.each do |b|
+      bq = PropBuilderDecorator.new(b)
+      s = s + bq.qualified + (bq.year != nil && bq.year != "" ? " (" + bq.year + ")" : "") + "<br>".html_safe
+    end
+    if s.size > 4
+      s = s[0..-5]  
+    end
+
+    return s
+  end
   
 end # PropertiesHelper

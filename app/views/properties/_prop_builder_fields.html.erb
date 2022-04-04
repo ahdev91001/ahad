@@ -1,0 +1,18 @@
+        <div class="nested-fields">
+          <%= f.label :name %>
+          <%= f.text_field :name %>
+
+          <%= f.label :first_builder, "Show as Primary Builder?" %>
+          <%= f.select :first_builder, [['',''],['Y', 'Y'], ['N', 'N']] %>
+
+          <%= f.label :confirmed %>
+          <%= f.select :confirmed, [['',''],['Y', 'Y'], ['N', 'N']] %>
+
+          <%= f.label :year %>
+          <%= f.text_field :year %>
+
+          <%= f.label :yearflag, "Year Flag" %>
+          <%= f.select :yearflag, [['',''],['Y', 'Y'], ['N', 'N']] %>
+          
+          <%= link_to_remove_association "Remove Above Builder", f %>
+        </div>

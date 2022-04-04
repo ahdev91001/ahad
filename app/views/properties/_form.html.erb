@@ -85,39 +85,47 @@
       </datalist>
       <%= f.text_field :type, class: 'form-control', list: "typelist" %>
 
-      <%= f.label :chrs, "CHRS" %>
-      <%= f.text_field :chrs, class: 'form-control', maxlength: 32 %>
-
-      <%= f.label :architect %>
-      <%= f.text_field :architect, class: 'form-control', maxlength: 128 %>
-
-      <%= f.label :architectconfirmed, "Architect Confirmed" %>
-      <%= f.select :architectconfirmed, [['',''],['Y', 'Y'], ['N', 'N']] %>
-
-      <!-- Additional Architects -->
-      <%= f.label :additionalarchitects, "Additional Architects" %>
+      <!-- CHRS -->
+      <%= f.label :propchrss, "CHRS" %>
       <div style="margin-left:100px">
-      <%= f.fields_for :additional_architects do |aa| %>
-         <%= render 'additional_architect_fields', f: aa %>
+      <%= f.fields_for :prop_chrs do |cc| %>
+         <%= render 'prop_chrs_fields', f: cc %>
       <% end %>
         <div class="links">
-          <%= link_to_add_association 'Add an Architect', f, :additional_architects %>
+          <%= link_to_add_association 'Add a CHRS Code', f, :prop_chrs %>
         </div>
       </div>
-      
-      <%= f.label :builder %>
-      <%= f.text_field :builder, class: 'form-control', maxlength: 128 %>
 
-      <%= f.label :builderconfirmed, "Builder Confirmed" %>
-      <%= f.select :builderconfirmed, [['',''],['Y', 'Y'], ['N', 'N']] %>
-
-      <%= f.label :additionalbuilders, "Additional Builders" %>
+      <!-- Resources -->
+      <%= f.label :propresources, "Resources" %>
       <div style="margin-left:100px">
-      <%= f.fields_for :additional_builders do |ab| %>
-         <%= render 'additional_builder_fields', f: ab %>
+      <%= f.fields_for :prop_resources do |pr| %>
+         <%= render 'prop_resource_fields', f: pr %>
       <% end %>
         <div class="links">
-          <%= link_to_add_association 'Add a Builder', f, :additional_builders %>
+          <%= link_to_add_association 'Add a Resource', f, :prop_resources %>
+        </div>
+      </div>
+
+      <!-- Architects -->
+      <%= f.label :proparchitects, "Architects" %>
+      <div style="margin-left:100px">
+      <%= f.fields_for :prop_architects do |aa| %>
+         <%= render 'prop_architect_fields', f: aa %>
+      <% end %>
+        <div class="links">
+          <%= link_to_add_association 'Add an Architect', f, :prop_architects %>
+        </div>
+      </div>
+
+      <!-- Builders -->
+      <%= f.label :propbuilders, "Builders" %>
+      <div style="margin-left:100px">
+      <%= f.fields_for :prop_builders do |bb| %>
+         <%= render 'prop_builder_fields', f: bb %>
+      <% end %>
+        <div class="links">
+          <%= link_to_add_association 'Add a Builder', f, :prop_builders %>
         </div>
       </div>
 
@@ -142,29 +150,23 @@
           <%= link_to_add_association 'Add an Alteration', f, :alterations %>
         </div>
       </div>
+
+      <!-- Owners -->
+      <%= f.label :propowners, "Owners" %>
+      <div style="margin-left:100px">
+      <%= f.fields_for :prop_owners do |po| %>
+         <%= render 'prop_owner_fields', f: po %>
+      <% end %>
+        <div class="links">
+          <%= link_to_add_association 'Add an Owner', f, :prop_owners %>
+        </div>
+      </div>
       
-      <%= f.label :originalowner, "Original Owner" %>
-      <%= f.text_field :originalowner, class: 'form-control', maxlength: 64 %>
-
-      <%= f.label :originalownerspouse, "Original Owner Spouse" %>
-      <%= f.text_field :originalownerspouse, class: 'form-control', maxlength: 64 %>
-
       <%= f.label :originalowneroccupation, "Original Owner Occupation" %>
       <%= f.text_field :originalowneroccupation, class: 'form-control', maxlength: 64 %>
 
       <%= f.label :placeofbusiness, "Place of Business" %>
       <%= f.text_field :placeofbusiness, class: 'form-control', maxlength: 64 %>
-
-      <!-- Other Owners -->
-      <%= f.label :otherowners, "Other Owners" %>
-      <div style="margin-left:100px">
-      <%= f.fields_for :other_owners do |oo| %>
-         <%= render 'other_owner_fields', f: oo %>
-      <% end %>
-        <div class="links">
-          <%= link_to_add_association 'Add an Other Owner', f, :other_owners %>
-        </div>
-      </div>
 
       <%= f.label :originalcost, "Original Cost" %>
       <%= f.text_field :originalcost, class: 'form-control', maxlength: 32 %>

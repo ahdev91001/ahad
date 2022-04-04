@@ -23,6 +23,9 @@ class PropertyPdf < Prawn::Document
   def initialize(property)
 
     @property = property
+
+    @tmp_cursor = 0
+    @starting_new_page = false
     
     info = {
      :Title => @property.address1,
@@ -63,16 +66,22 @@ class PropertyPdf < Prawn::Document
 
   bounding_box([bounds.left, bounds.top - 95], :width => bounds.width) do  
 
-  if (photo = @property.photos.first) && photo.filename
-    image open("http://altadenaheritagepdb.org/photo/" + URI.encode(photo.filename)),
-      :position => :center, :height => 200
-  else
-    image Dir.getwd + "/app/assets/images/house-stick-figure-med.png", 
-    :position => :center, :width => 250
-    text "We do not have a picture of this house yet.", :align => :center
-    text "<link href='http://altadenaheritage.org/contact-us/'><color rgb='5555FF'>" +
-          "Let us know</color></link> if you have one!",  :align => :center,  :inline_format => true
-  end
+    if !@property.primary_image.nil? && @property.primary_image.filename
+      image open("http://altadenaheritagepdb.org/photo/" + URI.encode(@property.primary_image.filename)),
+        :position => :center, :height => 200
+      move_down 4
+      text  (@property.primary_image.description.nil? ? "" : @property.primary_image.description + " ") +
+            (@property.primary_image.date.nil? ? "" : "(" + @property.primary_image.date + ") ") +
+            (@property.primary_image.credit.nil? || @property.primary_image.credit == ""  ? "" : "Credit: " + @property.primary_image.credit), 
+            :size => 9, :align => :center,  :inline_format => true
+            
+    else
+      image Dir.getwd + "/app/assets/images/house-stick-figure-med.png", 
+      :position => :center, :width => 250
+      text "We do not have a picture of this house yet.", :align => :center
+      text "<link href='http://altadenaheritage.org/contact-us/'><color rgb='5555FF'>" +
+            "Let us know</color></link> if you have one!",  :align => :center,  :inline_format => true
+    end
 
   end
 
@@ -151,10 +160,10 @@ class PropertyPdf < Prawn::Document
         :inline_format => true
     end
 
-    if @property.chrs == nil 
+    if @property.chrs_codes == "" 
       text "<color rgb='777777'>CHRS:</color> Not on File", :inline_format => true
     else  
-      text ps_markup_pdf("CHRS", @property.chrs, false), 
+      text ps_markup_pdf("CHRS", @property.chrs_codes, false), 
         :inline_format => true
     end
 
@@ -165,18 +174,22 @@ class PropertyPdf < Prawn::Document
       start_new_page
     end
     
-    if @property.additional_architects.count > 0
-      text ps_markup_pdf("Architects", @property.architect_qualified), 
-        :inline_format => true
-    else
-      text ps_markup_pdf("Architect", @property.architect_qualified), 
-        :inline_format => true
+    if !@property.first_architect.nil?
+      a = PropArchitectDecorator.new(@property.first_architect)
+      if @property.prop_architects.count > 1
+        text ps_markup_pdf("Architects", a.qualified + (a.year != nil ? " (" + a.year + ")" : "")), 
+          :inline_format => true
+      else
+        text ps_markup_pdf("Architect", a.qualified + (a.year != nil ? " (" + a.year + ")" : "")), 
+          :inline_format => true
+      end
     end
 
     bounding_box([30, cursor], :width => 390) do  
-      if @property.additional_architects.count > 0
-        @property.additional_architects.each do |a|
-            text a.name + (a.year != nil ? " (" + a.year + ")" : ""),
+      if @property.other_architects.count > 0
+        @property.other_architects.each do |aa|
+            aa = PropArchitectDecorator.new(aa)
+            text aa.qualified + (aa.year != nil ? " (" + aa.year + ")" : ""),
               :inline_format => true
         end
       end
@@ -190,18 +203,22 @@ class PropertyPdf < Prawn::Document
       start_new_page
     end
  
-    if @property.additional_builders.count > 0
-      text ps_markup_pdf("Builders", @property.builder_qualified, false, true), 
-        :inline_format => true
-    else
-      text ps_markup_pdf("Builder", @property.builder_qualified), 
-        :inline_format => true
+    if !@property.first_builder.nil?
+      b = PropBuilderDecorator.new(@property.first_builder)
+      if @property.prop_builders.count > 1
+        text ps_markup_pdf("Builders", b.qualified + (b.year != nil ? " (" + b.year + ")" : ""), false, true), 
+          :inline_format => true
+      else
+        text ps_markup_pdf("Builder", b.qualified + (b.year != nil ? " (" + b.year + ")" : "")), 
+          :inline_format => true
+      end
     end
 
     bounding_box([30, cursor], :width => 390) do  
-      if @property.additional_builders.count > 0
-        @property.additional_builders.each do |a|
-            text a.name + (a.year != nil ? " (" + a.year + ")" : ""),
+      if @property.other_builders.count > 0
+        @property.other_builders.each do |bb|
+            bb= PropBuilderDecorator.new(bb)
+            text bb.qualified + (bb.year != nil ? " (" + bb.year + ")" : ""),
               :inline_format => true
         end
       end
@@ -254,20 +271,14 @@ class PropertyPdf < Prawn::Document
       text "<color rgb='777777'>Alterations:</color> None on File", :inline_format => true
     end
   
-    if @property.originalowner == nil 
+  
+    if @property.original_owner == nil 
       text "<color rgb='777777'>Original Owner:</color> Not on File", :inline_format => true
     else
-      text ps_markup_pdf("Original Owner", @property.originalowner, false), 
+      text ps_markup_pdf("Original Owner", @property.original_owner.name + (@property.original_owner.comment.nil? ? "" : " (" + @property.original_owner.comment + ")"), false), 
         :inline_format => true
     end
 
-    if @property.originalownerspouse == nil 
-      text "<color rgb='777777'>Original Owner Spouse:</color> Not on File", :inline_format => true
-    else
-      text ps_markup_pdf("Original Owner Spouse", @property.originalownerspouse, false),
-        :inline_format => true
-    end
-  
     if @property.originalowneroccupation == nil 
       text "<color rgb='777777'>Original Owner Occupation:</color> Not on File", :inline_format => true
     else
@@ -293,10 +304,11 @@ class PropertyPdf < Prawn::Document
       text "<color rgb='777777'>Other Owners:</color>", :inline_format => true
 
       bounding_box([30, cursor], :width => 390) do  
-        data = [["Address", "Years"]]
+        data = [["Name", "Years", "Comment"]]
         @property.other_owners.each do |a|
           data += [[a.name,
-                    a.years != nil ? a.years : "N/A"]]
+                    a.years != nil ? a.years : "N/A",
+                    a.comment != nil ? a.comment : "N/A"]]
         end
         table(data, :row_colors => ["C0C0C0", "FFFFFF"])
         move_down 7
@@ -368,14 +380,23 @@ class PropertyPdf < Prawn::Document
 
     move_down 20
 
+    @tmp_cursor = cursor
+
     # 
     # CHRS Codes Key
     #
-    if cursor < 40.0
+    if cursor < 60.0
+      @starting_new_page = true
       start_new_page
     end
+  end
 
-    bounding_box([-50, cursor], :width => 390) do  
+   bounding_box([75, 630], :width => 540-150, :height => 600) do
+      
+      if !@starting_new_page
+        move_down bounds.top -  @tmp_cursor
+      end
+
       text "<color rgb='777777'>California Historical Resource Status (CHRS) Codes Key</color>", :inline_format => true, :size => 9
 
       data = [["Code", "Description"]]
@@ -394,9 +415,6 @@ class PropertyPdf < Prawn::Document
         :align => :left, :size => 10,  :inline_format => true
 
     end
-  end
-
-
 
   # Page numbering (duh)
   

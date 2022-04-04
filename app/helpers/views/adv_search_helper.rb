@@ -9,15 +9,15 @@ module Views::AdvSearchHelper
   # #get_adv_search_sql
 
   # Given a params dict of advanced search query filters, return the
-  # associated SQL to select just those properties specified.
+  # associated SQL WHERE clause to select just those properties specified.
   #
   # @param p [Dict] A dict of advanced query parameters.
   #
-  # @return [String] A complete SQL clauses that returns properties limited
+  # @return [String] The SQL WHERE clause that returns properties limited
   #         by the filters specified by the advanced query parameters.
   #
   ###########################################################################
-  def get_adv_search_sql(p)
+  def get_adv_search_where_sql(p)
     
     # Note [1]:
     #s = "SELECT * FROM property LEFT JOIN apn on property.id = apn.propid "
@@ -26,12 +26,6 @@ module Views::AdvSearchHelper
     #  (SELECT * FROM property RIGHT JOIN apn on property.id = apn.propid ) AS count_table
     # at line:
     # <% @properties = Property.paginate_by_sql(sql, page: params[:page], per_page: 30)%>
-    
-    if !p[:apn].nil? && p[:apn].length > 0
-      s = "SELECT * FROM property LEFT JOIN apn on property.id = apn.propid "
-    else
-      s = "SELECT * FROM property "
-    end
     
     where_clause = ""
     
@@ -49,10 +43,10 @@ module Views::AdvSearchHelper
       where_clause = where_clause + t
     end
     
-    t = get_ab_where("architect", p[:architects])
+    t = get_ab_where("prop_architect.name", p[:architects])
     where_clause = where_clause + t + " AND " if t != ""
     
-    t = get_ab_where("builder", p[:builders])
+    t = get_ab_where("prop_builder.name", p[:builders])
     where_clause = where_clause + t + " AND " if t != ""
 
     t = get_yearbuilt_where(p)
@@ -74,8 +68,8 @@ module Views::AdvSearchHelper
       where_clause = where_clause[0..-6] # get rid of trailing " AND "
     end
 
-    s = s + "WHERE " + where_clause unless where_clause == ""
-
+    s = where_clause unless where_clause == ""
+    
     return s
   end
 
@@ -214,11 +208,11 @@ module Views::AdvSearchHelper
   # fred,new,ted 
   # Contains All
   #
-  #   architect LIKE %fred% AND architect LIKE %new% AND ...
+  #   prop_architect.name LIKE %fred% AND prop_architect.name LIKE %new% AND ...
   #
   # Contains Any
   #
-  #   architect LIKE %fred% OR architect LIKE %new% OR ...
+  #   prop_architect.name LIKE %fred% OR prop_architect.name LIKE %new% OR ...
   #
   ###########################################################################
   def get_fuzzy_architects_where(p)
@@ -240,13 +234,11 @@ module Views::AdvSearchHelper
     
     s = ""    
     names.each do |name|
-      s = s + "architect LIKE '%#{name}%' " + cmp + " "
+      s = s + "prop_architect.name LIKE '%#{name}%' " + cmp + " "
     end
     
     s = "(" + s[0..-5] + ")"
-    
-    puts "------------------------------" + s
-    
+
     return s
   end
 
@@ -268,11 +260,11 @@ module Views::AdvSearchHelper
   # fred,new,ted 
   # Contains All
   #
-  #   architect LIKE %fred% AND architect LIKE %new% AND ...
+  #   prop_builder.name LIKE %fred% AND prop_builder.name LIKE %new% AND ...
   #
   # Contains Any
   #
-  #   architect LIKE %fred% OR architect LIKE %new% OR ...
+  #   prop_builder.name LIKE %fred% OR prop_builder.name LIKE %new% OR ...
   #
   ###########################################################################
   def get_fuzzy_builders_where(p)
@@ -294,12 +286,10 @@ module Views::AdvSearchHelper
     
     s = ""    
     names.each do |name|
-      s = s + "builder LIKE '%#{name}%' " + cmp + " "
+      s = s + "prop_builder.name LIKE '%#{name}%' " + cmp + " "
     end
     
     s = "(" + s[0..-5] + ")"
-    
-    puts "---------------------BUILD-----" + s
     
     return s
   end

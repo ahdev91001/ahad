@@ -1,4 +1,5 @@
-require 'google_maps_service'
+# DRJ 12/31/2021, not using this
+# require 'google_maps_service'
 
 class PropertiesController < ApplicationController
   respond_to :html, :json
@@ -19,7 +20,7 @@ class PropertiesController < ApplicationController
   # @return @properties [JSON] an array of hashes with keys :id & :address1
   def index
     @properties = Property.select(:id, :address1).where(
-      "address1 LIKE '%#{params[:term]}%'")
+      "address1 LIKE ?", "%#{params[:term]}%")
     if @properties.length == 0
       @properties = [] # [{:id => 0, 
                        #   :address1 => "Not found in our database yet." }]
@@ -39,8 +40,17 @@ class PropertiesController < ApplicationController
   
   def show
     source = Property.find(params[:id])
+    
     @property = PropertyDecorator.new(source)
-    gmaps = GoogleMapsService::Client.new(key: 'AIzaSyBgnPpkjO__fzAjoyCUMGyoQgegorqv5rY')
+    @property = PropArchitectDecorator.new(@property)
+    @property = PropBuilderDecorator.new(@property)
+    
+    # following commented out DJR 12/20/2021
+    # 01/03/2022 -- Uhh, no. We NEED this API to get the latitude and longitude
+    #   of the selected property
+    #   Generated a new API key using my Google Platform account, which does have a 
+    #   billing method configured.
+    gmaps = GoogleMapsService::Client.new(key: 'AIzaSyD2lPY_emV1xcbcb_DzuoJhzpdASHXir4g')
     results = gmaps.geocode("#{@property.address1} #{@property.address2}")
     if results[0] == nil
       @lat = 0 # 34.200503
@@ -85,9 +95,21 @@ class PropertiesController < ApplicationController
   # to be used with AJAX and select2.
   def index2
     if params[:filter] != nil && params[:filter].length > 0 then
-      @properties = Property.where("address1 LIKE ?", "%#{params[:filter]}%").paginate(page: params[:page], per_page: 30)
+      #@properties = Property.where("address1 LIKE ?", "%#{params[:filter]}%").paginate(page: params[:page], per_page: 30)
+      @properties = Property.joins(:prop_builders, :prop_architects, :apn)
+            .select("property.*, prop_architect.name as arch_name, " +
+                    "prop_architect.confirmed as arch_confirmed, " +
+                    "prop_builder.name as build_name, " +
+                    "prop_builder.confirmed as build_confirmed")
+            .where("address1 LIKE ?", "%#{params[:filter]}%").paginate(page: params[:page], per_page: 30)
+
     else  
-      @properties = Property.paginate(page: params[:page], per_page: 30)
+#      @properties = Property.paginate(page: params[:page], per_page: 30)
+      @properties = Property.joins(:prop_builders, :prop_architects, :apn)
+            .select("property.*, prop_architect.name as arch_name, " +
+                    "prop_architect.confirmed as arch_confirmed, " +
+                    "prop_builder.name as build_name, " +
+                    "prop_builder.confirmed as build_confirmed").paginate(page: params[:page], per_page: 30)
     end
   end
   
@@ -116,16 +138,50 @@ class PropertiesController < ApplicationController
   end
 
   def adv_search
+    sql_just_where = get_adv_search_where_sql(params)
+
+    print "KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK JUST" + sql_just_where
+    #@properties = Property.joins(:prop_builders, :prop_architects, :apn)
+    #        .select("property.*, prop_architect.name as arch_name, " +
+    #                "prop_architect.confirmed as arch_confirmed, " +
+    #                "prop_builder.name as build_name, " +
+    #                "prop_builder.confirmed as build_confirmed")
+    #        .where(sql_just_where) # + " AND (first_architect='Y' AND first_builder='Y')")
+
+    if sql_just_where == "(TRUE) AND (TRUE)"
+      
+      #@properties = Property.where(sql_just_where)
+      
+      # Below should make print to PDF work, but it's so slow it times out
+      # the app.  The above is fast enough to return results, but you
+      # can't create a PDF from them.  DDC 1/30/22
+      
+      @properties = Property.left_joins(:prop_builders, :prop_architects, :apn)
+              .select("property.*, prop_architect.name as arch_name, " +
+                      "prop_architect.confirmed as arch_confirmed, " + 
+                      "prop_builder.name as build_name, " + 
+                      "prop_builder.confirmed as build_confirmed").distinct
+              .where(sql_just_where) 
+    else
+      @properties = Property.left_joins(:prop_builders, :prop_architects, :apn)
+              .select("property.*, prop_architect.name as arch_name, " +
+                      "prop_architect.confirmed as arch_confirmed, " + 
+                      "prop_builder.name as build_name, " + 
+                      "prop_builder.confirmed as build_confirmed").distinct
+              .where(sql_just_where) # + " AND (first_architect='Y' AND first_builder='Y')")
+    end
+    #@properties = Property.where(sql_just_where) 
+    
+    # DJR 12/31/2020, try to see this data object
+    logger.debug "@properties = #{@properties.inspect()}"
+    
     respond_to do |format|
       format.html
       format.pdf do
-        
-        sql = get_adv_search_sql(params)
-  	    @properties = Property.find_by_sql(sql)
 
         pdf = AdvSearchPdf.new(params, @properties)
         send_data pdf.render, 
-          filename: "Search-" + Time.now.strftime("%F_%T").gsub(":","-") + ".pdf",
+          filename: "Advanced-Search-" + Time.now.strftime("%F_%T").gsub(":","-") + ".pdf",
           type: 'application/pdf',
           disposition: 'inline'        
       end
@@ -148,11 +204,13 @@ class PropertiesController < ApplicationController
         :streetnumberbegin, :streetnumberend, :style, :type,
         :yearbuilt, :yearbuiltassessor, :yearbuiltassessorflag,
         :yearbuiltflag, :yearbuiltother, :yearbuiltotherflag,
-        additional_architects_attributes: [:id, :name, :year, :_destroy],
-        additional_builders_attributes: [:id, :name, :year, :_destroy],
+        prop_architects_attributes: [:id, :name, :first_architect, :confirmed, :year, :yearflag, :_destroy],
+        prop_builders_attributes: [:id, :name, :first_builder, :confirmed, :year, :yearflag, :_destroy],
+        prop_chrs_attributes: [:id, :chrs_code, :_destroy],
         building_permits_attributes: [:id, :permit, :year, :_destroy],
         alterations_attributes: [:id, :cost, :description, :year, :_destroy],
-        other_owners_attributes: [:id, :name, :years, :_destroy],
+        prop_owners_attributes: [:id, :name, :years, :yearflag, :original_owner, :comment, :_destroy],
+        prop_resources_attributes: [:id, :filename, :resource_type, :file_format, :description, :date, :credit, :primary_image, :_destroy],
         former_addresses_attributes: [:id, :address1, :address2, :years, :yearflag, :_destroy],
         apn_attributes: [:id, :parcel, :_destroy])
     end

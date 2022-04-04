@@ -8,22 +8,22 @@
       </h3>
     </div>
     
-    <% if current_user && current_user.admin? && logged_in? %>
-      <div id="ps-edit-link">
-        <%= link_to "Edit", property_edit_path(@property) %>
-      </div>
-    <% end %>
-    
     <div style="text-align:center">
     <%= "\xC2\xA9 #{Time.current.year}" %> 
     <a href="http://altadenaheritage.org/">Altadena Heritage</a>
     </div>
     
+    <!-- Photo of property -->
     <div id="ps-photo-main-container">
-      <% if (photo = @property.photos.first) && photo.filename %>
+      <% if !@property.primary_image.nil? && @property.primary_image.filename %>
         <%= image_tag("http://altadenaheritagepdb.org/photo/" + 
-              photo.filename, 
+              @property.primary_image.filename, 
               :id => "ps-photo-main", :alt => "Photo of Property") %>
+  
+        <%= @property.primary_image.description.nil? ? "" : @property.primary_image.description %>
+        <%= @property.primary_image.date.nil? ? "" : "(" + @property.primary_image.date + ")" %>
+        <%= @property.primary_image.credit.nil? || @property.primary_image.credit = ""  ? "" : "Credit: " + @property.primary_image.credit %>
+
       <% else %>
         <div id='ps-photo-main-no-photo'>
           <%= image_tag('house-stick-figure-med.png',
@@ -36,10 +36,11 @@
       <% end %>
 
     </div>
+
     
     <div id="ps-addr-title-fader"><%= @property.address1 %></div>
-    
 
+    <!-- Download PDF Link -->
     <!-- JS onClickEvent added to #ps-dl-pdf-img to pop up wait spinner -->    
     <div id="ps-dl-pdf-img">
     <%= link_to image_tag('pdf-dl-button-65x24.png', :alt => 'Download PDF'), 
@@ -54,9 +55,14 @@
       </div>
     </div>
 
-
-
     <!-- All fields listed below -->
+
+    <% if current_user && current_user.admin? && logged_in? %>
+      <div id="ps-edit-link">
+        <%= link_to "Edit", property_edit_path(@property) %>
+      </div>
+    <% end %>
+    
     <div class="ps-db-details">
 
       <%= ps_markup("APN", (apn = @property.apn) && apn.parcel) %>
@@ -72,42 +78,50 @@
       <%= ps_markup("Stories", @property.stories) %>
       <%= ps_markup("Type", 
           @property.type != nil ? @property.type.capitalize : "", true) %>
-      <%= ps_markup("CHRS", @property.chrs) %>
+      <%= ps_markup("CHRS", @property.chrs_codes) %>
 
       <!-- 
         -- Architects
         -->
 
-      <% if @property.additional_architects.count > 0 %>
-        <%= ps_markup("Architects", @property.architect_qualified) %>
-      <% else %>
-        <%= ps_markup("Architect", @property.architect_qualified) %>
+      <% if !@property.first_architect.nil? %>
+        <% a = PropArchitectDecorator.new(@property.first_architect) %>
+        <% if @property.prop_architects.count > 1 %>
+          <%= ps_markup("Architects", a.qualified + (a.year != nil && a.year != "" ? " (" + a.year + ")" : "")) %>
+        <% else %>
+          <%= ps_markup("Architect", a.qualified + (a.year != nil  && a.year != "" ? " (" + a.year + ")" : "")) %>
+        <% end %>
       <% end %>
-      
-      <% if @property.additional_architects.count > 0 %>
+
+      <% if @property.other_architects.count > 0 %>
         <div class="ps-list-padded accordion-content__indent">
-          <% @property.additional_architects.each do |a| %>
-            <%= a.name + (a.year != nil ? " (" + a.year + ")" : "") %><br>
+          <% @property.other_architects.each do |a| %>
+            <% a = PropArchitectDecorator.new(a) %>
+            <%= a.qualified + (a.year != nil  && a.year != "" ? " (" + a.year + ")" : "") %><br>
           <% end %>
         </div>      
       <% end %>
-      
+
       <!-- 
         -- Builders
         -->
 
-      <% if @property.additional_builders.count > 0 %>
-        <%= ps_markup("Builders", @property.builder_qualified, false, true) %>
-      <% else %>
-        <%= ps_markup("Builder", @property.builder_qualified) %>
-      <% end %>      
-      
-      <% if @property.additional_builders.count > 0 %>
+      <% if !@property.first_builder.nil? %>
+        <% b = PropBuilderDecorator.new(@property.first_builder) %>
+        <% if @property.prop_builders.count > 1 %>
+          <%= ps_markup("Builders", b.qualified + (b.year != nil  && b.year != "" ? " (" + b.year + ")" : "")) %>
+        <% else %>
+          <%= ps_markup("Builder", b.qualified + (b.year != nil  && b.year != "" ? " (" + b.year + ")" : "")) %>
+        <% end %>
+      <% end %>
+
+      <% if @property.other_builders.count > 0 %>
         <div class="ps-list-padded accordion-content__indent">
-          <% @property.additional_builders.each do |a| %>
-            <%= a.name + (a.year != nil ? " (" + a.year + ")" : "") %><br>
+          <% @property.other_builders.each do |b| %>
+            <% b = PropBuilderDecorator.new(b) %>
+            <%= b.qualified + (b.year != nil && b.year != "" ? " (" + b.year + ")" : "") %><br>
           <% end %>
-        </div>
+        </div>      
       <% end %>
 
       <% if @property.building_permits.count > 0 %>
@@ -158,10 +172,10 @@
           None on File
         </div>
       <% end %>
+      
+      <%= ps_markup("Original Owner", @property.original_owner.nil? ? "" :
+          @property.original_owner.name + (@property.original_owner.comment.nil? ? "" : " (" + @property.original_owner.comment + ")")) %>
 
-      <%= ps_markup("Original Owner", @property.originalowner) %>
-      <%= ps_markup("Original Owner Spouse", 
-                    @property.originalownerspouse) %>
       <%= ps_markup("Original Owner Occupation", 
                     @property.originalowneroccupation) %>
 
@@ -175,12 +189,13 @@
         <div>
           <table class="ps-list-padded accordion-content__indent ps-tables">
             <tr>
-              <th align="left">Name</th><th>Years</th>
+              <th align="left">Name</th><th>Years</th><th>Comment</th>
             </tr>
-            <% @property.other_owners.each do |a| %>
+            <% @property.other_owners.each do |o| %>
               <tr>
-                <td> <%= a.name %> </td>
-                <td> <%= (a.years != nil ? a.years : "N/A") %> </td>
+                <td> <%= o.name %> </td>
+                <td> <%= !o.years.nil? ? o.years : "N/A" %> </td>
+                <td> <%= !o.comment.nil? ? o.comment : "N/A" %> </td>
               </tr>                  
             <% end %>
           </table>
@@ -237,22 +252,30 @@
     
     <div id="no-map-found">We're sorry, but we didn't find this address on a map.</div>
     
+        <!-- 01/03/2022 DJR, replaced this mapbox key: pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw -->
+        <!-- with the one below -->  
+        <!-- sk.eyJ1IjoiZHJ1YmluIiwiYSI6ImNreHpidTJwZzZyYnozMG80NW1kMjg4Mm0ifQ.BYK9HMEeVxydZWtkXu2ErQ -->
+        
     <script>
-      //var iDiv = document.createElement('div');
-      //iDiv.id = 'mapid';
-      //iDiv.style = "margin-left: auto; margin-right: auto; width: 600px; height: 400px;"
-      //document.getElementsByTagName('body')[0].appendChild(iDiv);
-      
       if (<%=@lat%> != 0 && <%=@lng%> != 0) {
         var mymap = L.map('mapid').setView([<%=@lat%>, <%=@lng%>], 17);
+ 
+      // 	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw' {
+      // 		maxZoom: 18,
+      // 		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+      // 			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+      // 			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+      // 		id: 'mapbox.streets'
+      // 	}).addTo(mymap);
       
-      	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-      		maxZoom: 18,
-      		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-      			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-      			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-      		id: 'mapbox.streets'
-      	}).addTo(mymap);
+        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+          attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+          maxZoom: 18,
+          id: 'mapbox/streets-v11',
+          tileSize: 512,
+          zoomOffset: -1,
+          accessToken: 'sk.eyJ1IjoiZHJ1YmluIiwiYSI6ImNreHpidTJwZzZyYnozMG80NW1kMjg4Mm0ifQ.BYK9HMEeVxydZWtkXu2ErQ'
+        }).addTo(mymap);
       	
       	var marker = L.marker([<%=@lat%>, <%=@lng%>]).addTo(mymap);
       } else {

@@ -14,12 +14,19 @@ default: &default
   encoding: utf8
   port: 3306
 
+#development:
+#  <<: *default
+#  database: altaheri_djrdev
+#  username: altaheri_12
+#  password: jyyUSStR
+#  host: db77a.pair.com
+
 development:
   <<: *default
-  database: altaheri_djrdev
-  username: altaheri_12
-  password: jyyUSStR
-  host: db77a.pair.com
+  database: altaheri_ahadnorm1
+  username: altaheri_17
+  password: ytqvnuSYEHSsr2yd
+  host: db104b.pair.com
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -71,14 +78,22 @@ test:                           # :testsqlite
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 
-# Below is read-only credentials
+# NOTE: On heroku, the database credentials are stored in the DATABASE_URL env variable.
+# heroku config --remote staging
+# DATABASE_URL: ...
+
 production:
   <<: *default
-  #url: <%= ENV['DATABASE_URL'] %>
-  database: altaheri_djr
-  username: altaheri_3_r
-  password: Wj89Rc6T
-  host: db154.pair.com
+  url: <%= ENV['DATABASE_URL'] %>
+
+# Below is read-only credentials
+#production:
+#  <<: *default
+#  #url: <%= ENV['DATABASE_URL'] %>
+#  database: altaheri_djr
+#  username: altaheri_3_r
+#  password: Wj89Rc6T
+#  host: db154.pair.com
 
 # Below is full R/W credentials
 #production:
