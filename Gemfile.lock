@@ -319,7 +319,7 @@ DEPENDENCIES
   jquery-rails (= 4.1.1)
   listen (= 3.0.8)
   minitest-reporters (= 1.1.9)
-  mysql2 (>= 0.3.18, < 0.5)
+  mysql2 (>= 0.4.10, < 0.5)
   nokogiri (= 1.9.1)
   normalize-scss (~> 4.0, >= 4.0.3)
   prawn
@@ -347,4 +347,4 @@ RUBY VERSION
    ruby 2.5.5p157
 
 BUNDLED WITH
-   1.17.2
+   1.17.3

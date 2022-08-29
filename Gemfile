@@ -45,10 +45,10 @@ group :development, :test do
 end
 
 group :development, :test, :production do
-  gem 'mysql2', '>= 0.3.18', '< 0.5'
+  # revised DJR 8/29/2022, apparently must use mysql2 >= 0.4.10
+  # gem 'mysql2', '>=0.3.18', '< 0.5'                               
+  gem 'mysql2', '>= 0.4.10', '< 0.5'
 end
-
-
 
 group :development do
   gem 'web-console',           '3.1.1'
