@@ -160,6 +160,7 @@ function onLoadEventRootHomeHelper() {
   $('#sp-home-search-btn').click(rootHomeSearchClicked);
   
   // See [1] in header comments
+  p "Line 163 of /ahad_website/app/assets/javascripts/static_pages.js"
   $('#sp-home-addr-select2').select2({
     placeholder: RH__SELECT2_DEFAULT_TEXT,
     tags: true, // This & selectOnBlur & createSearchChoice

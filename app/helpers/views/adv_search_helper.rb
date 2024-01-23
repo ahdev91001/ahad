@@ -157,7 +157,7 @@ module Views::AdvSearchHelper
     if ar_abs.count == 1 then
       return "" if ar_abs[0] == "Any"
       return "(#{field} = '" + ar_abs[0] + "')"
-    end if
+    end #if
     
     s_out = "("
     ar_abs.each do |a|
