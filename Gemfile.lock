@@ -251,7 +251,6 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
-    select2-rails (4.0.13)
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
@@ -332,7 +331,6 @@ DEPENDENCIES
   responders (= 2.3.0)
   rspec-rails (~> 3.5)
   sass-rails (= 5.0.6)
-  select2-rails (~> 4.0, >= 4.0.13)
   selenium-webdriver
   spring (= 1.7.2)
   spring-commands-rspec
