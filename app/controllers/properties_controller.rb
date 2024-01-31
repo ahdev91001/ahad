@@ -48,17 +48,17 @@ class PropertiesController < ApplicationController
     # following commented out DJR 12/20/2021
     # 01/03/2022 -- Uhh, no. We NEED this API to get the latitude and longitude
     #   of the selected property
-    #   Generated a new API key using my Google Platform account, which does have a 
+    # =>   Generated a new API key using my Google Platform account, which does have a 
     #   billing method configured.
-    gmaps = GoogleMapsService::Client.new(key: 'AIzaSyD2lPY_emV1xcbcb_DzuoJhzpdASHXir4g')
-    results = gmaps.geocode("#{@property.address1} #{@property.address2}")
-    if results[0] == nil
+    # gmaps = GoogleMapsService::Client.new(key: 'AIzaSyD2lPY_emV1xcbcb_DzuoJhzpdASHXir4g')
+    # results = gmaps.geocode("#{@property.address1} #{@property.address2}")
+    # if results[0] == nil
       @lat = 0 # 34.200503
       @lng = 0 # 118.128852
-    else
-      @lat = results[0][:geometry][:location][:lat]
-      @lng = results[0][:geometry][:location][:lng]
-    end
+    # else
+    #   @lat = results[0][:geometry][:location][:lat]
+    #   @lng = results[0][:geometry][:location][:lng]
+    # end
     
     respond_to do |format|
       format.html

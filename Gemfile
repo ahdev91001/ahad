@@ -35,7 +35,7 @@ gem 'nokogiri', '1.9.1'
 gem 'ZenTest', '~> 4.11', '>= 4.11.2'
 
 # added DJR, 01/23/2024
-gem 'select2-rails', '~> 4.0', '>= 4.0.13'
+# gem 'select2-rails', '~> 4.0', '>= 4.0.13'
 
 group :development, :test do
   gem 'byebug',  '9.0.0', platform: :mri

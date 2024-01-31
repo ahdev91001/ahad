@@ -13,14 +13,16 @@
  * Below, require_tree turned OFF (notice = is missing), so we can manually
  * require each scss file in main.scss in a specific order. This idea
  * came from: http://www.mattboldt.com/organizing-css-and-sass-rails/
+ * DRJ 1/28/2024 in the list below, changed require select2 to require select2.min
+ *     and removed require select2-bootstrap
  * 
  * NOTE: Now, if you add a new css or scss file to the directory tree,
  *       you need to MANUALLY add it in an @import command in main.scss.
- *
+ *       equire select2-bootstrap
+ *       this was necessary to get the home page to load without crashing
  *  require_tree .       
  *= require_self         
- *= require select2 
- *= require select2-bootstrap
+ *= require select2.min
  *= require main
  */
 @import "bootstrap-sprockets"
