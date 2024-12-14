@@ -25,8 +25,10 @@ development:
   <<: *default
   database: altaheri_ahadnorm1
   username: altaheri_17
-  password: ytqvnuSYEHSsr2yd
-  host: db104b.pair.com
+  password: 6smJhL#kHg29  # changed here 12/12/2024 DJR
+   #password: ytqvnuSYEHSsr2yd
+  host: db167.pair.com    # changed here 12/12/2024 DJR
+   #host: db104b.pair.com
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
