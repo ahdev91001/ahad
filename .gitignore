@@ -36,3 +36,6 @@
 # Ignore YARD (RDoc) dynamically created documentation
 /doc/*
 
+
+# Ignore master key for decrypting credentials and more.
+/config/master.key

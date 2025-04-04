@@ -1,62 +1,28 @@
-<!DOCTYPE html lang="en">
+<!DOCTYPE html>
 <html>
   <head>
-    <title><%= yield(:title) %></title>
+    <title><%= content_for(:title) || "Clone1" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
-    <meta charset="utf-8">
-    
-    
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag    'application',
-      'https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300',
-       media: 'all', 'data-turbolinks-track' => true %>
+    <%= yield :head %>
 
-    <%= stylesheet_link_tag    'application',
-      'https://fonts.googleapis.com/css?family=Gafata',
-       media: 'all', 'data-turbolinks-track' => true %>
+    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
 
-    <%= stylesheet_link_tag    'application',
-      'https://fonts.googleapis.com/css?family=Assistant',
-       media: 'all', 'data-turbolinks-track' => true %>
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
 
-    <%= favicon_link_tag 'ah-logo.ico' %>
-  
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
-
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
   </head>
 
   <body>
-    <!-- Fixed translucent title bar at top -->
-    <div id="app-layout-header-bar">
-      <a href="http://ahad.altadenaheritagepdb.org/" target="_">
-        <%= image_tag("ahad-header-logo-from-website-alpha-2.png", 
-            :id => "app-layout-ah-header-logo-img",
-            :alt => "AHAD Header Logo") %>
-      </a>
-    </div>
-    
-    <% unless current_page?(root_path) %>
-      <div id="app-layout-top-spacer"> </div>
-    <% end %>
- <!--
-    <div>
-      <%= debug(params) if Rails.env.development? %>
-    </div>
--->
-    <% if flash.count > 0 %>     
-      <% unless request.fullpath == "/login" %>
-        <div id="flash-vert-spacer"></div>
-      <% end %>
-      <% flash.each do |message_type, message| %>
-        <%= content_tag(:div, message, class: "alert alert-#{message_type}") %>
-      <% end %>
-    <% end %>
-    
     <%= yield %>
   </body>
 </html>
