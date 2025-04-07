@@ -13,20 +13,32 @@ default: &default
   adapter: mysql2
   encoding: utf8mb4
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: root
-  password:
+  username: altaheri_17
+  password: 6smJhL#kHg29
+  host: db167.pair.com
+  port: <%= ENV['DB_PORT'] || 3306 %>  # Default MySQL port
+  database: altaheri_ahadnorm1
+  # auth_plugin: caching_sha2_password
   socket: /tmp/mysql.sock
+  # Optional: For SSL connections (if required by your provider)
+  #ssl_mode: :verify_identity
+  #sslca: <%= ENV['DB_SSL_CA_PATH'] || '/path/to/ca-cert.pem' %>
 
 development:
   <<: *default
-  database: ahad_development
+
+test:
+  <<: *default
+  database: <%= ENV['DB_TEST_NAME'] || 'your_database_name_test' %>
+
+production:
+  <<: *default
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
-test:
-  <<: *default
-  database: ahad_test
+# test:
+#   <<: *default
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -48,21 +60,21 @@ test:
 # Read https://guides.rubyonrails.org/configuring.html#configuring-a-database
 # for a full overview on how database connection configuration can be specified.
 #
-production:
-  primary: &primary_production
-    <<: *default
-    database: ahad_production
-    username: ahad
-    password: <%= ENV["AHAD_DATABASE_PASSWORD"] %>
-  cache:
-    <<: *primary_production
-    database: ahad_production_cache
-    migrations_paths: db/cache_migrate
-  queue:
-    <<: *primary_production
-    database: ahad_production_queue
-    migrations_paths: db/queue_migrate
-  cable:
-    <<: *primary_production
-    database: ahad_production_cable
-    migrations_paths: db/cable_migrate
+# production:
+#   primary: &primary_production
+#     <<: *default
+#     database: ahad_production
+#     username: ahad
+#     password: <%= ENV["AHAD_DATABASE_PASSWORD"] %>
+#   cache:
+#     <<: *primary_production
+#     database: ahad_production_cache
+#     migrations_paths: db/cache_migrate
+#   queue:
+#     <<: *primary_production
+#     database: ahad_production_queue
+#     migrations_paths: db/queue_migrate
+#   cable:
+#     <<: *primary_production
+#     database: ahad_production_cable
+#     migrations_paths: db/cable_migrate
