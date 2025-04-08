@@ -13,12 +13,12 @@ default: &default
   adapter: mysql2
   encoding: utf8mb4
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: altaheri_17
-  password: 6smJhL#kHg29
-  host: db167.pair.com
+  username: <%= ENV.fetch("DB_USERNAME") %>
+  password: <%= ENV.fetch("DB_PASSWORD") %>
+  host: <%= ENV.fetch("DB_HOST") %>
   port: <%= ENV['DB_PORT'] || 3306 %>  # Default MySQL port
-  database: altaheri_ahadnorm1
-  socket: /tmp/mysql.sock
+  database: <%= ENV.fetch("DB_NAME") %>
+  socket: <%= ENV.fetch("DB_SOCKET") %>
   # Optional: For SSL connections (if required by your provider)
   #ssl_mode: :verify_identity
   #sslca: <%= ENV['DB_SSL_CA_PATH'] || '/path/to/ca-cert.pem' %>
