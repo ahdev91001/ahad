@@ -18,7 +18,6 @@ default: &default
   host: db167.pair.com
   port: <%= ENV['DB_PORT'] || 3306 %>  # Default MySQL port
   database: altaheri_ahadnorm1
-  # auth_plugin: caching_sha2_password
   socket: /tmp/mysql.sock
   # Optional: For SSL connections (if required by your provider)
   #ssl_mode: :verify_identity
@@ -29,7 +28,6 @@ development:
 
 test:
   <<: *default
-  database: <%= ENV['DB_TEST_NAME'] || 'your_database_name_test' %>
 
 production:
   <<: *default
