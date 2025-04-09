@@ -1,6 +1,19 @@
 Rails.application.routes.draw do
-  root 'database_test#index'  # Replace your existing root route
+  root 'static_pages#home'
+  
+  # Minimal legacy routes for welcome page functionality
+  get 'static_pages/help'
+  get 'static_pages/testform'
+  get 'static_pages/railstutorial'
+  get '/search', to: 'static_pages#search'
+  
+  # Temporary placeholder for future resources
+  get '/properties', to: redirect('/') # Will be replaced later
 end
+
+# Rails.application.routes.draw do
+#   root 'database_test#index'  # Replace your existing root route
+# end
 
 # Rails.application.routes.draw do
 #   get "database_test/index"

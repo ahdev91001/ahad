@@ -1,0 +1,38 @@
+<% content_for :title, "AHAD" %>
+
+<!-- Full screen background image on search page -->
+<div id="sp-home-bg-img-container">
+    <%= image_tag("altadena-littlehouse-1900-wide.jpg", :id => "sp-home-bg-img") %>
+</div>
+
+<!-- Architectural Database box with select2 input and search button -->
+<div id="sp-home-ad-box-container">
+	<div id="sp-home-ad-box">Architectural Database 
+		<div>
+			<form action="/search" id="sp-home-form">
+				<div id="sp-home-addr-container">
+					<select id="sp-home-addr-select2" name="id">
+					</select>
+				</div>
+	
+				<div id="sp-home-srch-btn-container">
+					<input id="ret" name="ret" type="hidden" value="search">
+					<button id="sp-home-search-btn" class="btn-arrow-anim" name="search"
+				    type="submit" value="submit">
+					  <span class="btn-arrow-anim__text">Search </span>
+					</button>
+					
+				</div>
+  			</form>
+		</div>
+
+		<div style="font-size:10pt;text-align:left">
+			The Altadena Heritage Architectural Database (AHAD) is maintained and curated by
+			<a href="http://altadenaheritage.org/" target="_blank">Altadena Heritage</a>
+			, a nonprofit volunteer-based advocacy and preservation organization. [AHAD Ver. 1.0.1]
+			# let's find a better way to store, increment, and display the app version #
+
+
+</div>
+
+
