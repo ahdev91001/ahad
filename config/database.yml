@@ -18,10 +18,6 @@ default: &default
   host: <%= ENV.fetch("DB_HOST") %>
   port: <%= ENV['DB_PORT'] || 3306 %>  # Default MySQL port
   database: <%= ENV.fetch("DB_NAME") %>
-  #socket: <%= ENV.fetch("DB_SOCKET") %>
-  # Optional: For SSL connections (if required by your provider)
-  #ssl_mode: :verify_identity
-  #sslca: <%= ENV['DB_SSL_CA_PATH'] || '/path/to/ca-cert.pem' %>
 
 development:
   <<: *default
