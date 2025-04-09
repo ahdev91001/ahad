@@ -1,0 +1,17 @@
+<h1>Database Connection Test</h1>
+
+<% if @tables.any? %>
+  <h2>✅ Connected to database!</h2>
+  <h3>Tables found (<%= @tables.count %>):</h3>
+  <ul>
+    <% @tables.each do |table| %>
+      <li><%= table.first %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <h2>❌ Database connection failed</h2>
+  <pre><%= @tables.first %></pre>
+<% end %>
+
+# <h1>DatabaseTest#index</h1>
+# <p>Find me in app/views/database_test/index.html.erb</p>
