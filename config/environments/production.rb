@@ -90,4 +90,5 @@ Rails.application.configure do
 
   # CM EDITS:
   config.action_cable.mount_path = nil  # Disables WebSocket endpoint
+  config.action_cable.disable_request_forgery_protection = true
 end
