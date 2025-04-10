@@ -14,21 +14,22 @@
   <%= image_tag("altadena-littlehouse-1900-wide.jpg", id: "sp-home-bg-img") %>
 </div>
 
-<!-- Main Content Box -->
+
+<!-- Architectural Database box with search input -->
 <div id="sp-home-ad-box-container">
   <div id="sp-home-ad-box">
-    Architectural Database
-    
+    Architectural Database 
     <div>
-      <%= form_with(url: search_path, method: :get, id: "sp-home-form") do %>
+      <%= form_with(url: search_path, method: :get, id: "sp-home-form") do |form| %>
         <div id="sp-home-addr-container">
-          <select id="sp-home-addr-select2" name="id">
-            <option value="">Select an address...</option>
-          </select>
+          <%= form.text_field :query, 
+                id: "sp-home-addr-input", 
+                placeholder: "Enter street address...",
+                autocomplete: "off" %>
         </div>
-        
+
         <div id="sp-home-srch-btn-container">
-          <%= hidden_field_tag :ret, "search" %>
+          <%= form.hidden_field :ret, value: "search" %>
           <button id="sp-home-search-btn" class="btn-arrow-anim" type="submit">
             <span class="btn-arrow-anim__text">Search</span>
           </button>
@@ -37,11 +38,15 @@
       <% end %>
     </div>
 
-    <div class="footer-text">
+    <div style="font-size:10pt;text-align:left">
       The Altadena Heritage Architectural Database (AHAD) is maintained and curated by
-      <%= link_to "Altadena Heritage", "http://altadenaheritage.org/", target: "_blank" %>,
-      a nonprofit volunteer-based advocacy and preservation organization.
+      <a href="http://altadenaheritage.org/" target="_blank">Altadena Heritage</a>,
+      a nonprofit volunteer-based advocacy and preservation organization. [AHAD Ver. 1.0.1]
     </div>
 
+    <div style="font-size:14pt">
+
+    </div>
   </div>
 </div>
+
