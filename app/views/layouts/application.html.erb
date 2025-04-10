@@ -2,6 +2,8 @@
 <html>
   <head>
     <%= stylesheet_link_tag "/css/static_pages", media: "all" %>
+    <%= favicon_link_tag asset_path('ah-logo.ico') %>
+    <title><%= @title || "AHAD" %></title>
   </head>
   <body>
     <%= yield %>
