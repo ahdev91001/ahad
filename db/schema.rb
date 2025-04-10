@@ -249,10 +249,10 @@ ActiveRecord::Schema[8.0].define(version: 2018_10_26_193846) do
     t.string "address1", limit: 128
     t.string "address2", limit: 128
     t.string "ahdesignation", limit: 128
-    t.string "architect_42", limit: 128
-    t.string "architectconfirmed_42", limit: 1
-    t.string "builder_42", limit: 128
-    t.string "builderconfirmed_42", limit: 1
+    t.string "architect", limit: 128
+    t.string "architectconfirmed", limit: 1
+    t.string "builder", limit: 128
+    t.string "builderconfirmed", limit: 1
     t.string "chrs", limit: 32
     t.string "currentlotsize", limit: 64
     t.string "historicname", limit: 128
@@ -260,8 +260,8 @@ ActiveRecord::Schema[8.0].define(version: 2018_10_26_193846) do
     t.string "movedontoproperty", limit: 1
     t.string "originalcost", limit: 32
     t.string "originallotsize", limit: 64
-    t.string "originalowner_42", limit: 64
-    t.string "originalownerspouse_42", limit: 64
+    t.string "originalowner", limit: 64
+    t.string "originalownerspouse", limit: 64
     t.string "originalowneroccupation", limit: 64
     t.string "placeofbusiness", limit: 64
     t.string "quadrant", limit: 32
@@ -276,8 +276,8 @@ ActiveRecord::Schema[8.0].define(version: 2018_10_26_193846) do
     t.string "yearbuiltotherflag", limit: 1
     t.string "orig_note_shpo_sources", limit: 10000
     t.string "notes_shpo_and_sources", limit: 10000
-    t.index ["architectconfirmed_42"], name: "architectconfirmed"
-    t.index ["builderconfirmed_42"], name: "builderconfirmed"
+    t.index ["architectconfirmed"], name: "architectconfirmed"
+    t.index ["builderconfirmed"], name: "builderconfirmed"
     t.index ["movedontoproperty"], name: "movedontoproperty"
     t.index ["quadrant"], name: "quadrant"
     t.index ["streetdirection"], name: "streetdirection"
