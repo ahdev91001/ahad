@@ -1,0 +1,42 @@
+/* app/assets/stylesheets/static_pages/home.scss */
+
+#app-layout-header-bar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(255,255,255,0.9);
+  padding: 10px 0;
+  text-align: center;
+  z-index: 1000;
+
+  img {
+    height: 50px;
+  }
+}
+
+
+#sp-home-bg-img-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+
+#sp-home-ad-box-container {
+  position: relative;
+  margin-top: 20vh;
+  background: rgba(255,255,255,0.85);
+  padding: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}

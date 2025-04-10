@@ -1,5 +1,14 @@
 <% content_for :title, "AHAD" %>
 
+<%# Place this ABOVE your background image container %>
+<div id="app-layout-header-bar">
+  <%= link_to root_path do %>
+    <%= image_tag("ahad-header-logo-from-website-alpha-2.png", 
+        id: "app-layout-ah-header-logo-img",
+        alt: "AHAD Header Logo") %>
+  <% end %>
+</div>
+
 <!-- Full screen background image on search page -->
 <div id="sp-home-bg-img-container">
     <%= image_tag("altadena-littlehouse-1900-wide.jpg", :id => "sp-home-bg-img") %>
