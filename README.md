@@ -1,6 +1,6 @@
 # Altadena Heritage Architectural Database Rails Website
 
-[*Altadena Heritage*](http://altadenaheritage.org/)
+[*Altadena Heritage*](http://altadenaheritage.org/) 
 
 Existing database: [Altadena Heritage Property Database](http://altadenaheritagepdb.org/)
 
