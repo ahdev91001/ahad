@@ -6,6 +6,7 @@
 
 # Ignore bundler config.
 /.bundle
+/.ruby-version
 
 # Don't give away the goods
 #/config/database.yml
