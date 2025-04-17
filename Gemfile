@@ -17,7 +17,7 @@ gem 'uglifier',       '3.0.0'     # Only used in production, but necessary for p
 gem 'jquery-rails',   '4.1.1'     # Used by application.js; provides jquery support
 gem 'turbolinks',     '5.0.1'     # Used by application.js; speeds up page loads
 gem 'redcarpet',      '~> 3.0.0'  # Markdown parser; used by application_helper.rb
-gem 'draper', '3.0.1'             # Used by decorators
+gem 'draper',         '4.0.0'     # Used by decorators
 gem 'fuzzy-string-match'          # Used by controllers/helpers for address matching
 gem "cocoon"                      # Used by application.js; handles 'nested forms'
 gem 'nokogiri',       '1.15.7'
