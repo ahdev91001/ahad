@@ -1,7 +1,8 @@
 source 'https://rubygems.org'
 #ruby "2.5.5"
 # ruby "2.5.9"
-ruby "2.6.10"
+# ruby "2.6.10"
+ruby "2.7.8"
 
 
 gem 'rails',          '5.0.7'
@@ -30,7 +31,8 @@ gem 'prawn-table'
 gem 'geocoder'
 gem "cocoon"
 gem 'google_maps_service'
-gem 'nokogiri', '1.9.1'
+# gem 'nokogiri', '1.9.1'
+gem 'nokogiri', '1.15.7'
 
 # added by DJR, 8/16/2019
 gem 'ZenTest', '~> 4.11', '>= 4.11.2'
