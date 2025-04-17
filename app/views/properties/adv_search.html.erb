@@ -217,7 +217,7 @@
 	  -->
 
 	<% num_props_found = @properties.size %> 
-	<% @properties = Property.paginate_by_sql(@properties.to_sql, page: params[:page], per_page: 30)%>
+	<% @properties = Kaminari.paginate_array(Property.find_by_sql(@properties.to_sql)).page(params[:page]).per(30) %>
 	<% if @properties.size > 0 then %>
 	
   <div id="ps-pdf-please-wait-container">
@@ -241,13 +241,13 @@
 	</div>
 	
 		<div class="ui-left-margin">
-		  <%= will_paginate %>
+		  <%= paginate @properties %>
 		</div>
 	
 		<%= render partial: 'search_results_table_header', locals: {properties: @properties} %>
 
 		<div class="ui-left-margin">
-		  <%= will_paginate %>
+		  <%= paginate @properties %>
 		</div>
 	<% end %>
 <% end %>

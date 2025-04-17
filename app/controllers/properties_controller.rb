@@ -101,7 +101,7 @@ class PropertiesController < ApplicationController
                     "prop_architect.confirmed as arch_confirmed, " +
                     "prop_builder.name as build_name, " +
                     "prop_builder.confirmed as build_confirmed")
-            .where("address1 LIKE ?", "%#{params[:filter]}%").paginate(page: params[:page], per_page: 30)
+            .where("address1 LIKE ?", "%#{params[:filter]}%").page(params[:page]).per(30)
 
     else  
 #      @properties = Property.paginate(page: params[:page], per_page: 30)
@@ -109,7 +109,8 @@ class PropertiesController < ApplicationController
             .select("property.*, prop_architect.name as arch_name, " +
                     "prop_architect.confirmed as arch_confirmed, " +
                     "prop_builder.name as build_name, " +
-                    "prop_builder.confirmed as build_confirmed").paginate(page: params[:page], per_page: 30)
+                    "prop_builder.confirmed as build_confirmed").page(params[:page]).per(30)
+
     end
   end
   

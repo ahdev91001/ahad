@@ -5,11 +5,12 @@ source 'https://rubygems.org'
 # ruby "2.5.9"
 # ruby "2.6.10"
 ruby "2.7.8"
+# ruby "3.0.7"
 gem 'rails',          '5.0.7'
 gem 'mysql2','>= 0.4.10', '< 0.5' # Connects to remote db
 gem 'bootstrap-sass', '3.3.7'     # Used only in user model for login
 gem 'bcrypt',         '3.1.12'    # Used only in user model (user.rb) for login
-gem 'will_paginate',  '3.1.6'     # Used in advanced search
+gem 'kaminari',       '1.2.2'     # Used in advanced search (replaced will_paginate)
 gem 'responders',     '2.3.0'     # Standardizes HTTP responses
 gem 'puma',           '3.9.1'     # The webserver, essential for serving the app
 gem 'sass-rails',     '5.0.6'     # Support for SASS stylesheets; used everywhere
