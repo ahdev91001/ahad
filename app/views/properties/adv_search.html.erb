@@ -14,10 +14,11 @@
 		     'Search' and DO want to scroll down to search results.  This
 		     hidden input is used in adv_search.js, at the bottom of 
 		     onLoadEventAdvSearchHelper() -->
-		<% if params.size < 3 then %>
-			<input type="hidden" id="flag_search_hit" value="False">
+		
+		<% if params.to_unsafe_h.size < 3 %>
+		  <input type="hidden" id="flag_search_hit" value="False">
 		<% else %>
-			<input type="hidden" id="flag_search_hit" value="True">
+		  <input type="hidden" id="flag_search_hit" value="True">
 		<% end %>
 		
 		<strong>Street</strong>
