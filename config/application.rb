@@ -13,5 +13,8 @@ module AhadWebsite
     # -- all .rb files in that directory are automatically loaded.
     config.autoload_paths += %W(#{config.root}/lib)
     config.autoload_paths += Dir["#{config.root}/lib/**/"]
+    # Maybe delete?
+    config.public_file_server.enabled = true
+    config.serve_static_assets = false
   end
 end

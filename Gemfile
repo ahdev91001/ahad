@@ -4,16 +4,24 @@ source 'https://rubygems.org'
 #ruby "2.5.5"
 # ruby "2.5.9"
 # ruby "2.6.10"
-ruby "2.7.8"
-# ruby "3.0.7"
-gem 'rails',          '5.0.7'
-gem 'mysql2','>= 0.4.10', '< 0.5' # Connects to remote db
+# ruby "2.7.8"
+ruby "3.0.7"
+# gem 'rails',          '5.0.7'
+# gem 'rails',          '~> 5.2.8'
+# gem 'rails', '~> 6.0'
+# gem 'rails', '~> 6.1.7'  # Current latest in 6.1 series
+gem 'rails', '~> 6.1.7.7' # Specific known-good version
+gem 'activesupport', '6.1.7.7' # Force same version
+gem 'mysql2', '~> 0.5.5' # Ruby 3.0+ compatible
+gem 'puma', '~> 5.6' # Modern Puma version
+# gem 'mysql2','>= 0.4.10', '< 0.5' # Connects to remote db
 gem 'bootstrap-sass', '3.3.7'     # Used only in user model for login
 gem 'bcrypt',         '3.1.12'    # Used only in user model (user.rb) for login
 gem 'kaminari',       '1.2.2'     # Used in advanced search (replaced will_paginate)
-gem 'responders',     '2.3.0'     # Standardizes HTTP responses
-gem 'puma',           '3.9.1'     # The webserver, essential for serving the app
-gem 'sass-rails',     '5.0.6'     # Support for SASS stylesheets; used everywhere
+gem 'responders',     '~> 3.0'     # Standardizes HTTP responses
+# gem 'puma',           '3.9.1'     # The webserver, essential for serving the app
+# gem 'sass-rails',     '5.0.6'     # Support for SASS stylesheets; used everywhere
+gem 'sassc-rails',    '~> 2.0'
 gem 'uglifier',       '3.0.0'     # Only used in production, but necessary for performance
 gem 'jquery-rails',   '4.1.1'     # Used by application.js; provides jquery support
 gem 'turbolinks',     '5.0.1'     # Used by application.js; speeds up page loads
