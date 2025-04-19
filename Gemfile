@@ -5,9 +5,10 @@ source 'https://rubygems.org'
 # ruby "2.5.9"
 # ruby "2.6.10"
 # ruby "2.7.8"
-ruby "3.0.7"
+# ruby "3.0.7"
+ruby '3.2.8'
 
-gem 'rails', '~> 6.1.7.7'         
+gem 'rails', '~> 6.1.7.7'
 gem 'activesupport', '6.1.7.7'    # Force same version as Rails
 gem 'mysql2', '~> 0.5.5'          # Connects to remote db
 gem 'puma', '~> 5.6'              # The webserver, essential for serving the app
@@ -73,13 +74,13 @@ gem 'guard',          '2.13.0'
 #   gem 'pry-byebug'
 # end
 
-group :test do
+# group :test do
   # gem 'sqlite3'
   # gem 'rails-controller-testing', '0.1.1'
   # gem 'minitest-reporters',       '1.1.9'
   # gem 'guard',                    '2.13.0'
   # gem 'guard-minitest',           '2.4.4'
-end
+# end
 
 # group :production do
 # #  gem 'pg', '0.18.4'
