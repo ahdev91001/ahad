@@ -16,9 +16,5 @@ module AhadWebsite
     # Maybe delete?
     config.public_file_server.enabled = true
     config.serve_static_assets = false
-    config.assets.configure do |env|
-      env.logger = Logger.new($stdout)
-      env.cache = Sprockets::Cache::FileStore.new("./tmp/cache/assets")
-    end
   end
 end
