@@ -1,0 +1,14 @@
+
+{
+    "engines": {
+      "node": "20.x",
+      "yarn": "1.x"
+    },
+    "cacheDirectories": [
+      "node_modules"
+    ],
+    "scripts": {
+      "build": "echo 'No additional JS build steps required for Rails'",
+      "clean": "echo 'No cleanup needed'"
+    }
+  }
