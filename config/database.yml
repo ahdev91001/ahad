@@ -14,21 +14,23 @@ default: &default
   encoding: utf8
   port: 3306
 
-#development:
-#  <<: *default
-#  database: altaheri_djrdev
-#  username: altaheri_12
-#  password: jyyUSStR
-#  host: db77a.pair.com
-
 development:
   <<: *default
-  database: altaheri_ahadnorm1
-  username: altaheri_17
-  password: 6smJhL#kHg29  # changed here 12/12/2024 DJR
-   #password: ytqvnuSYEHSsr2yd
-  host: db167.pair.com    # changed here 12/12/2024 DJR
-   #host: db104b.pair.com
+  database: <%= ENV['DB_NAME'] %>
+  username: <%= ENV['DB_USER'] %>
+  password: <%= ENV['DB_PASS'] %>
+  host:     <%= ENV['DB_HOST'] %>
+
+# Do not change, move, or remove the :testsqlite comments below
+test:                           # :testsqlite
+  adapter:  sqlite3             # :testsqlite
+  pool:     5                   # :testsqlite
+  timeout:  5000                # :testsqlite
+  database: db/test.sqlite3     # :testsqlite
+
+production:
+  <<: *default
+  url:      <%= ENV['DATABASE_URL'] %>
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -47,19 +49,10 @@ development:
 #  username: altaheri_13         # :test
 #  password: bfVadxzk            # :test
 #  host: db80a.pair.com          # :test
-#
+
 # WARNING, below managed by automated rake task that modifies this file.
 # (See comment above for details.)
 #
-# Do not change, move, or remove the :testsqlite comments below
-#
-test:                           # :testsqlite
-  adapter: sqlite3              # :testsqlite
-  pool: 5                       # :testsqlite
-  timeout: 5000                 # :testsqlite
-  database: db/test.sqlite3     # :testsqlite
-
-
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
 # ever seen by anyone, they now have access to your database.
@@ -83,10 +76,6 @@ test:                           # :testsqlite
 # NOTE: On heroku, the database credentials are stored in the DATABASE_URL env variable.
 # heroku config --remote staging
 # DATABASE_URL: ...
-
-production:
-  <<: *default
-  url: <%= ENV['DATABASE_URL'] %>
 
 # Below is read-only credentials
 #production:
