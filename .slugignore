@@ -1,0 +1,8 @@
+/spec
+/test
+/node_modules
+/tmp/cache
+/public/packs
+/public/assets
+*.pdf
+*.log

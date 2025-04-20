@@ -9,6 +9,7 @@
     ],
     "scripts": {
       "build": "echo 'No additional JS build steps required for Rails'",
-      "clean": "echo 'No cleanup needed'"
+      "clean": "echo 'No cleanup needed'",
+      "start": "echo \"Not a Node.js app\""
     }
   }
