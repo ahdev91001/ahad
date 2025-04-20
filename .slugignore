@@ -4,5 +4,6 @@
 /tmp/cache
 /public/packs
 /public/assets
+/vendor/bundle/cache
 *.pdf
 *.log
