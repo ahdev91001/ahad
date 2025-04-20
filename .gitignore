@@ -6,7 +6,7 @@
 
 # Ignore env file
 /.env
-
+/*.log
 # Ignore bundler config.
 /.bundle
 /.ruby-version

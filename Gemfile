@@ -24,14 +24,14 @@ gem 'redcarpet',      '~> 3.0.0'  # Markdown parser; used by application_helper.
 gem 'draper',         '4.0.0'     # Used by decorators
 gem 'fuzzy-string-match'          # Used by controllers/helpers for address matching
 gem "cocoon"                      # Used by application.js; handles 'nested forms'
-gem 'nokogiri',       '1.15.7'
-gem 'guard',          '2.13.0'
+gem 'nokogiri',       '1.15.7'    # XML thing?
+gem 'guard',          '2.13.0'    # Testing thing?
+gem 'prawn'                       # PDF writer
 
 # NOT REQUIRED for basic features:
 # -----------------------------------------------------------------------------
 # duplicate, commented out by DJR, 8/21/2019
 # gem 'bootstrap-sass', '3.3.7'
-# gem 'prawn'                          # PDF writer
 # gem 'prawn-table'                    # support for drawing tables in PDFs
 # gem 'geocoder'                       # finds address coordinates
 # gem 'google_maps_service'
