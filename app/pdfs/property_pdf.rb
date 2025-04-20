@@ -67,7 +67,7 @@ class PropertyPdf < Prawn::Document
   bounding_box([bounds.left, bounds.top - 95], :width => bounds.width) do  
 
     if !@property.primary_image.nil? && @property.primary_image.filename
-      image open("http://altadenaheritagepdb.org/photo/" + URI.encode(@property.primary_image.filename)),
+      image URI.open("http://altadenaheritagepdb.org/photo/#{URI::DEFAULT_PARSER.escape(@property.primary_image.filename)}"),
         :position => :center, :height => 200
       move_down 4
       text  (@property.primary_image.description.nil? ? "" : @property.primary_image.description + " ") +

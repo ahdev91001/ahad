@@ -1,38 +1,38 @@
 source 'https://rubygems.org'
 # REQUIRED for basic features
 # -----------------------------------------------------------------------------
-#ruby "2.5.5"
+# ruby "2.5.5"
 # ruby "2.5.9"
 # ruby "2.6.10"
 # ruby "2.7.8"
 # ruby "3.0.7"
-ruby '3.2.8'
+ruby '3.2.8'            
 
-gem 'rails', '~> 6.1.7.7'
-gem 'activesupport', '6.1.7.7'    # Force same version as Rails
-gem 'mysql2', '~> 0.5.5'          # Connects to remote db
-gem 'puma', '~> 5.6'              # The webserver, essential for serving the app
-gem 'bootstrap-sass', '3.3.7'     # Used only in user model for login
-gem 'bcrypt',         '3.1.12'    # Used only in user model (user.rb) for login
-gem 'kaminari',       '1.2.2'     # Used in advanced search (replaced will_paginate)
-gem 'responders',     '~> 3.0'    # Standardizes HTTP responses
-gem 'sassc-rails',    '~> 2.0'    # Support for SASS stylesheets; used everywhere
-gem 'uglifier',       '3.0.0'     # Only used in production, but necessary for performance
-gem 'jquery-rails',   '4.1.1'     # Used by application.js; provides jquery support
-gem 'turbolinks',     '5.0.1'     # Used by application.js; speeds up page loads
-gem 'redcarpet',      '~> 3.0.0'  # Markdown parser; used by application_helper.rb
-gem 'draper',         '4.0.0'     # Used by decorators
-gem 'fuzzy-string-match'          # Used by controllers/helpers for address matching
-gem "cocoon"                      # Used by application.js; handles 'nested forms'
-gem 'nokogiri',       '1.15.7'    # XML thing?
-gem 'guard',          '2.13.0'    # Testing thing?
-gem 'prawn'                       # PDF writer
+gem 'rails',              '~> 6.1.7.7'
+gem 'activesupport',      '6.1.7.7'     # Force same version as Rails
+gem 'mysql2',             '~> 0.5.5'    # Connects to remote db
+gem 'puma',               '~> 5.6'      # The webserver, essential for serving the app
+gem 'bootstrap-sass',     '3.3.7'       # Used only in user model for login
+gem 'bcrypt',             '3.1.12'      # Used only in user model (user.rb) for login
+gem 'kaminari',           '1.2.2'       # Used in advanced search (replaced will_paginate)
+gem 'responders',         '~> 3.0'      # Standardizes HTTP responses
+gem 'sassc-rails',        '~> 2.0'      # Support for SASS stylesheets; used everywhere
+gem 'uglifier',           '3.0.0'       # Only used in production, but necessary for performance
+gem 'jquery-rails',       '4.1.1'       # Used by application.js; provides jquery support
+gem 'turbolinks',         '5.0.1'       # Used by application.js; speeds up page loads
+gem 'redcarpet',          '~> 3.0.0'    # Markdown parser; used by application_helper.rb
+gem 'draper',             '4.0.0'       # Used by decorators
+gem 'fuzzy-string-match'                # Used by controllers/helpers for address matching
+gem "cocoon"                            # Used by application.js; handles 'nested forms'
+gem 'nokogiri',           '1.15.7'      # XML thing?
+gem 'guard',              '2.13.0'      # Testing thing?
+gem 'prawn'                             # PDF writer
+gem 'prawn-table'                       # support for drawing tables in PDFs
 
 # NOT REQUIRED for basic features:
 # -----------------------------------------------------------------------------
 # duplicate, commented out by DJR, 8/21/2019
 # gem 'bootstrap-sass', '3.3.7'
-# gem 'prawn-table'                    # support for drawing tables in PDFs
 # gem 'geocoder'                       # finds address coordinates
 # gem 'google_maps_service'
 # gem 'normalize-scss', '~> 4.0', '>= 4.0.3'
