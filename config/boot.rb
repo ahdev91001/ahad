@@ -1,10 +1,14 @@
 ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../Gemfile', __dir__)
 
+puts "Booting started..."
 require 'bundler/setup' # Set up gems listed in the Gemfile.
+puts "Bundler setup complete"
+# require 'bundler/setup' # Set up gems listed in the Gemfile.
 require 'logger'
 # Uncomment below to get load times for all gems when rails boots
 # Code from: http://mildlyinternet.com/code/profiling-rails-boot-time.html
 require "benchmark"
+
 
 =begin  # :rake-automated-do-not-remove-this
 require "pry-byebug"  # causes Heroku to crash on install

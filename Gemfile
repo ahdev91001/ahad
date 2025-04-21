@@ -34,14 +34,16 @@ end
 # NOT REQUIRED for basic features:
 # -----------------------------------------------------------------------------
 group :development, :test do
+  gem 'sqlite3'
   gem 'byebug',               '12.0.0',     platform: :mri
-  gem 'spring-commands-rspec'
+  # gem 'spring-commands-rspec'
   gem 'rspec-rails',          '~> 3.5'
   gem 'guard-rspec'
   gem 'capybara',             '~> 2.5'
   gem 'selenium-webdriver'
   gem 'factory_girl_rails',   '~> 4.5.0'
-  gem 'database_cleaner',     '1.3.0'
+  gem 'database_cleaner',     '~> 2.0'
+  gem 'pry-byebug',           '3.11.0'
 end
 # gem 'geocoder'                            # finds address coordinates
 # gem 'google_maps_service'
@@ -62,7 +64,6 @@ end
 #   gem 'listen',                '3.0.8'
 #   gem 'spring',                '1.7.2'
 #   gem 'spring-watcher-listen', '2.0.0'
-#   gem 'pry-byebug'
 # end
 
 # group :test do
