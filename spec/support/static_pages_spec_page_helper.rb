@@ -62,8 +62,7 @@ module StaticPagesSpecPageHelper
     def click_select2_item(name_or_list_index)
       find("#select2-sp-home-addr-select2-container").click
       wait_for_ajax
-      
-      if name_or_list_index.class == Fixnum
+      if name_or_list_index.is_a?(Integer)
         find(".select2-results li:nth-child(#{name_or_list_index})").click
       else
         # Found this idea at: http://stackoverflow.com/questions/12771436/
