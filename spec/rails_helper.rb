@@ -26,7 +26,12 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 # Checks for pending migration and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema!
-
+Capybara.server = :puma
+Capybara.server_host = '0.0.0.0'
+Capybara.server_port = 3000
+Capybara.app_host = "http://localhost:3000"
+# # Capybara.app_host = "http://#{IPSocket.getaddress(Socket.gethostname)}:3000" # Use machine's IP
+Capybara.always_include_port = true
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"

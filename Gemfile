@@ -36,10 +36,9 @@ end
 group :development, :test do
   gem 'sqlite3'
   gem 'byebug',               '12.0.0',     platform: :mri
-  # gem 'spring-commands-rspec'
   gem 'rspec-rails',          '~> 3.5'
   gem 'guard-rspec'
-  gem 'capybara',             '~> 2.5'
+  gem 'capybara',             '~> 3.38'
   gem 'selenium-webdriver'
   gem 'factory_girl_rails',   '~> 4.5.0'
   gem 'database_cleaner',     '~> 2.0'
