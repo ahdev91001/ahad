@@ -27,11 +27,34 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema!
 Capybara.server = :puma
-Capybara.server_host = '0.0.0.0'
-Capybara.server_port = 3000
-Capybara.app_host = "http://localhost:3000"
-# # Capybara.app_host = "http://#{IPSocket.getaddress(Socket.gethostname)}:3000" # Use machine's IP
+# Capybara.server_host = '0.0.0.0'
+# Capybara.server_port = 3000
+# Capybara.app_host = "http://localhost:3000"
+Capybara.server_host = ENV.fetch('IP', '0.0.0.0')
+Capybara.server_port = ENV.fetch('PORT', 3000).to_i
+Capybara.app_host = "http://#{Capybara.server_host}:#{Capybara.server_port}"
 Capybara.always_include_port = true
+# Capybara.server = :puma, { Silent: true }  # Already set
+# Capybara.default_max_wait_time = 10        # Increase wait time (default is 2)
+Capybara.javascript_driver = :chrome
+Capybara.register_driver :chrome do |app|
+  Capybara::Selenium::Driver.new(app,
+    browser: :chrome,
+    options: Selenium::WebDriver::Chrome::Options.new.tap do |opts|
+      opts.add_argument('--disable-gpu')
+      opts.add_argument('--no-sandbox')
+      opts.add_argument('--disable-dev-shm-usage')
+      opts.add_argument('--window-size=1400,1400')
+    end
+    # capabilities: Selenium::WebDriver::Remote::Capabilities.chrome(
+    #   "goog:chromeOptions" => {
+    #     # comment this line out if you *do* want headless later
+    #     # args: %w[headless disable-gpu no-sandbox disable-dev-shm-usage],
+    #     args: %w[no-sandbox disable-dev-shm-usage],
+    #   }
+    # )
+  )
+end
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"

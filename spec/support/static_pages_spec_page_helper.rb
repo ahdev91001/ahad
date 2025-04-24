@@ -38,6 +38,7 @@ module StaticPagesSpecPageHelper
     #
     # @return self
     def visit_page
+      # puts "Visiting: #{Capybara.app_host}/"
       visit "/"
       self
     end
