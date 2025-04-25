@@ -1,5 +1,4 @@
 class Property < ActiveRecord::Base
-
   has_many :prop_architects, foreign_key: :propid, dependent: :destroy, inverse_of: :property
   has_many :prop_builders, foreign_key: :propid, dependent: :destroy, inverse_of: :property
   has_many :prop_owners, foreign_key: :propid, dependent: :destroy, inverse_of: :property
@@ -8,7 +7,8 @@ class Property < ActiveRecord::Base
   has_many :building_permits, foreign_key: :propid, dependent: :destroy, inverse_of: :property
   has_many :alterations, foreign_key: :propid, dependent: :destroy, inverse_of: :property
   has_many :former_addresses, foreign_key: :propid, dependent: :destroy, inverse_of: :property
-  has_one :apn, foreign_key: :propid, dependent: :destroy, inverse_of: :property
+  has_one  :apn, foreign_key: :propid, dependent: :destroy, inverse_of: :property
+  has_one  :photo, foreign_key: :propid, dependent: :destroy, inverse_of: :property
   
   accepts_nested_attributes_for :prop_architects, :allow_destroy => true
   accepts_nested_attributes_for :prop_builders, :allow_destroy => true

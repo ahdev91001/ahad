@@ -88,7 +88,8 @@ ActiveRecord::Schema.define(version: 2018_10_26_193846) do
     # t.index ["yearflag"], name: "yearflag"
   end
 
-  create_table "photos_42", id: :integer, charset: "latin1", force: :cascade do |t|
+  # create_table "photos_42", id: :integer, charset: "latin1", force: :cascade do |t|
+  create_table "photo", id: :integer, charset: "latin1", force: :cascade do |t|
     t.integer "propid", null: false
     t.string "filename", limit: 45
     t.string "description"
@@ -162,7 +163,7 @@ ActiveRecord::Schema.define(version: 2018_10_26_193846) do
     t.string "ahdesignation", limit: 128
     t.string "architect_42", limit: 128
     t.string "architectconfirmed_42", limit: 1
-    t.string "builder_42", limit: 128
+    t.string "builder", limit: 128
     t.string "builderconfirmed_42", limit: 1
     t.string "chrs", limit: 32
     t.string "currentlotsize", limit: 64

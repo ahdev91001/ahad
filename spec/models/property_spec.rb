@@ -15,7 +15,7 @@ RSpec.describe Property, :type => :model do
   it "returns the first photo if it exists" do
     photo = FactoryGirl.create(:photo, filename: "16494_photo_01.jpg", id: 100)
     @property = Property.find(photo.propid)
-    expect(@property.photos.first.filename).to eq("16494_photo_01.jpg")
+    expect(@property.photo.filename).to eq("16494_photo_01.jpg")
   end
 
 end
